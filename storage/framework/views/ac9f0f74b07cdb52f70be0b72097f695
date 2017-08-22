@@ -1,0 +1,16 @@
+<?php foreach($list as $v): ?>
+<li class="y-address y-address<?php echo e($v['id']); ?> yz-address <?php if($v['isDefault']): ?> on <?php endif; ?>" data-id="<?php echo e($v['id']); ?>">
+    <div>
+        <span><?php echo e($v['name']); ?></span><span class="tel phone"><?php echo e($v['mobile']); ?></span>
+        <p class="address"><?php echo e($v['address']); ?></p>
+        <div class="y-tubiao y-addressr">
+            <i class="<?php if($v['isDefault']): ?> on <?php endif; ?> x-setDuf"></i>
+            <span class="y-mraddr"><?php if($v['isDefault']): ?> 默认 <?php else: ?> 设为默认 <?php endif; ?></span>
+            <span class="fr">
+                <p class="f12 c-green urlte"><img src="<?php echo e(asset('wap/community/client/images/ico/bj.png')); ?>">编辑</p>
+                <p class="f12 c-green y-del"><img src="<?php echo e(asset('wap/community/client/images/ico/del.png')); ?>">删除</p>
+            </span>
+        </div>
+    </div>
+</li>
+<?php endforeach; ?>

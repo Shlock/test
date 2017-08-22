@@ -1,0 +1,223 @@
+
+<?php $__env->startSection('css'); ?>
+<style>
+	.search-row .f-tt{line-height:20px;}
+	.m-tab table tbody td{padding: 5px 5px;}
+	.deepGrey{background-color: #999 !important;color: #fff !important;}
+	.search-row .u-ipttext {width: 110px;padding-right: 5px;}
+    .x-bbmain .m-ddl li {float: left;height: 23px;line-height: 23px;border: 1px solid #ccc;background: #fff;margin-right: 10px;border-radius: 3px;margin-top: 5px;}
+    .x-bbmain .m-ddl li.on {background: #e4e4e4;}
+    .x-bbmain .m-ddl li a { color: #555; display: block; padding: 0 15px;}
+    .x-bbmain .rev div{float:left; width:33%; margin:auto; text-align:center; border-right:1px solid #d5d5d5;}
+</style>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
+<?php 
+	$type = [
+		'0' => '今天',
+		'7' => '近七天',
+		'30' => '近30天',
+	];
+ ?>
+    
+        <div id="checkList" class="">
+                    <div class="m-ydtt" style="margin-top:0px;">
+    		<div class="x-bbtt ma">营业统计</div>
+            <div class="x-bbmain ma">
+				<div class="u-ssct clearfix">
+                    <?php $search_args = Input::all(); ?>
+                    <form id="yzForm" class="" name="yzForm" method="post" action="http://seller.51mycai365.com/Report/index" target="_self">
+                        <div class="search-row clearfix">
+                      <a href="<?php echo e(u('Report/index',['type'=>0])); ?>" target="_self" class="btn mr5 btn-gray mr5 <?php if($args['type']=='0'): ?> deepGrey <?php endif; ?>">
+                        今天
+                    </a>
+						<a href="<?php echo e(u('Report/index',['type'=>7])); ?>" target="_self" class="btn mr5 btn-gray mr5 <?php if($args['type']=='7'): ?> deepGrey <?php endif; ?>">
+                        近七天
+                    </a>
+						<a href="<?php echo e(u('Report/index',['type'=>'30'])); ?>" target="_self" class="btn mr5 btn-gray mr5 <?php if($args['type']=='30'): ?> deepGrey <?php endif; ?>">
+                        近30天
+                    </a>
+						<div id="beginDate-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 开始时间:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="beginDate" id="beginDate" class="date u-ipttext" value="<?php echo e(YiZan\Utils\Time::toDate($search_args['beginDate'],'Y-m-d')); ?>" />
+		            </div>
+		        </div>
+						<div id="endDate-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 结束时间:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="endDate" id="endDate" class="date u-ipttext" value="<?php echo e(YiZan\Utils\Time::toDate($search_args['endDate'],'Y-m-d')); ?>" />
+		            </div>
+		        </div>
+						<button type="submit" class="btn mr5 btn-gray">
+                        查询
+                    </button>
+                </div>
+                    </form>
+                </div>
+				
+				<dl class="m-ddl">
+    				<dt>营业总览</dt>
+        			<dd class="clearfix rev">
+        				<div><h1><?php echo e(isset($data['total']) ? $data['total'] : 0); ?></h1><span>营业额</span></div>
+        				<div><h1><?php echo e(isset($data['num']) ? $data['num'] : 0); ?></h1><span>有效订单数</span></div>
+        				<div style="border-right:none;"><h1><?php echo e($data['price']); ?></h1><span>客单价</span></div>
+        			</dd>
+				</dl>
+
+				<dl class="m-ddl" <?php if($args['type']=='0' || $args['rs'] == 0): ?> style="display: none;" <?php endif; ?>>
+    				<dt>营业趋势图</dt>
+        			<dd class="clearfix">
+        				<div class="x-srb ma">
+                        	<div id="container" style="width:100%;height:400px"></div>
+                        	<!-- <ul class="fr clearfix">
+                                <li class="on  wobble-top">
+                                    <a href="#">营业额</a>
+                                </li>
+                                <li class="wobble-top">
+                                    <a href="#">有效订单数</a>
+                                </li>
+                                <li class="wobble-top">
+                                    <a href="#">客单价</a>
+                                </li>
+                            </ul> -->
+                        </div>
+        			</dd>
+				</dl>
+
+				<dl class="m-ddl">
+    				<dt>详细数据</dt>
+        			<dd class="clearfix">
+        				<div class="m-tab">
+                      <table id="checkListTable" class="">
+                        <thead>
+                        		<tr>
+                        		  <td>日期</td>
+                        		  <td>营业额</td>
+                        		  <td>有效订单数</td>
+                        		  <td>客单价</td>
+                        		</tr>
+                    		</thead>
+                    		<tbody>
+                    		  <?php if($data['list']): ?>
+                    		  <?php foreach($data['list'] as $key=>$val): ?>
+                    		  <tr>
+                    		      <td><?php echo e($key); ?></td>
+                    		      <td><?php echo e($val['total']); ?></td>
+                    		      <td><?php echo e(isset($val['num']) ? $val['num'] : 0); ?></td>
+                    		      <td><?php echo e($val['price']); ?></td>
+                    		  </tr>
+                    		  <?php endforeach; ?>
+                    		  <?php else: ?>
+                    		  <tr>
+                    		      <td><?php echo e($date); ?></td>
+                    		      <td><?php echo e($data['total']); ?></td>
+                    		      <td><?php echo e(isset($data['num']) ? $data['num'] : 0); ?></td>
+                    		      <td><?php echo e($data['price']); ?></td>
+                    		  </tr>
+                    		  <?php endif; ?>
+                    		</tbody>
+                    </table>
+                </div><?php echo $__env->make('admin._layouts.pager', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+        			</dd>
+				</dl>
+            </div>
+    	</div>
+                </div>
+    
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('js'); ?>
+<script>
+	Highcharts.setOptions({
+	lang: { 
+		downloadJPEG: '导出为JPE图片选项对于的文字',
+		downloadPDF: '导出为PDF文件选项显示的文字',
+		downloadPNG: '导出为PNG图片选项显示的文字', 
+		downloadSVG: '导出为SVG文件选项显示的文字', 
+		printChart:'打印图表'
+		}
+	});
+	$(function () { 
+	    $('#container').highcharts({
+	        title: {
+	            text: '曲线走势图',
+	            x: -20 //center
+	        },
+	        subtitle: {
+	            x: -20
+	        },
+	        xAxis: { 
+	            categories: <?php echo json_encode($data['stat_x']); ?>
+
+	        },
+	        yAxis: {
+	            title: {
+	                text: '曲线走势图'
+	            },
+	            plotLines: [{
+	                value: 0,
+	                width: 1,
+	                color: '#808080'
+	            }]
+	        },
+	        tooltip: {
+	            valueSuffix: ''
+	        },
+	        legend: {
+	            layout: 'vertical',
+	            align: 'right',
+	            verticalAlign: 'middle',
+	            borderWidth: 0
+	        },
+	        series: [
+	        	{	name: '有效订单数量(份)',  
+	            	data: <?php echo e(json_encode($data['stat_num'])); ?>
+
+		        }, 
+		        {	name: '营业额(元)', 
+        			data: <?php echo e(json_encode($data['stat_total'])); ?>
+
+		        }, 
+		        {
+		        	name: '客单价(元)', 
+        			data: <?php echo e(json_encode($data['stat_price'])); ?>
+
+		        }
+	        ]
+	    });
+
+		$('#yzForm').submit(function(){
+            var beginTime = $("#beginDate").val();
+            var endTime = $("#endDate").val();
+
+            var timestamp2 = Date.parse(new Date(beginTime));
+            timestamp2 = timestamp2 / 1000;
+
+            var timestamp = Date.parse(new Date(endTime));
+            timestamp = timestamp / 1000;
+
+            if(timestamp-timestamp2 >= 90*86400){
+                alert("时间大于90天");return false;
+            }
+
+            if(beginTime!='' || endTime!='') {
+                if(beginTime==''){
+                    alert("开始时间不能为空");return false;
+                }
+                else if(endTime==''){
+                    alert("结束时间不能为空");return false;
+                }
+                else if(endTime < beginTime){
+                    alert("结束时间不能大于开始时间");return false;
+                }
+            }
+        });
+});
+</script>
+<?php $__env->stopSection(); ?> 
+<?php echo $__env->make('seller._layouts.base', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

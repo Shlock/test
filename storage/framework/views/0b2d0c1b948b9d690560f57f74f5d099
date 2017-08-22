@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<!--[if IE 6]><html lang="zh-CN" class="ie6 ie9- ie8-"><![endif]-->
+<!--[if IE 7]><html lang="zh-CN" class="ie7 ie9- ie8-"><![endif]-->
+<!--[if IE 8]><html lang="zh-CN" class="ie8 ie9-"><![endif]-->
+<!--[if IE 9]><html lang="zh-CN" class="ie9"><![endif]-->
+<!--[if (gt IE 8)|!(IE)]><!-->
+<html lang="zh-CN">
+<!--<![endif]-->
+<head>
+	<meta charset="UTF-8">
+	<title><?php echo e($site_config['site_name']); ?>系统管理平台</title>
+	<link rel="stylesheet" type="text/css" href="<?php echo e(asset('css/font-awesome.min.css')); ?>">
+	<!--[if IE 7]><link rel="stylesheet" type="text/css" href="<?php echo e(asset('css/font-awesome-ie7.css')); ?>"><![endif]-->
+	<link rel="stylesheet" type="text/css" href="<?php echo e(asset('static/kindeditor/themes/default/default.css')); ?>">
+	<link rel="stylesheet" type="text/css" href="<?php echo e(asset('css/hover.css')); ?>">
+	<link rel="stylesheet" type="text/css" href="<?php echo e(asset('css/base.css')); ?>">
+	<link rel="stylesheet" type="text/css" href="<?php echo e(asset('css/yzht.css')); ?>">
+	<link rel="stylesheet" type="text/css" href="<?php echo e(asset('static/jqueryui/ui.css')); ?>">
+	<link rel="stylesheet" type="text/css" href="<?php echo e(asset('css/zydialog.css')); ?>">
+	<link rel="stylesheet" type="text/css" href="<?php echo e(asset('static/qtip/jquery.qtip.min.css')); ?>">
+	<link rel="stylesheet" type="text/css" href="<?php echo e(asset('static/uniform/css/uniform.default.css')); ?>">
+	<link rel="stylesheet" type="text/css" href="<?php echo e(asset('static/jqueryui/datepicker.css')); ?>">
+
+	<script src="<?php echo e(asset('js/jquery.1.8.2.js')); ?>"></script>
+	<script src="<?php echo e(asset('js/yz.js')); ?>"></script>
+	<script src="<?php echo e(asset('js/htbase.js')); ?>"></script>
+	<script src="<?php echo e(asset('js/zydialog.js')); ?>"></script>
+	<script src="<?php echo e(asset('js/jquery.bgiframe.js')); ?>"></script>
+	<script src="<?php echo e(asset('js/jquery.validate.js')); ?>"></script>
+	<script src="<?php echo e(asset('js/json.js')); ?>"></script>
+	<script src="<?php echo e(asset('js/datalist.js')); ?>"></script>
+	<script src="<?php echo e(asset('js/dot.js')); ?>"></script>
+	<script src="<?php echo e(asset('static/jqueryui/ui.js')); ?>"></script>
+	<script src="<?php echo e(asset('static/jqueryui/datepicker.js')); ?>"></script>
+	<script src="<?php echo e(asset('static/uniform/jquery.uniform.min.js')); ?>"></script>
+	<script src="<?php echo e(asset('static/qtip/jquery.qtip.min.js')); ?>"></script>
+	<script src="<?php echo e(asset('static/kindeditor/kindeditor-min.js')); ?>"></script>
+	<script src="<?php echo e(asset('static/kindeditor/lang/zh_CN.js')); ?>"></script>
+	<?php echo $__env->yieldContent('css'); ?>
+</head>
+<?php
+function getAuthUrl($type, $key, $data, $role_auths) {
+	$ca = strtolower($data['url']);
+	if (!isset($role_auths['actions'][$ca])) {
+		if ($type == 'nav') {
+			$data['url'] = $role_auths['navs'][$key]['url'];
+		} else {
+			$data['url'] = $role_auths['controllers'][$key]['url'];
+		}
+	}
+	return u($data['url']);
+}
+?>
+<body>
+	<div class="all">
+		<!-- 状态栏 -->
+		<div class="g-state">
+			<div class="w1000 ma clearfix">
+				<span class="fl"><?php echo e($site_config['site_name']); ?>系统管理平台</span>
+				<ul class="fr clearfix m-stnav">
+					<li>
+						<span class="f-tt"><?php echo e($login_admin['name']); ?> <i class="ml5 fa fa-chevron-down"></i></span>
+						<div class="m-ztbox none">
+							<i class="dwsj"></i>
+							<a href="<?php echo e(u('AdminUser/repwd',['id'=>$login_admin['id']])); ?>">修改密码</a>
+							<a href="<?php echo e(u('Public/logout')); ?>" style="color:#b40001;border-bottom:none;"><i class="fa fa-share-square-o"></i>退出</a>
+						</div>
+					</li>					
+				</ul>
+			</div>
+		</div>
+		<!-- 导航栏 -->
+		<div class="g-nav">
+			<div class="w1000 ma clearfix">
+				<a href="<?php echo e(u('Index/index')); ?>" class="fl m-logo"><img src="<?php echo e($site_config['admin_logo']); ?>" height="58" alt=""></a>
+				<ul class="u-nav fl">
+					<?php foreach($admin_auth as $top_nav_key => $top_nav): ?>
+					<?php if(isset($role_auths['navs'][$top_nav_key])): ?>
+					<li <?php if(isset($top_nav['selected'])): ?>class="on"<?php endif; ?>><a href="<?php echo e(getAuthUrl('nav', $top_nav_key, $top_nav, $role_auths)); ?>"><i class="fa fa-<?php echo e($top_nav['icon']); ?>"></i><?php echo e($top_nav['name']); ?></a></li>
+					<?php endif; ?>
+					<?php endforeach; ?>
+				</ul>
+			</div>
+		</div>
+		<!-- body -->
+		<div class="g-bd mt15">
+			<div class="w1000 ma clearfix">
+				<div class=" m-qpct">
+					<div class="u-rtt">
+						<i class="fa fa-home mr15 ml15"></i>您的位置：您的位置：
+						<?php foreach($controller_navs as $controller_nav): ?>
+						<a href="<?php echo e(u($controller_nav['url'])); ?>"><?php echo e($controller_nav['name']); ?></a>
+						<i class="fa fa-chevron-right mr5 ml5"></i>
+						<?php endforeach; ?>
+						<?php echo e($controller_action['name']); ?>
+
+					</div>
+					<p>
+						<?php echo $__env->yieldContent('return_link'); ?>
+					</p>
+					<?php echo $__env->yieldContent('right_content'); ?>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+
+<script src="<?php echo e(asset('js/yz.js')); ?>"></script>
+<script src="<?php echo e(asset('static/kindeditor/kindeditor-min.js')); ?>"></script>
+<script src="<?php echo e(asset('static/kindeditor/lang/zh_CN.js')); ?>"></script>
+<?php echo $__env->yieldContent('js'); ?>
+</html>

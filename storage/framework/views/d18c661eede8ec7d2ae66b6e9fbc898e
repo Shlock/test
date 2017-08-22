@@ -1,0 +1,313 @@
+
+<?php $__env->startSection('css'); ?>
+    <style>
+        #avatar-upload-loading {
+            background:rgba(255,255,255,0.5);
+            width:64px;
+            height:64px;
+            position:absolute;
+            right:40px;
+            top:50%;
+			margin-top:-32px;
+            color:#ff2d4b;
+            line-height:64px;
+            text-align: center;
+            display: none;
+            overflow: hidden;
+            font-size:0.75em
+        }
+        #avatar-img{
+            display: block;
+            border-radius:64px;
+            width:64px;
+            height: 64px;
+            z-index:0;
+            top:-7px;
+            left: 20px;
+        }
+        #upload-a{
+              width: 64px;
+              height: 64px;
+              border-radius: 100%;
+              position: absolute;
+              right: 2.5em;
+              top: 1em;
+        }
+        .upload-div{
+            display:none
+        }
+    </style>  
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('show_top'); ?>
+    <div data-role="header" data-position="fixed" class="x-header">
+        <h1>我的账号</h1>
+        <a href="<?php if(!empty($nav_back_url)): ?> <?php echo e($nav_back_url); ?> <?php else: ?> javascript:history.back(-1); <?php endif; ?>" data-iconpos="notext" class="x-back ui-nodisc-icon" data-shadow="false"></a>
+    </div>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
+    <div role="main">
+        <div class="y-wdzh">
+            <ul>
+                <li>
+                    <span class="y-wdtxpho c-black">头<b style="width:2em; display:inline-block"></b>像</span>
+
+                    <label for="image-form-file-1" id="upload-a">
+                        <?php if(!empty($user['avatar'])): ?>
+                            <img id="avatar-img" src="<?php echo e(formatImage($user['avatar'],100,100)); ?>" alt="">
+                        <?php else: ?>
+                            <img id="avatar-img" src="<?php echo e(asset('wap/community/client/images/wdtt.png')); ?>" alt="">
+                        <?php endif; ?>
+					</label>
+                        <div id="avatar-upload-loading">
+                            上传中...
+                        </div>
+                        <div class="upload-div">
+                            
+                            <canvas id="image-form-canvas"></canvas>
+                <link rel="stylesheet" type="text/css" href="http://wap.51mycai365.com/static/cropper/cropper.css">
+                <script charset="utf-8" src="http://wap.51mycai365.com/static/cropper/cropper.js"></script>
+                <script>
+                    var isImageFormCropperInit = false;
+                    var imageFormCropperSubmitFunc = null;
+                    var imageFormCropperClearFunc = null;
+                    var isImageFormCropperUpload = false;
+                    jQuery(function($){
+                        $.getIsImageFormCropper = function(){
+                            try{
+                                $("#image-form-canvas").get(0).getContext("2d");
+                            } catch(e) {
+                                return false;
+                            }
+
+                            if(window.FileReader){
+                                return true;
+                            } else {
+                                return false;
+                            }
+                        }
+
+                        $.setImageFormCropperUploadStatus = function(type) {
+                            switch (type) {
+                                case 1: 
+                                    isImageFormCropperUpload = true;
+                                    $("#image-from-cropper-preview-box > span").hide(); 
+                                    $("#image-from-cropper-save-btn").removeClass("disabled");
+                                    break;
+                                case 2:
+                                    isImageFormCropperUpload = false;
+                                    $("#image-from-cropper-preview-box > span").html("图片上传中...").show();
+                                    $("#image-from-cropper-save-btn").addClass("disabled"); 
+                                    break;
+                                case 3:
+                                case 4:
+                                    isImageFormCropperUpload = true;
+                                    $("#image-from-cropper-preview-box > span").hide();
+                                    $("#image-from-cropper-save-btn").removeClass("disabled"); 
+                                    $("#image-from-cropper-box").addClass("none");
+                                    break;
+                                
+                                default: 
+                                    isImageFormCropperUpload = false;
+                                    $("#image-from-cropper-preview-box > span").html("图片加载中...").show();
+                                    $("#image-from-cropper-save-btn").addClass("disabled"); 
+                                    break;
+                            } 
+                        }
+
+                        $("#image-from-cropper-save-btn").click(function(event){ 
+                            if(!isImageFormCropperUpload){
+                                return;
+                            }
+                            $.setImageFormCropperUploadStatus(2);
+                            var maxWidth = $("#image-from-cropper-save-btn").data("maxwidth");
+                            var imageData = $("#image-from-cropper-preview").cropper("getData");
+                            var width = maxWidth > imageData.width ? imageData.width : maxWidth;
+                            var canvas = $("#image-from-cropper-preview").cropper("getCroppedCanvas", {
+                                "width": width
+                            });
+                            if (imageFormCropperSubmitFunc != null) {
+                                imageFormCropperSubmitFunc.call(this, canvas);
+                            }
+                        });
+
+                        $("#image-from-cropper-clear-btn").click(function(event) {  
+                            $("#image-from-cropper-box").addClass("none"); 
+                            if (imageFormCropperClearFunc != null) {
+                                imageFormCropperClearFunc.call(this);
+                            }
+                        });
+                    });
+                </script>
+            <?php
+            $image_form_args1 = \YiZan\Utils\Image::getFormArgs();
+        ?><form id="image-form-1" action="<?php echo e($image_form_args1['wap_action']); ?>" method="post" enctype="multipart/form-data" target="image-form-iframe-1">
+            <?php foreach($image_form_args1['args'] as $image_form_arg_key => $image_form_arg_val): ?>
+            <input type="hidden" name="<?php echo e($image_form_arg_key); ?>" class="form-hidden" value="<?php echo e($image_form_arg_val); ?>" />
+            <?php endforeach; ?>
+        <input type="hidden" name="<?php echo e($image_form_args1['save_path']['name']); ?>" class="form-hidden" value="<?php echo e($image_form_args1['save_path']['path']); ?>" />
+            <input type="hidden" id="avatarInput" name="avatar" class="form-hidden" value="<?php echo e($user['avatar']); ?>" />
+            <input type="hidden" id="image-form-iscanvas-1" name="iscanvas" value="0"  />
+            <input type="file" id="image-form-file-1" name="<?php echo e($image_form_args1['file_name']); ?>" style="border:none; background:transparent; width:1000px; height:500px;" accept="image/*" /></form>
+                <div id="image-form-hidden-1" style="display:none;">
+                    <input type="hidden" id="image-form-canvas-1" name="<?php echo e($image_form_args1['file_name']); ?>"  />
+                </div>
+                <iframe id="image-form-iframe-1" name="image-form-iframe-1" style="display:none;"></iframe>
+                <script>
+                    var isCropper1 = 1;
+                    var cropperMaxWidth1 = 200;
+                    var imageFormFileHtml1 = '<input type="file" id="image-form-file-1" name="<?php echo e($image_form_args1['file_name']); ?>" style="border:none; background:transparent; width:1000px; height:500px;" accept="image/*" />';
+                    jQuery(function($){
+                        $(document).on("change", "#image-form-file-1", function(){
+                            $.submitFormToIframe = function(type) {
+                                $("#image-form-file-1").get(0).disabled = true;
+                                $("#image-form-iscanvas-1").val(type);
+                                $("#avatar-upload-loading").show();
+                                $("#image-form-iframe-1").one("load", function(){
+                                    try{
+                                        var iframeDocument = this.contentDocument || this.contentWindow.document;
+                                        var result = $.trim(iframeDocument.body.innerHTML);
+                                        result = result == "" ? {"status":false} : JSON.parse(result);
+                                        if (result && result.status) {
+                                            var date = new Date();
+                                            $("#avatar-img").attr("src","<?php echo formatImage($image_form_args1['image_url'], 100, 100, 1); ?>?" + date.getTime());
+                                            $("#avatarInput").val("<?php echo e($image_form_args1['image_url']); ?>");
+                                            $("#image-form-1").trigger("uploadsucc");  
+                                            $("#image-from-cropper-box").addClass("none"); 
+                                            if (imageFormCropperClearFunc != null) {
+                                                imageFormCropperClearFunc.call(this);
+                                            }
+                                            $.setImageFormCropperUploadStatus(3);
+                                        } else {
+                                            $.showError("上传图片失败");
+                                            $.setImageFormCropperUploadStatus(4);
+                                        }
+                                    }catch(e){
+                                        $.showError("上传图片失败");
+                                        $.setImageFormCropperUploadStatus(4);
+                                    } 
+                                    
+                                    $("#avatar-upload-loading").hide();
+                                    if (type == 1) {
+                                        var canvasInput = $("#image-form-canvas-1");
+                                        canvasInput.val("");
+                                        $("#image-form-hidden-1").append(canvasInput);
+                                    }
+                                    $("#image-form-file-1").remove();
+                                    $("#image-form-1").append(imageFormFileHtml1);
+                                });
+                                $("#image-form-1").submit();
+                            }
+
+                            imageFormCropperSubmitFunc = null;
+                            imageFormCropperClearFunc = null;
+                            if($(this).val() != "" && typeof(this.files) !== "undefined") {
+                                var file = this.files[0];
+                                if ($.getIsImageFormCropper() && isCropper1 == 1) {
+                                    $("#image-from-cropper-box").removeClass("none");
+                                    $.setImageFormCropperUploadStatus(0);
+                                    $("#image-from-cropper-save-btn").data("maxwidth", cropperMaxWidth1);
+                                    var reader = new FileReader(); 
+                                    reader.readAsDataURL(file);
+                                    $(reader).load(function(){
+                                        $("#image-from-cropper-preview").cropper("destroy");
+                                        $("#image-from-cropper-preview").get(0).src = this.result;
+                                        
+                                        $("#image-from-cropper-preview").cropper({
+                                              aspectRatio: 200 / 200,
+                                              autoCropArea: 1,
+                                              minCropBoxWidth:200,
+                                              minCropBoxHeight:200,
+                                              strict: false,
+                                              guides: false,
+                                              highlight: false,
+                                              dragCrop: false,
+                                              cropBoxMovable: false,
+                                              cropBoxResizable: false
+                                        });
+
+                                        $("#image-from-cropper-preview").on("built.cropper", function () {
+                                            $.setImageFormCropperUploadStatus(1);
+                                            $("#image-from-cropper-preview").cropper("crop");
+                                            return true;
+                                        });
+
+                                        isImageFormCropperInit = true;
+                                        imageFormCropperSubmitFunc = function(canvas) {
+                                            var canvasInput = $("#image-form-canvas-1");
+                                            canvasInput.val(canvas.toDataURL());
+                                            $("#image-form-1").append(canvasInput);
+                                            var fileInput = $("#image-form-file-1");
+                                            $("#image-form-hidden-1").append(fileInput)
+                                            $.submitFormToIframe(1);
+                                        }
+
+                                        imageFormCropperClearFunc = function() { 
+                                            $.setImageFormCropperUploadStatus(3);
+                                            $("#image-form-file-1").remove();
+                                            $("#image-form-1").append(imageFormFileHtml1);
+                                        }
+                                    });
+                                    return false;
+                                } else if(file.size > 5242881){
+                                    $.showError("请选择小于 5M 的图片");
+                                    event.preventDefault();
+                                    event.stopPropagation();
+                                    event.stopImmediatePropagation();
+                                    return false;
+                                }
+                            }
+                            $.submitFormToIframe(0);
+                        })
+                    });
+                </script>
+                            
+                        </div>
+                    <i class="x-rightico y-wdtxr"></i>
+                </li>
+                <li onclick="window.location.href='<?php echo e(u("UserCenter/nick")); ?>'">
+                    <div class="y-wdzhl f16">会员名称</div>
+                    <div class="y-wdzhr clearfix">
+                        <input type="text" value="<?php echo e($user['name']); ?>" id="name" class="y-edittxt f14" style="background: none;" readonly />
+                    </div>
+                    <i class="x-rightico y-wdtxr"></i>
+                </li>
+                 <li onclick="window.location.href='<?php echo e(u("UserCenter/verifymobile")); ?>'">
+                 <div class="y-wdzhl f16">手机号码</div>
+                    <div class="y-wdzhr clearfix">
+                        <input type="text" value="<?php echo e($user['mobile']); ?>" class="y-edittxt f14" style="background: none;" readonly />
+                    </div>
+                     <i class="x-rightico y-wdtxr"></i>
+                </li> 
+                <li onclick="window.location.href='<?php echo e(u("UserCenter/repwd")); ?>'">
+                    <div class="y-wdzhl f16">修改密码</div>
+                    <div class="y-wdzhr clearfix">
+                        <input type="password" value="******" class="y-edittxt f14" style="background: none;" readonly/>
+                    </div>
+                    <i class="x-rightico y-wdtxr"></i>
+                </li>
+            </ul>
+        </div>
+    </div> 
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('js'); ?>
+    <script type="text/javascript">
+        $(function() {
+            $(document).on("uploadsucc",".upload-div form",function(){
+                var name = $.trim($("#name").val());
+                var avatar = $.trim($("#avatarInput").val());
+                $.post("<?php echo e(u('UserCenter/updateinfo')); ?>",{"name":name,"avatar":avatar},function(res){
+                    if(res.code == 0){
+                        //$.showSuccess(res.msg,"<?php echo e(u('UserCenter/index')); ?>");
+                    }else if(res.code == '99996'){
+                        window.location.href = "<?php echo e(u('User/login')); ?>";
+                    }else{
+                        $.showError(res.msg);
+                    }
+                },"json")
+            })
+        })
+    </script>
+<?php $__env->stopSection(); ?>
+
+
+<?php echo $__env->make('wap.community._layouts.base', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

@@ -1,0 +1,84 @@
+
+<?php $__env->startSection('css'); ?>
+<style type="text/css">
+	.m-tab table tbody td{padding: 5px 0px;}
+</style>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
+	<div>
+		<div class="m-zjgltbg">					
+			<div class="p10">
+				<!-- 请假管理 -->
+				<div class="g-fwgl">
+					<p class="f-bhtt f14 clearfix">
+						<span class="ml15 fl">人员请假管理</span>
+					</p>
+				</div>
+				<!-- 人员表格 -->
+				<div class="m-tab m-smfw-ser">
+					
+	                    <div id="checkList" class="">
+                    <div class="m-tab">
+                      <table id="checkListTable" class=" goodstable">
+                        <thead><td class="" width="60" order="name" code="name"><span>姓名</span></td>
+                                    <td class="" width="60" order="beginTime" code="beginTime"><span>开始时间</span></td>
+                                    <td class="" width="60" order="endTime" code="endTime"><span>结束时间</span></td>
+                                    <td class="" width="60" order="remark" code="remark"><span>请假理由</span></td>
+                                    <td class=" is_agree" width="60" order="statusStr" code="statusStr"><span>是否同意</span></td>
+                                    <td style="text-align:center;white-space:nowrap;" width="90"><span>操作</span></td>
+                    </thead><tbody>
+                        <?php foreach($list as $list_index => $list_item): ?>
+                        <?php 
+                            $list_item_css = $list_index % 2 == 0 ? " tr-even" : " tr-odd"; 
+                            $list_item_pk  = $list_item["id"];
+                        ?>
+                        <tr class="tr-<?php echo e($list_item_pk); ?><?php echo e($list_item_css); ?>" key="<?php echo e($list_item_pk); ?>" primary="id"><td class="" code="name"><?php echo e($list_item['staff']['name']); ?></td>
+                                    <td class="" code="beginTime"><?php echo e($list_item['beginTime']); ?></td>
+                                    <td class="" code="endTime"><?php echo e($list_item['endTime']); ?></td>
+                                    <td class="" code="remark"><?php echo e($list_item['remark']); ?></td>
+                                    <td class=" is_agree" code="statusStr"><?php echo e($list_item['statusStr']); ?></td>
+                                    <td class=""><?php if($list_item['disposeTime'] == 0): ?>
+                                        <a href="javascript:;" class=" blu agree" data-pk="<?php echo e($list_item['id']); ?>" >同意</a>
+                                        <a href="javascript:;" class=" blu refuse" data-pk="<?php echo e($list_item['id']); ?>"  >拒绝</a>
+                                        <?php endif; ?>
+                                        <a href="javascript:;" class=" red"  onclick="$.RemoveItem(this, '<?php echo e(u(CONTROLLER_NAME."/destroy",["id" => $list_item["id"]])); ?>', '你确定要删除该数据吗？')" data-pk="<?php echo e($list_item["id"]); ?>" target="_self">删除</a></td>
+                    </tr>
+                    <?php endforeach; ?>
+                </tbody>
+                    </table>
+                </div><?php echo $__env->make('admin._layouts.pager', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                </div>
+	                
+				</div>
+			</div>
+		</div>
+	</div>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('js'); ?>
+<script type="text/javascript">
+    $(document).on("click",".agree",function(){
+        var pk = $(this).data("pk");
+        var obj = $(this);
+        $.post("<?php echo e(u('Staffleave/dispose')); ?>",{id:pk,agree:1},function(res){
+            if(res.code == 0){
+                obj.parents("tr").find(".is_agree").html("同意");
+                obj.siblings(".refuse").remove();
+                obj.remove();
+            }
+        },"json");
+    }).on("click",".refuse",function(){
+        var pk = $(this).data("pk");
+        var obj = $(this);
+        $.post("<?php echo e(u('Staffleave/dispose')); ?>",{id:pk,agree:'-1'},function(res){
+            if(res.code == 0){
+                obj.parents("tr").find(".is_agree").html("拒绝");
+                obj.siblings(".agree").remove();
+                obj.remove();
+            }
+        },"json");
+    })
+</script>
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('seller._layouts.base', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

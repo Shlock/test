@@ -1,0 +1,50 @@
+
+<?php $__env->startSection('css'); ?>
+<style type="text/css">
+</style>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('right_content'); ?>
+	
+		<div id="checkList" class="">
+                    <div class="list-btns">
+                      <a href="<?php echo e(u('ForumPlate/create')); ?>" target="_self" class="btn mr5">
+                        添加版块
+                    </a>
+                </div>
+		<div class="m-tab">
+                      <table id="checkListTable" class="">
+                        <thead><td class="" order="name" code="name"><span>分类编号</span></td>
+				<td class="" order="icon" code="icon"><span>图标</span></td> 
+				<td class=" sort" order="sort" code="sort"><span>排序</span></td> 
+				<td class="" order="status" code="status"><span>状态</span></td>
+				<td style="text-align:center;white-space:nowrap;"><span>操作</span></td>
+                    </thead><tbody>
+                        <?php foreach($list as $list_index => $list_item): ?>
+                        <?php 
+                            $list_item_css = $list_index % 2 == 0 ? " tr-even" : " tr-odd"; 
+                            $list_item_pk  = $list_item["id"];
+                        ?>
+                        <tr class="tr-<?php echo e($list_item_pk); ?><?php echo e($list_item_css); ?>" key="<?php echo e($list_item_pk); ?>" primary="id"><td class="" style="text-align:center;" code="name"><?php echo e($list_item['name']); ?></td>
+				<td class="" code="icon"><img src="<?php echo e($list_item['icon']); ?>" style="max-width:32px;"/></td> 
+				<td class=" sort" code="sort"><?php echo e($list_item['sort']); ?></td> 
+				<td class="" code="status"><?php echo YiZan\Utils\Format::status($list_item['status'], "status", $list_item, array (
+  'code' => 'status',
+  'label' => '状态',
+  'type' => 'status',
+  'attr' => '',
+  'css' => '',
+  'style' => '',
+)); ?></td>
+				<td class=""><a href="<?php echo e(u(CONTROLLER_NAME."/edit",["id" => $list_item["id"]])); ?>" class=" blu"  data-pk="<?php echo e($list_item["id"]); ?>" target="_self">编辑</a>
+					<!-- <?php if(!$list_item['isSystem']): ?> -->
+					<a href="javascript:;" class=" red"  onclick="$.RemoveItem(this, '<?php echo e(u(CONTROLLER_NAME."/destroy",["id" => $list_item["id"]])); ?>', '你确定要删除该数据吗？')" data-pk="<?php echo e($list_item["id"]); ?>" target="_self">删除</a>
+					<!-- <?php endif; ?> --></td>
+                    </tr>
+                    <?php endforeach; ?>
+                </tbody>
+                    </table>
+                </div><?php echo $__env->make('admin._layouts.pager', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                </div>
+	
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('admin._layouts.base', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

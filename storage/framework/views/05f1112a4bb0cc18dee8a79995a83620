@@ -1,0 +1,162 @@
+
+<?php $__env->startSection('css'); ?>
+<style type="text/css">
+	.m-tab table tbody td{
+		padding: 10px 0px;
+		font-size: 12px;
+  		text-align: center; 
+	}
+	.m-tab{
+		margin-top: -11px;
+	}
+	#money-form-item,#waitConfirmMoney-form-item,#lockMoney-form-item{
+		  margin-right: 40px;
+	}
+</style>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
+	<div>
+		<div class="m-zjgltbg">									
+			<div  class="p10">		
+				<p class="f-bhtt f14">
+					<span class="ml15">账户结算</span>
+				</p>			
+				<p class="f-bhtt f14 mt10">
+					<span class="ml15">账户余额：￥ <?php echo e(isset($useracount['money']) ? $useracount['money'] : 0); ?></span>
+					<?php if($useracount['money'] != 0): ?>
+		                 <a href="<?php echo e(u('Funds/withdraw')); ?>" class=" ml15 btn f-bluebtn" style="margin-bottom:8px;">提现</a>
+	             	<?php endif; ?>
+				</p>	
+				
+				<?php  
+					switch ($args[status]) {
+						case '1':
+							$nav1 = 'on';
+							break; 
+						case '2':
+							$nav2 = 'on';
+							break; 
+						default:
+							$nav = 'on';
+							break;
+					}
+				?> 
+                <!-- 账户交易记录 -->
+				<div class="m-jyjlct"  style="margin-top: 10px;"> 
+					<div id="checkList" class="">
+                    <div class="tabs">
+					<div class="tab-navs u-spnav u-orderlstnav">
+					<ul class="clearfix"> 
+						<li class="tab-nav <?php echo e($nav); ?>">
+    				<a href="<?php echo e(u('Funds/index',['status'=>0, 'beginTime'=>$args['beginTime'], 'endTime'=>$args['endTime']])); ?>" target="_self">全部</a>
+    			</li>
+                                <li class="tab-nav <?php echo e($nav1); ?>">
+    				<a href="<?php echo e(u('Funds/index',['status'=>1, 'beginTime'=>$args['beginTime'], 'endTime'=>$args['endTime']])); ?>" target="_self">收入</a>
+    			</li>
+                                <li class="tab-nav <?php echo e($nav2); ?>">
+    				<a href="<?php echo e(u('Funds/index',['status'=>2, 'beginTime'=>$args['beginTime'], 'endTime'=>$args['endTime']])); ?>" target="_self">支出</a>
+    			</li>
+					</ul>
+				</div>
+				</div>
+						<div class="u-ssct clearfix">
+                    <?php $search_args = Input::all(); ?>
+                    <form id="yzForm" class="" name="yzForm" method="post" action="http://seller.51mycai365.com/Funds/index" target="_self">
+                        <?php
+							$search_args = $args;
+							?>
+							<div class="search-row clearfix">
+                      <div id="beginTime-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 开始时间:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="beginTime" id="beginTime" class="date u-ipttext" value="<?php echo e(YiZan\Utils\Time::toDate($search_args['beginTime'],'Y-m-d')); ?>" />
+		            </div>
+		        </div>
+								<div id="endTime-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 结束时间:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="endTime" id="endTime" class="date u-ipttext" value="<?php echo e(YiZan\Utils\Time::toDate($search_args['endTime'],'Y-m-d')); ?>" />
+		            </div>
+		        </div>
+								<!--item label="状态">
+									<select id="status" name="status" class="sle  " ><?php $select_options = array (
+  0 => '0',
+  1 => '1',
+  2 => '2',
+  3 => '3',
+  4 => '4',
+); ?><?php $selecteds = is_array($search_args['status']) ? $search_args['status'] : [$search_args['status']]; ?><?php $select_texts = array (
+  0 => '全部',
+  1 => '待审核',
+  2 => '已通过',
+  3 => '已拒绝',
+  4 => '已确认',
+); ?><?php  foreach($select_options as $options_key => $options_val):
+                    $selected = in_array($options_val, $selecteds) ? " selected" : ""; ?>
+					<option<?php echo $selected; ?> value="<?php echo $options_val; ?>"><?php echo $select_texts[$options_key]; ?></option>
+					<?php endforeach; ?></select>
+								</item -->
+								<input type="hidden" name="status" value="<?php echo e($args['status']); ?>" />
+								<button type="submit" class="btn mr5 btn-gray fr">
+                        查询
+                    </button>
+                </div>
+                    </form>
+                </div>
+						<div class="m-tab">
+                      <table id="checkListTable" class="">
+                        <thead><td class="" order="createTime" code="createTime"><span>日期</span></td>
+								<td class="" width="40" order="typeStr" code="typeStr"><span>类型</span></td>  
+								<td class="" width="100" order="money" code="money"><span>入账金额</span></td>
+<!-- 								<td class="" width="100" order="balance" code="balance"><span>当前余额</span></td> -->
+								<td class="" width="100" order="status" code="status"><span>处理状态</span></td>
+								<td class="" order="content" code="content"><span>备注</span></td>
+                    </thead><tbody>
+                        <?php foreach($list as $list_index => $list_item): ?>
+                        <?php 
+                            $list_item_css = $list_index % 2 == 0 ? " tr-even" : " tr-odd"; 
+                            $list_item_pk  = $list_item["id"];
+                        ?>
+                        <tr class="tr-<?php echo e($list_item_pk); ?><?php echo e($list_item_css); ?>" key="<?php echo e($list_item_pk); ?>" primary="id"><td class="" code="createTime"><?php echo YiZan\Utils\Format::time($list_item['createTime'], "createTime", $list_item, array (
+  'code' => 'createTime',
+  'label' => '日期',
+  'type' => 'time',
+  'attr' => '',
+  'css' => '',
+  'style' => '',
+)); ?></td>
+								<td class="" code="typeStr"><?php echo e($list_item['typeStr']); ?></td>  
+								<td class="" code="money"><?php if($list_item['money'] > 0): ?>+<?php endif; ?><?php echo e(number_format($list_item['money'], 2)); ?></td>
+<!-- 								<td class="" code="balance"><?php echo e($list_item['balance']); ?></td> -->
+								<td class="" code="status"><?php echo e(Lang::get('seller.status_money_logs.'.$list_item['status'])); ?></td>
+								<td class="" code="content"><?php echo e($list_item['content']); ?></td>
+                    </tr>
+                    <?php endforeach; ?>
+                </tbody>
+                    </table>
+                </div><?php echo $__env->make('admin._layouts.pager', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                </div>
+				</div>
+                		 
+			</div>
+		</div>
+	</div>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('js'); ?>
+
+<script type="text/javascript">
+	$(function(){
+		$('.date').datepicker({
+			changeYear:true,
+			changeMonth:false,
+		}); 
+	}); 
+</script>
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('seller._layouts.base', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

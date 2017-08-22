@@ -1,0 +1,61 @@
+.zydialog{}
+.zydialog_mask{background:#000;position:absolute;top:0px;left:0px;opacity:0.5;filter:alpha(opacity=50);z-index:10000;}
+.zydialog_loading{background:url(../images/loading_big.gif) no-repeat center center #fff; height:100px; width:280px;}
+.zydialog_tl{width:7px; height:7px; font-size:0!important; line-height:7px;background:url(../images/zydialog/tl.png) no-repeat;}
+.zydialog_tc{width:auto; height:7px; font-size:0!important; line-height:7px;background:url(../images/zydialog/h.png) repeat-x;}
+.zydialog_tr{width:7px; height:7px;font-size:0!important; line-height:7px;background:url(../images/zydialog/tr.png) no-repeat;}
+.zydialog_bl{width:7px; height:7px;font-size:0!important; line-height:7px;background:url(../images/zydialog/bl.png) no-repeat;}
+.zydialog_bc{width:auto; height:7px;font-size:0!important; line-height:7px;background:url(../images/zydialog/h.png) repeat-x;}
+.zydialog_br{width:7px; height:7px;font-size:0!important; line-height:7px;background:url(../images/zydialog/br.png) no-repeat;}
+.zydialog_mc{position:relative; background:#fff;}
+.zydialog_mc .mc_loading{background:url(../images/loading_big.gif) no-repeat center center #fff;position:absolute;top:0px;left:0px;width:100%; height:100%;opacity:0.5;filter:alpha(opacity=50);z-index:50;}
+.zydialog_mv{width:7px;background:url(../images/zydialog/v.png);}
+.zydialog_head{height:39px;font-size:14px;position:relative;background:url(../images/zydialog/title.png) repeat-x;}
+.zydialog_close{background:url(../images/zydialog/close.gif) no-repeat;height:15px;width:15px;position:absolute;right:11px;top:11px;display:block; overflow:hidden;}
+.zydialog_close:hover{background-image:url(../images/zydialog/hclose.gif);}
+.zydialog_title{color:#666;float:left;padding-left:11px; font-size:16px;font-family:"微软雅黑", "宋体", Arial;font-weight:bold; height:39px;line-height:40px; overflow:hidden;}
+.zydialog_tab_menus{height:28px; float:left; margin:11px 60px 0 28px;_border-left:solid 1px #c3c3c3;}
+.zydialog_tab_menus a{float:left; height:26px; display:block; padding:0 10px; line-height:26px; font-size:13px;border-radius:4px 4px 0 0; overflow:hidden;background:url(../images/zydialog/tabbg.png) repeat-x 0 bottom; border:solid 1px #c3c3c3; border-bottom:none; margin:0 0 0 -1px; color:#787878;}
+.zydialog_tab_menus a.active{background:#f6f7f8; border-bottom:solid 1px #fff;}
+.zydialog_btns{border-top:solid 1px #c3c3c3;background:#f6f7f8; text-align:center; padding:8px;}
+.zydialog_body{}
+.zydialog_tab_body{position:absolute; left:-10000px;}
+.zydialog_tab_body_active{position:inherit; left:auto;}
+
+.zydialog form{}
+.zydialog_form,.zydialog-form{margin:10px 10px 10px 10px;}
+.dialog_form,.dialog-form{margin:10px 10px 10px 10px;}
+.zydialog .ftext{padding:10px 5px 9px 5px; height:15px;}
+.zydialog .ftext1{padding:6px 5px 5px 5px; height:15px;}
+.zydialog textarea{line-height:1.5em; overflow:hidden;}
+.zydialog .form_field,
+.zydialog .form_field1{float:left; width:100%; margin:0 0 15px 0; position:relative;}
+.zydialog .form_field *,
+.zydialog .form_field1 *{float:left;}
+.zydialog .form_field strong,
+.zydialog .form_field1 strong{width:80px; text-align:right; padding:0 10px 0 0; display:block; line-height:38px; color:#4a4a4a; font-size:14px; font-weight:normal;}
+.zydialog .form_field1 strong{line-height:22px;}
+.zydialog .form_tip{float:left; height:20px; line-height:20px; margin:9px 0 0 10px; _display:inline;}
+.zydialog .form_loading{background:url(../images/zydialog/loading_mini.gif) no-repeat left center; padding:0 0 0 20px;}
+.zydialog .form_error{background:url(../images/zydialog/error.png) no-repeat left center; padding:0 0 0 20px;}
+
+.zydialog .df-item{margin:5px 0;}
+.zydialog .df-title{display:block; line-height: 28px;}
+.zydialog .df-input{display:block;}
+.zydialog .df-input input[type="text"],.form-group input[type="password"]{border: 1px solid #ddd; padding: 9px 8px 8px 8px; line-height:normal; width:380px;}
+.zydialog .df-input textarea{border: 1px solid #ddd; padding:8px; height:3em; width:90%;}
+.zydialog .inline-block{display:inline-block;*display:inline;*zoom:1;}
+.zydialog .dt-inline .df-title{display:inline-block;*display:inline;*zoom:1; line-height: 34px;}
+.zydialog .dt-inline .df-input{display:inline-block;*display:inline;*zoom:1;}
+
+.zydialog .zycon{ padding:10px 20px;line-height: 24px;  }
+.zydialog .zycon label{ margin: 6px 0; display: block; }
+.zydialog .zycon label p{ }
+.zydialog .zycon label input{ width: 100%; height: 32px; text-indent: 6px; border-radius: 4px; border:1px solid #ccc;}
+.zydialog .zycon label select{ width: 100%;  border:1px solid #ccc; height: 32px;}
+.zydialog .zycon label textarea{ width: 96%; border-radius: 4px;  border:1px solid #ccc; padding: 2%; height: 100%; min-height: 70px; }
+.m-cxbtn30{display:inline-block; background-color: #4c8fcc; color:#fff; height:30px; line-height:30px; border-radius:3px; font-size:14px; border:none; padding:0 15px;}
+.m-cleanbtn{background-color:#abbac3;}
+
+.zydialog .m-spboxlst form{margin:10px 10px 0 10px;}
+.zydialog .u-fitem{margin-bottom: 10px;}

@@ -1,0 +1,116 @@
+
+<?php $__env->startSection('css'); ?>
+<style type="text/css">
+	.ts1{color: #ccc;margin-left: 5px;}
+</style>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('right_content'); ?>
+	
+		<div class="m-spboxlst " style="">
+					<form id="yz_form" name="yz_form" class="validate-form ajax-form" method="post" action="http://admin.51mycai365.com/Service/catesave" enctype="application/x-www-form-urlencoded" target="_self">
+						<input type="hidden" id="sellerId" name="sellerId" value="<?php if(isset($data['sellerId'])):?><?php echo e($data['sellerId']); ?><?php else: ?>$data['sellerId']<?php endif; ?>"/>
+			<div id="name-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 分类名称:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="name" id="name" class="u-ipttext" maxlength='20' value="<?php echo e($data['name']); ?>" />
+		            </div>
+		        </div>
+			<!-- <div id="-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 所属分类:
+		            </span>
+		            <div class="f-boxr">
+		                  <select id="pid" name="pid" style='min-width:234px;width:auto' class="sle  " ><?php $select_options = $cate; ?><?php $selecteds = is_array($data['pid']) ? $data['pid'] : [$data['pid']]; ?><?php  foreach($select_options as $options_key => $options_val): ?><?php $options_key = $options_val['id']; ?><?php $options_val = $options_val['levelname']; ?><?php $selected = in_array($options_key, $selecteds) ? " selected" : ""; ?>
+	                	<option<?php echo $selected; ?> value="<?php echo $options_key; ?>"><?php echo $options_val; ?></option>
+						<?php endforeach; ?></select>
+				<span class="ts ts1"></span>
+		            </div>
+		        </div>  -->
+			<div id="-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 类型:
+		            </span>
+		            <div class="f-boxr">
+		                  <?php $type = isset($data['type']) ? $data['type'] : 1 ?>
+				<?php $radio_options = array (
+  0 => '1',
+  1 => '2',
+); ?><?php $default = ''; ?><?php $checked = isset($type) ? $type : $default; ?><?php $radio_texts = array (
+  0 => '商品',
+  1 => '服务',
+); ?><?php  foreach($radio_options as $options_key => $options_val): 
+                    $checked_attr = $options_val == $checked ? " checked" : ""; ?>
+                    <label>
+                        <input type="radio" class="uniform " name="type" value="<?php echo $options_val; ?>" <?php echo $checked_attr; ?>/>
+                        <span><?php echo $radio_texts[$options_key]; ?></span>
+                    </label>
+                    <span>&nbsp;&nbsp;</span>
+                    <?php endforeach; ?>
+		            </div>
+		        </div>
+			<!-- <div id="logo-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 图标:
+		            </span>
+		            <div class="f-boxr">
+		                  <ul class="m-tpyllst clearfix">
+	            				<li id="logo-box" class="">
+	            				<?php if( !empty($data['logo']) ): ?>
+	            					<a id="img-preview-logo" class="m-tpyllst-img" href="<?php echo e($data['logo']); ?>" target="_blank"><img src="<?php echo e($data['logo']); ?>" alt=""></a>
+	            				<?php else: ?>
+                                    <a id="img-preview-logo" class="m-tpyllst-img" href="javascript:;" target="_self"><img src="" alt="" style="display:none;"></a>
+	            				<?php endif; ?>
+                                <a class="m-tpyllst-btn img-update-btn" href="javascript:;" data-rel="logo">
+                                    <i class="fa fa-plus"></i> 上传图片
+                                </a>
+	            				<input type="hidden" data-tip-rel="#logo-box" name="logo" id="logo" value="<?php echo e($data['logo']); ?>"/>
+	            				</li>
+							</ul>
+		            </div>
+		        </div> -->
+			<div id="sort-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 排序:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="sort" id="sort" class="u-ipttext" value="<?php if(isset($data['sort'])):?><?php echo e($data['sort']); ?><?php else: ?>100<?php endif; ?>" />
+		            </div>
+		        </div>
+			<div id="-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 状态:
+		            </span>
+		            <div class="f-boxr">
+		                  <?php $status = isset($data['status']) ? $data['status'] : 1 ?>
+				<?php $radio_options = array (
+  0 => '1',
+  1 => '0',
+); ?><?php $default = ''; ?><?php $checked = isset($status) ? $status : $default; ?><?php $radio_texts = array (
+  0 => '开启',
+  1 => '关闭',
+); ?><?php  foreach($radio_options as $options_key => $options_val): 
+                    $checked_attr = $options_val == $checked ? " checked" : ""; ?>
+                    <label>
+                        <input type="radio" class="uniform " name="status" value="<?php echo $options_val; ?>" <?php echo $checked_attr; ?>/>
+                        <span><?php echo $radio_texts[$options_key]; ?></span>
+                    </label>
+                    <span>&nbsp;&nbsp;</span>
+                    <?php endforeach; ?>
+		            </div>
+		        </div>		<div class="u-fitem clearfix">
+                            <span class="f-tt">
+                                &nbsp;
+                            </span>
+                            <div class="f-boxr">
+                                  <button type="submit" class="u-addspbtn">提 交</button>
+                            </div>
+                        </div>		<input type="hidden" value="<?php echo e($data['id']); ?>" name="id" />
+					</form>
+				</div>
+	
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('js'); ?>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('admin._layouts.base', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

@@ -1,0 +1,61 @@
+<?php $__env->startSection('show_top'); ?>
+	<div data-role="header" data-position="fixed" class="x-header">
+		<h1>搜索</h1>
+        <a href="<?php if(!empty($nav_back_url)): ?> <?php echo e($nav_back_url); ?> <?php else: ?> javascript:history.back(-1); <?php endif; ?>" data-iconpos="notext" class="x-back ui-nodisc-icon" data-shadow="false"></a>
+	</div>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('js'); ?> 
+	<script src="<?php echo e(asset('static/infinite-scroll/jquery.infinitescroll.js')); ?>"></script> 
+<?php $__env->stopSection(); ?> 
+<?php $__env->startSection('content'); ?> 
+	<div role="main" class="ui-content">
+		<div class="x-search clearfix">
+			<form id="search_form" >
+            <input type="text" placeholder="请输入商家名称关键词" name="keyword" value="<?php echo e($option['keyword']); ?>" id="keyword"/>
+            <div class="x-serbtn">
+                <i class="x-serico search_submit"></i>
+            </div>
+            </form >
+        </div>
+        <div class="x-lh45">热门搜索</div>
+        <ul class="x-serhot clearfix">
+        	<?php if(count($hot_data) > 5): ?>
+        	<?php for($i = 0;$i < 5; $i++): ?>
+            <li onclick="window.location.href='<?php echo e(u('Seller/search',['keyword'=>$hot_data[$i]['name']])); ?>'"><?php echo e($hot_data[$i]['name']); ?></li>
+            <?php endfor; ?>
+            <?php else: ?> 
+            <?php for($i = 0;$i < count($hot_data); $i++): ?>
+            <li onclick="window.location.href='<?php echo e(u('Seller/search',['keyword'=>$hot_data[$i]['name']])); ?>'"><?php echo e($hot_data[$i]['name']); ?></li>
+            <?php endfor; ?>
+            <?php endif; ?>
+        </ul>
+		<!-- 有搜索记录的时候 -->
+		<?php if($history_search): ?>
+		<ul class="x-serhis c-green">
+			<?php foreach($history_search as $key => $item): ?>
+            <li <?php if($key == count($data)-1): ?>style="border-bottom:none;"<?php endif; ?> onclick="window.location.href='<?php echo e(u('Seller/search',['keyword'=>$item])); ?>'"><a href="javascript:;"><?php echo e($item); ?></a></li>
+            <?php endforeach; ?>
+            <li class="x-clearhis"><i class="x-delico"></i>清除历史记录</li>
+        </ul>
+		<?php endif; ?>
+	</div>
+	<?php echo $__env->make('wap.community._layouts.swiper', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>  
+	<script >
+		$.SwiperInit('.data-content ul','li',"<?php echo e(u('Seller/search',$option)); ?>");
+		$(function() {
+			$(".search_submit").click(function(){
+				var keyword = $("#keyword").val();
+				window.location.href="<?php echo u('Seller/search'); ?>?keyword=" + keyword;
+				//$("#search_form").submit();
+			});
+
+			$(".x-clearhis").click(function() {
+				$.post("<?php echo e(u('Seller/clearsearch')); ?>", function(result){
+                    window.location.href = "<?php echo u('Seller/search'); ?>";
+                });
+			})
+		})
+		
+	</script>
+<?php $__env->stopSection(); ?> 
+<?php echo $__env->make('wap.community._layouts.base', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

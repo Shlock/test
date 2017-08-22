@@ -1,0 +1,70 @@
+
+
+<?php $__env->startSection('css'); ?>
+    <style type="text/css">
+
+    </style>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('js'); ?>
+    <script src="<?php echo e(asset('static/infinite-scroll/jquery.infinitescroll.js')); ?>"></script>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('show_top'); ?>
+    <div data-role="header" data-tap-toggle="false" data-position="fixed" class="x-header">
+        <h1>评价</h1>
+        <a href="javascript:history.back(-1);" data-iconpos="notext" class="x-back ui-nodisc-icon" data-shadow="false"></a>
+        <?php /*<span class="x-sjr ui-btn-right"><i class="x-sjsc collect_it <?php if($data['iscollect']): ?> on <?php endif; ?>" data-id="<?php echo e($data['id']); ?>"></i></span>*/ ?>
+    </div>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+    <div role="main" class="ui-content x-sorta" style="padding:1em 0 0;">
+        <?php echo $__env->make('wap.community.goods.sellergoodshead', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+        <?php $__env->startSection('notice'); ?><?php $__env->stopSection(); ?>
+        <div class="x-pjtotal">
+            <div class="x-pjtl">
+                <p class="c-red"><?php echo e($count['star']); ?></p>
+                <p class="f14">总体评价</p>
+            </div>
+            <div class="star-rank">
+                <!-- 五颗星总长85px，此时星级的长度用百分比控制 -->
+                <div class="star-score" style="width:<?php echo e($count['star'] * 20); ?>%;"></div>
+            </div>
+        </div>
+
+        <div data-role="tabs" id="tabs" data-corners="false" class="x-pjtab">
+            <div data-role="navbar">
+                <ul>
+                    <li onclick="location.href='<?php echo e(u('Goods/comment',['id'=>$args['sellerId']])); ?>'">
+                        <a href="#one" data-ajax="false" <?php if($args['type'] == 0): ?> class="ui-btn-active" <?php endif; ?>>全部(<?php echo e($count['totalCount']); ?>)</a>
+                    </li>
+                    <li onclick="location.href='<?php echo e(u('Goods/comment',['id'=>$args['sellerId'],'type'=>1])); ?>'">
+                        <a href="#two" data-ajax="false" <?php if($args['type'] == 1): ?> class="ui-btn-active" <?php endif; ?>>好评(<?php echo e($count['goodCount']); ?>)</a>
+                    </li>
+                    <li onclick="location.href='<?php echo e(u('Goods/comment',['id'=>$args['sellerId'],'type'=>2])); ?>'">
+                        <a href="#three" data-ajax="false" <?php if($args['type'] == 2): ?> class="ui-btn-active" <?php endif; ?>>中评(<?php echo e($count['neutralCount']); ?>)</a>
+                    </li>
+                    <li onclick="location.href='<?php echo e(u('Goods/comment',['id'=>$args['sellerId'],'type'=>3])); ?>'">
+                        <a href="#four" data-ajax="false" <?php if($args['type'] == 3): ?> class="ui-btn-active" <?php endif; ?>>差评(<?php echo e($count['badCount']); ?>)</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="baisbg" style="height: 100%;background-color:#fff;">
+                <div class="x-pjlstct">
+                    <ul id="clist">
+                        <?php echo $__env->make('wap.community.goods.comment_item', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php echo $__env->make('wap.community._layouts.swiper', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+    <script type="text/javascript">
+        $(function() {
+            $(".x-pjtab").css("min-height",$(window).height()-135);
+            $.SwiperInit('#clist', 'li', "<?php echo u('Goods/comment',$args); ?>");
+        })
+    </script>
+<?php $__env->stopSection(); ?> 
+ 
+<?php echo $__env->make('wap.community._layouts.base', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

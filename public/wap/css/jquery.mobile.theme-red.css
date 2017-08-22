@@ -1,0 +1,94 @@
+.ui-bar-b,.ui-page-theme-b .ui-bar-inherit,html .ui-bar-b .ui-bar-inherit,html .ui-body-b .ui-bar-inherit,html body .ui-group-theme-b .ui-bar-inherit {
+	background-color: #f678a1;
+	border-color: #f2efee;
+	color: #fff;
+	text-shadow: 0 0px 0 #111;
+	font-weight: bold;
+}
+
+.ui-bar-b {
+	border-width: 1px;
+	border-style: solid;
+}
+
+.ui-overlay-b,.ui-page-theme-b,.ui-page-theme-b .ui-panel-wrapper {
+	background-color: #f2efee;
+	border-color: #454545;
+	color: #595056;
+	text-shadow: 0 0px 0 #111;
+}
+
+.ui-body-b,.ui-page-theme-b .ui-body-inherit,html .ui-bar-b .ui-body-inherit,html .ui-body-b .ui-body-inherit,html body .ui-group-theme-b .ui-body-inherit,html .ui-panel-page-container-b {
+	background-color: #fff;
+	border-color: #ddd;
+	color: #595056;
+	text-shadow: 0 0px 0 #111;
+}
+
+.ui-body-b {
+	border-width: 1px;
+	border-style: solid;
+}
+
+.ui-page-theme-b a,html .ui-bar-b a,html .ui-body-b a,html body .ui-group-theme-b a {
+	color: #22aadd;
+	font-weight: normal;
+}
+
+.ui-page-theme-b a:visited,html .ui-bar-b a:visited,html .ui-body-b a:visited,html body .ui-group-theme-b a:visited {
+	color: #22aadd;
+}
+
+.ui-page-theme-b a:hover,html .ui-bar-b a:hover,html .ui-body-b a:hover,html body .ui-group-theme-b a:hover {
+	color: #0088bb;
+}
+
+.ui-page-theme-b a:active,html .ui-bar-b a:active,html .ui-body-b a:active,html body .ui-group-theme-b a:active {
+	color: #0088bb;
+}
+
+.ui-page-theme-b .ui-btn,html .ui-bar-b .ui-btn,html .ui-body-b .ui-btn,html body .ui-group-theme-b .ui-btn,html head + body .ui-btn.ui-btn-b,.ui-page-theme-b .ui-btn:visited,html .ui-bar-b .ui-btn:visited,html .ui-body-b .ui-btn:visited,html body .ui-group-theme-b .ui-btn:visited,html head + body .ui-btn.ui-btn-b:visited {
+	background-color: #f577a0;
+	border-color: #f577a0;
+	color: #fff;
+	text-shadow: 0 0px 0 #111;
+}
+
+.ui-page-theme-b .ui-btn:hover,html .ui-bar-b .ui-btn:hover,html .ui-body-b .ui-btn:hover,html body .ui-group-theme-b .ui-btn:hover,html head + body .ui-btn.ui-btn-b:hover {
+	background-color: #e7608a;
+	border-color: #e7608a;
+	color: #fff;
+	text-shadow: 0 0px 0 #111;
+}
+
+.ui-page-theme-b .ui-btn:active,html .ui-bar-b .ui-btn:active,html .ui-body-b .ui-btn:active,html body .ui-group-theme-b .ui-btn:active,html head + body .ui-btn.ui-btn-b:active {
+	background-color: #e14f7d;
+	border-color: #e14f7d;
+	color: #fff;
+	text-shadow: 0 0px 0 #111;
+}
+
+.ui-page-theme-b .ui-btn.ui-btn-active,html .ui-bar-b .ui-btn.ui-btn-active,html .ui-body-b .ui-btn.ui-btn-active,html body .ui-group-theme-b .ui-btn.ui-btn-active,html head + body .ui-btn.ui-btn-b.ui-btn-active,.ui-page-theme-b .ui-checkbox-on:after,html .ui-bar-b .ui-checkbox-on:after,html .ui-body-b .ui-checkbox-on:after,html body .ui-group-theme-b .ui-checkbox-on:after,.ui-btn.ui-checkbox-on.ui-btn-b:after,.ui-page-theme-b .ui-flipswitch-active,html .ui-bar-b .ui-flipswitch-active,html .ui-body-b .ui-flipswitch-active,html body .ui-group-theme-b .ui-flipswitch-active,html body .ui-flipswitch.ui-bar-b.ui-flipswitch-active,.ui-page-theme-b .ui-slider-track .ui-btn-active,html .ui-bar-b .ui-slider-track .ui-btn-active,html .ui-body-b .ui-slider-track .ui-btn-active,html body .ui-group-theme-b .ui-slider-track .ui-btn-active,html body div.ui-slider-track.ui-body-b .ui-btn-active {
+	background-color: #22aadd;
+	border-color: #22aadd;
+	color: #fff;
+	text-shadow: 0 0px 0 #0088bb;
+}
+
+.ui-page-theme-b .ui-radio-on:after,html .ui-bar-b .ui-radio-on:after,html .ui-body-b .ui-radio-on:after,html body .ui-group-theme-b .ui-radio-on:after,.ui-btn.ui-radio-on.ui-btn-b:after {
+	border-color: #22aadd;
+}
+
+.ui-page-theme-b .ui-btn:focus,html .ui-bar-b .ui-btn:focus,html .ui-body-b .ui-btn:focus,html body .ui-group-theme-b .ui-btn:focus,html head + body .ui-btn.ui-btn-b:focus,.ui-page-theme-b .ui-focus,html .ui-bar-b .ui-focus,html .ui-body-b .ui-focus,html body .ui-group-theme-b .ui-focus,html head + body .ui-btn-b.ui-focus,html head + body .ui-body-b.ui-focus {
+	-webkit-box-shadow: 0 0 0px #22aadd;
+	-moz-box-shadow: 0 0 0px #22aadd;
+	box-shadow: 0 0 0px #22aadd;
+}
+.ui-btn-icon-left:after,.ui-btn-icon-right:after,.ui-btn-icon-top:after,.ui-btn-icon-bottom:after,.ui-btn-icon-notext:after {
+	background-color: #666;
+	background-color: rgba(0,0,0,0);
+	background-position: center center;
+	background-repeat: no-repeat;
+	-webkit-border-radius: 1em;
+	border-radius: 1em;
+}

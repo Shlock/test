@@ -1,0 +1,30 @@
+
+<?php $__env->startSection('show_top'); ?>
+
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+    <div role="main" class="ui-content">
+        <?php echo $__env->make("api.wap.message.detail_item", array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+    </div>
+    <?php echo $__env->make('wap.community._layouts.swiper', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('js'); ?>
+    <script src="<?php echo e(asset('static/infinite-scroll/jquery.infinitescroll.js')); ?>"></script>
+    <script>
+        $(function() {
+            $.SwiperInit('.ui-content', '.msg-list', "{<?php echo u('staff/v1/msg.msgshow',$args); ?>}");
+            $(".msgnative").on("touchend",function(){
+                var id = $(this).data("args");
+                if(window.stub){
+                    window.stub.callmsgnative(id);
+                }else{
+                    callmsgnative(id);
+                }
+            })
+        })
+    </script>
+
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('wap.community._layouts.base', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

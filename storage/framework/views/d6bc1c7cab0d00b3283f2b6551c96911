@@ -1,0 +1,61 @@
+
+<?php $__env->startSection('css'); ?>
+
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('right_content'); ?>
+	
+		<div id="checkList" class="">
+                    <div class="list-btns">
+                      <a href="<?php echo e(u('City/create')); ?>" target="_self" class="btn mr5">
+                        添加城市
+                    </a>
+                </div>
+			<div class="m-tab">
+                      <table id="checkListTable" class="">
+                        <thead><td class="" order="id" code="id"><span>编号</span></td>
+					<td class="" order="name" code="name"><span>城市名称</span></td>
+					<td class="" order="firstChar" code="firstChar"><span>城市首字母</span></td>
+					<td class="" order="sort" code="sort"><span>排序</span></td>
+					<td class="" order="" code=""><span>默认城市</span></td>
+					<td style="text-align:center;white-space:nowrap;"><span>操作</span></td>
+                    </thead><tbody>
+                        <?php foreach($list as $list_index => $list_item): ?>
+                        <?php 
+                            $list_item_css = $list_index % 2 == 0 ? " tr-even" : " tr-odd"; 
+                            $list_item_pk  = $list_item["id"];
+                        ?>
+                        <tr class="tr-<?php echo e($list_item_pk); ?><?php echo e($list_item_css); ?>" key="<?php echo e($list_item_pk); ?>" primary="id"><td class="" code="id"><?php echo e($list_item['id']); ?></td>
+					<td class="" code="name"><?php echo e($list_item['name']); ?></td>
+					<td class="" code="firstChar"><?php echo e($list_item['firstChar']); ?></td>
+					<td class="" code="sort"><?php echo e($list_item['sort']); ?></td>
+					<td class="" code=""><!-- <?php if($list_item['isDefault']==true): ?> -->
+						是
+						<!-- <?php else: ?> -->
+						-
+						<!-- <?php endif; ?> --></td>
+					<td class=""><?php if($list_item['isDefault']==false): ?>
+						<a href="javascript:;" class=" blu"  onclick="isdefault(<?php echo e($list_item['id']); ?>)" data-pk="<?php echo e($list_item["id"]); ?>" target="_self">设为默认</a>
+						<?php else: ?>
+						<a href="javascript:;" class=""  onclick="javascript:;" style="color:#ccc;cursor:default" data-pk="<?php echo e($list_item["id"]); ?>" target="_self">设为默认</a>
+						<?php endif; ?>
+						<a href="javascript:;" class=" red"  onclick="$.RemoveItem(this, '<?php echo e(u(CONTROLLER_NAME."/destroy",["id" => $list_item["id"]])); ?>', '你确定要删除该数据吗？')" data-pk="<?php echo e($list_item["id"]); ?>" target="_self">删除</a></td>
+                    </tr>
+                    <?php endforeach; ?>
+                </tbody>
+                    </table>
+                </div>
+                </div>
+	
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('js'); ?>
+<script type="text/javascript">
+	function isdefault (id) {
+		$.post("<?php echo e(u('City/isdefault')); ?>",{'id':id},function(result){
+			window.location.reload();
+		});
+	}
+</script>
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('admin._layouts.base', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

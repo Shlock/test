@@ -1,0 +1,152 @@
+
+<?php $__env->startSection('css'); ?>
+<style type="text/css">
+</style>
+<?php $__env->stopSection(); ?>
+<?php
+$useType = [
+        ['id'=>0,'name'=>'请选择'],
+        ['id'=>1,'name'=>'无限制'],
+        ['id'=>2,'name'=>'指定分类'],
+        ['id'=>3,'name'=>'指定商家']
+];
+ ?>
+<?php $__env->startSection('right_content'); ?>
+	
+		<div id="checkList" class="">
+                    <div class="u-ssct clearfix">
+                    <?php $search_args = Input::all(); ?>
+                    <form id="yzForm" class="" name="yzForm" method="post" action="http://admin.51mycai365.com/Promotion/index" target="_self">
+                        <div class="search-row clearfix">
+                      <div id="name-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 优惠名称:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="name" id="name" class="u-ipttext" value="<?php echo e($search_args['name']); ?>" />
+		            </div>
+		        </div>
+                    <div id="-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 创建时间:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="beginTime" id="beginTime" class="date u-ipttext" style="width: 150px;" value="<?php echo e($search_args['beginTime']); ?>"> -
+                        <input type="text" name="endTime" id="endTime" class="date u-ipttext" style="width: 150px;" value="<?php echo e($search_args['endTime']); ?>">
+		            </div>
+		        </div>
+                </div>
+                <div class="search-row clearfix">
+                      <div id="money-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 面额:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="money" id="money" class="u-ipttext" value="<?php echo e($search_args['money']); ?>" />
+		            </div>
+		        </div>
+                    <div id="-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 类型:
+		            </span>
+		            <div class="f-boxr">
+		                  <select id="useType" name="useType" class="sle  " ><?php $select_options = $useType; ?><?php $selecteds = is_array($search_args['useType']) ? $search_args['useType'] : [$search_args['useType']]; ?><?php  foreach($select_options as $options_key => $options_val): ?><?php $options_key = $options_val['id']; ?><?php $options_val = $options_val['name']; ?><?php $selected = in_array($options_key, $selecteds) ? " selected" : ""; ?>
+	                	<option<?php echo $selected; ?> value="<?php echo $options_key; ?>"><?php echo $options_val; ?></option>
+						<?php endforeach; ?></select>
+		            </div>
+		        </div>
+                    <div id="sellerName-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 商户名称:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="sellerName" id="sellerName" class="u-ipttext" value="<?php echo e($search_args['sellerName']); ?>" />
+		            </div>
+		        </div>
+                    <button type="submit" class="btn mr5">
+                        搜索
+                    </button>
+                </div>
+                    </form>
+                </div>
+			<div class="list-btns">
+                      <a href="<?php echo e(u(CONTROLLER_NAME."/create")); ?>" target="_self" class="btn mr5">
+                        添加优惠券
+                    </a>
+                </div>
+			<div class="m-tab">
+                      <table id="checkListTable" class="">
+                        <thead><td class="" order="name" code="name"><span>优惠券名称</span></td>
+                    <td class="" width="50" order="money" code="money"><span>面额</span></td>
+                    <td class="" order="createTime" code="createTime"><span>创建时间</span></td>
+                    <td class="" order="ableDateTime" code="ableDateTime"><span>有效期</span></td>
+                    <td class="" order="useTypeStr" code="useTypeStr"><span>类型</span></td>
+					<td style="text-align:center;white-space:nowrap;" width="50"><span>操作</span></td>
+                    </thead><tbody>
+                        <?php foreach($list as $list_index => $list_item): ?>
+                        <?php 
+                            $list_item_css = $list_index % 2 == 0 ? " tr-even" : " tr-odd"; 
+                            $list_item_pk  = $list_item["id"];
+                        ?>
+                        <tr class="tr-<?php echo e($list_item_pk); ?><?php echo e($list_item_css); ?>" key="<?php echo e($list_item_pk); ?>" primary="id"><td class="" style="text-align:center;" code="name"><?php echo e($list_item['name']); ?></td>
+                    <td class="" style="text-align:center;" code="money"><?php echo e($list_item['money']); ?>元</td>
+                    <td class="" style="text-align:center;" code="createTime"><?php echo YiZan\Utils\Format::time($list_item['createTime'], "createTime", $list_item, array (
+  'label' => '创建时间',
+  'align' => 'center',
+  'code' => 'createTime',
+  'type' => 'time',
+  'attr' => '',
+  'css' => '',
+  'style' => '',
+)); ?></td>
+                    <td class="" style="text-align:center;" code="ableDateTime"><?php echo e($list_item['ableDateTime']); ?></td>
+                    <td class="" style="text-align:center;" code="useTypeStr"><?php echo e($list_item['useTypeStr']); ?></td>
+					<td class=""><?php if($list_item['sendType']==null): ?>
+						<p>
+							<a href="<?php echo e(u('Promotion/sendsn',['id'=>$list_item['id']])); ?>" class=" blu"  data-pk="<?php echo e($list_item["id"]); ?>" target="_self">发放</a>
+						</p>
+						<?php endif; ?>
+						<p>
+							<a href="<?php echo e(u('PromotionSn/index',['promotionId'=>$list_item['id'],'promotionName'=>$list_item['name'],])); ?>" class=" blu"  data-pk="<?php echo e($list_item["id"]); ?>" target="_new">列表</a>
+						</p>
+						<p>
+							<a href="<?php echo e(u(CONTROLLER_NAME."/edit",["id" => $list_item["id"]])); ?>" class=" blu"  data-pk="<?php echo e($list_item["id"]); ?>" target="_self">编辑</a>
+						</p>
+						<?php if($list_item['activityCount'] == 0 && $list_item['promotionSnCount'] == 0): ?>
+						<p><a href="javascript:;" class=" red"  onclick="$.RemoveItem(this, '<?php echo e(u(CONTROLLER_NAME."/destroy",["id" => $list_item["id"]])); ?>', '你确定要删除该数据吗？')" data-pk="<?php echo e($list_item["id"]); ?>" target="_self">删除</a></p>
+						<?php endif; ?></td>
+                    </tr>
+                    <?php endforeach; ?>
+                </tbody>
+                    </table>
+                </div><?php echo $__env->make('admin._layouts.pager', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                </div>
+	
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('js'); ?>
+<script type="text/javascript">
+	$(function(){
+		$('#yzForm').submit(function(){
+            var beginTime = $("#beginTime").val();
+            var endTime = $("#endTime").val();
+            if(beginTime!='' || endTime!='') {
+                if(beginTime==''){
+                    alert("开始时间不能为空");return false;
+                }
+                else if(endTime==''){
+                    alert("结束时间不能为空");return false;
+                }
+                else if(endTime < beginTime){
+                    alert("结束时间不能大于开始时间");return false;
+                }
+            }
+        });
+
+		$('#cate_id').prepend("<option value='0' selected>全部分类</option>");
+	});
+</script>
+<?php $__env->stopSection(); ?>
+
+
+<?php echo $__env->make('admin._layouts.base', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

@@ -1,0 +1,162 @@
+
+<?php $__env->startSection('css'); ?>
+<style type="text/css">
+	td p{padding: 2px;}
+</style>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('right_content'); ?>
+	
+	<div id="checkList" class="">
+                    <div class="u-ssct clearfix">
+                    <?php $search_args = Input::all(); ?>
+                    <form id="yzForm" class="" name="yzForm" method="post" action="http://admin.51mycai365.com/User/index" target="_self">
+                        <div class="search-row clearfix">
+                      <div id="name-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 会员名称:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="name" id="name" class="u-ipttext" value="<?php echo e($search_args['name']); ?>" />
+		            </div>
+		        </div>  
+				<div id="mobile-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 会员手机:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="mobile" id="mobile" class="u-ipttext" value="<?php echo e($search_args['mobile']); ?>" />
+		            </div>
+		        </div>
+				<div id="recommendUserName-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 推荐人:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="recommendUserName" id="recommendUserName" class="u-ipttext" value="<?php echo e($search_args['recommendUserName']); ?>" />
+		            </div>
+		        </div>
+				<div id="-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 会员状态:
+		            </span>
+		            <div class="f-boxr">
+		                  <select id="status" name="status" class="sle  " ><?php $select_options = array (
+  0 => '-1',
+  1 => '1',
+  2 => '2',
+); ?><?php $selecteds = is_array($search_args['status']) ? $search_args['status'] : [$search_args['status']]; ?><?php $select_texts = array (
+  0 => '所有会员',
+  1 => '锁定',
+  2 => '正常',
+); ?><?php  foreach($select_options as $options_key => $options_val):
+                    $selected = in_array($options_val, $selecteds) ? " selected" : ""; ?>
+					<option<?php echo $selected; ?> value="<?php echo $options_val; ?>"><?php echo $select_texts[$options_key]; ?></option>
+					<?php endforeach; ?></select>
+		            </div>
+		        </div>
+                <div id="-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 会员类型:
+		            </span>
+		            <div class="f-boxr">
+		                  <select id="userType" name="userType" class="sle  " ><?php $select_options = array (
+  0 => '0',
+  1 => '1',
+  2 => '2',
+); ?><?php $selecteds = is_array($search_args['userType']) ? $search_args['userType'] : [$search_args['userType']]; ?><?php $select_texts = array (
+  0 => '所有会员',
+  1 => '商家会员',
+  2 => '买家会员',
+); ?><?php  foreach($select_options as $options_key => $options_val):
+                    $selected = in_array($options_val, $selecteds) ? " selected" : ""; ?>
+					<option<?php echo $selected; ?> value="<?php echo $options_val; ?>"><?php echo $select_texts[$options_key]; ?></option>
+					<?php endforeach; ?></select>
+		            </div>
+		        </div>
+                <div id="-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 会员类型:
+		            </span>
+		            <div class="f-boxr">
+		                  <select id="userType" name="userType" class="sle  " ><?php $select_options = array (
+  0 => '0',
+  1 => '1',
+  2 => '2',
+); ?><?php $selecteds = is_array($search_args['userType']) ? $search_args['userType'] : [$search_args['userType']]; ?><?php $select_texts = array (
+  0 => '所有会员',
+  1 => '商家会员',
+  2 => '买家会员',
+); ?><?php  foreach($select_options as $options_key => $options_val):
+                    $selected = in_array($options_val, $selecteds) ? " selected" : ""; ?>
+					<option<?php echo $selected; ?> value="<?php echo $options_val; ?>"><?php echo $select_texts[$options_key]; ?></option>
+					<?php endforeach; ?></select>
+		            </div>
+		        </div>
+                <button type="submit" class="btn mr5">
+                        搜索
+                    </button>
+                </div>
+                    </form>
+                </div>
+		<div class="m-tab">
+                      <table id="checkListTable" class="">
+                        <thead><td class="" width="40" order="avatar" code="avatar"><span>头像</span></td>
+				<td class="" width="75" order="name" code="name"><span>名称</span></td>
+                <td class="" width="30" order="balance" code="balance"><span>余额</span></td>
+				<td class="" width="75" order="mobile" code="mobile"><span>手机</span></td>
+				<td class="" width="180" order="" code=""><span>注册信息</span></td> 
+				<td class="" width="180" order="" code=""><span>登录信息</span></td>
+				<td class="" width="30" order="status" code="status"><span>状态</span></td>
+				<td style="text-align:center;white-space:nowrap;"><span>操作</span></td>
+                    </thead><tbody>
+                        <?php foreach($list as $list_index => $list_item): ?>
+                        <?php 
+                            $list_item_css = $list_index % 2 == 0 ? " tr-even" : " tr-odd"; 
+                            $list_item_pk  = $list_item["id"];
+                        ?>
+                        <tr class="tr-<?php echo e($list_item_pk); ?><?php echo e($list_item_css); ?>" key="<?php echo e($list_item_pk); ?>" primary="id"><td class="" code="avatar"><img src="<?php echo e($list_item['avatar']); ?>" style="max-width:40px"></td>
+				<td class="" style="text-align:left;" code="name"><p><?php echo e($list_item['name']); ?></p></td>
+                <td class="" style="text-align:center;" code="balance"><p><a href="<?php echo e(u('PayLog/index',['mobile'=>$list_item['mobile']])); ?>"><?php echo e((int)$list_item['balance']); ?></a></p></td>
+				<td class="" style="text-align:left;" code="mobile"><p><?php echo e($list_item['mobile']); ?></p></td>
+				<td class="" style="text-align:left;" code=""><p><b>注 册 IP:</b><?php echo e($list_item['regIp']); ?></p>
+					 <p><b>注册时间:</b><?php echo e(yztime($list_item['regTime'])); ?></p>
+					 <p><b>注册推荐人:</b>
+					 <?php if($list_item['recommendUid']): ?>
+					 	<a target="_blank" href="/User/edit?id=<?php echo e($list_item['extensionWorker']['id']); ?>"><?php echo e($list_item['extensionWorker']['name']); ?></a>
+					 <?php else: ?>
+					 	无
+					 <?php endif; ?>
+					 </p>
+					 <!--
+					 <p><?php echo e($list_item['regCity'] != "" ? "<b>注册城市:</b>".$list_item['regCity'] .'-' .$list_item['regProvince'] : "未获取到注册城市"); ?></p> 
+					<p></p>--></td> 
+				<td class="" style="text-align:left;" code=""><p><b>登 录 I P:</b><?php echo e($list_item['loginIp']   != "" ?  $list_item['loginIp'] : "未获取到最后登录IP"); ?></p> 
+					<!-- <p><?php echo e($list_item['loginCity'] != "" ? "登录城市:".$list_item['loginCity']['name'] .'-' .$list_item['loginProvince']['name'] : "未获取到最后登录城市"); ?></p> -->
+					<p><b>登录时间:</b><?php echo e($list_item['loginTime'] != "" ?  yztime($list_item['loginTime']) : "未获取到最后登录时间"); ?></p></td>
+				<td class="" code="status"><?php echo YiZan\Utils\Format::status($list_item['status'], "status", $list_item, array (
+  'code' => 'status',
+  'label' => '状态',
+  'type' => 'status',
+  'width' => '30',
+  'attr' => '',
+  'css' => '',
+  'style' => '',
+)); ?></td>
+				<td class=""><a href="<?php echo e(u(CONTROLLER_NAME."/edit",["id" => $list_item["id"]])); ?>" class=" blu"  data-pk="<?php echo e($list_item["id"]); ?>" target="_self">编辑</a> 
+					<?php if(!$list_item['seller'] && !$list_item['staff']): ?>
+					<a href="javascript:;" class=" red"  onclick="$.RemoveItem(this, '<?php echo e(u(CONTROLLER_NAME."/destroy",["id" => $list_item["id"]])); ?>', '你确定要删除该数据吗？')" data-pk="<?php echo e($list_item["id"]); ?>" target="_self">删除</a>
+					<?php endif; ?></td>
+                    </tr>
+                    <?php endforeach; ?>
+                </tbody>
+                    </table>
+                </div><?php echo $__env->make('admin._layouts.pager', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                </div>
+	
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('js'); ?>
+
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('admin._layouts.base', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

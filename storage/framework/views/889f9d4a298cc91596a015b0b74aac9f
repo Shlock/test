@@ -1,0 +1,104 @@
+
+<?php $__env->startSection('js'); ?>
+    <script src="<?php echo e(asset('static/infinite-scroll/jquery.infinitescroll.js')); ?>"></script>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('show_top'); ?>
+    <div data-role="header" data-position="fixed" class="x-header">
+        <h1>我的收藏</h1>
+        <a href="<?php echo e(u('UserCenter/index')); ?>" data-iconpos="notext" class="x-back ui-nodisc-icon" data-shadow="false"></a>
+    </div>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+    <div role="main" class="">
+        <div class="x-wdscmain">
+            <div class="y-wdsc">
+                <a href="<?php echo e(u('UserCenter/collect',['type'=>1])); ?>" class="y-sc1 <?php if($args['type'] == 1): ?> on <?php endif; ?>">商品</a><a href="<?php echo e(u('UserCenter/collect',['type'=>2])); ?>" class="y-sc2 <?php if($args['type'] == 2): ?> on <?php endif; ?>">店铺</a></div>
+        </div>
+        <div class="y-con">
+            <ul>
+                <?php echo $__env->make('wap.community.usercenter.collect_item', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                
+            </ul>
+        </div>
+    </div>
+     <div class="x-bgtk x-sctk none">
+         <div class="x-bgtk1">
+             <div class="x-tkbgi">
+                 <div class="tips"></div>
+             </div>
+         </div>
+     </div>
+     <?php echo $__env->make('wap.community._layouts.swiper', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+<script charset="utf-8" src="http://map.qq.com/api/js?v=2.exp&key=2N2BZ-KKZA4-ZG4UB-XAOJU-HX2ZE-HYB4O&libraries=geometry"></script>
+ <script type="text/javascript">
+ var clientLatLng = null;
+     jQuery(function() {
+        $.SwiperInit('.x-dinlst','li',"<?php echo e(u('UserCenter/collect',$args)); ?>");
+         $(".y-wdscr").on("touchend",function(){
+            $(this).parent().parent().parent().unbind('click');
+             var id = $(this).data("id");
+             var obj = $(this).parents("li");
+             var type = $(this).data('type');
+             $.post("<?php echo e(u('UserCenter/delcollect')); ?>",{'id':id, 'type':type},function(res){
+                 $(".x-sctk .tips").text(res.msg);
+                 if (res.code == 0) {
+                     obj.remove();
+                 }
+             },"json");
+             $(".x-sctk").fadeIn();
+             setTimeout(function(){
+                 $(".x-sctk").fadeOut();
+             },1500);
+         })
+
+         $.computeDistanceBegin = function() {
+                if (clientLatLng == null) {
+                    $.getClientLatLng();
+                    return;
+                }
+
+                $(".compute-distance").each(function(){
+                    var mapPoint = new qq.maps.LatLng($(this).data('map-point-x'), $(this).data('map-point-y')); 
+                    $.computeDistanceBetween(this, mapPoint);
+                    $(this).removeClass('compute-distance');
+                })
+            }
+
+            $.getClientLatLng = function() {
+                citylocation = new qq.maps.CityService({
+                    complete : function(result){
+                        clientLatLng = result.detail.latLng;
+                        $.computeDistanceBegin();
+                    }
+                });
+                citylocation.searchLocalCity();
+            }
+
+            $.computeDistanceBetween = function(obj, mapPoint) {
+                var distance = qq.maps.geometry.spherical.computeDistanceBetween(clientLatLng, mapPoint);
+                if (distance < 1000) {
+                    $(obj).html(Math.round(distance) + 'M');
+                } else {
+                    $(obj).html(Math.round(distance / 1000) + 'Km');
+                }
+            }
+
+            $.SwiperInit = function(box, item, url) {
+                $(box).infinitescroll({
+                    itemSelector    : item,
+                    debug           : false,
+                    dataType        : 'html', 
+                    nextUrl         : url
+                }, function(data) {
+                    $.computeDistanceBegin();
+                });
+            }
+            $.computeDistanceBegin();
+     })
+
+ </script>
+<?php $__env->stopSection(); ?>
+
+
+<?php echo $__env->make('wap.community._layouts.base', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

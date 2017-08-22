@@ -1,0 +1,39 @@
+<?php if(!empty($data)): ?>
+    <?php foreach($data as $item): ?>
+        <?php
+            if($item['countGoods'] > 0 && $item['countService'] == 0){
+                $url = u('Goods/index',['id'=>$item['id'],'type'=>1, 'urltype'=>2]);
+            }elseif($item['countGoods'] == 0 && $item['countService'] > 0){
+                $url = u('Goods/index',['id'=>$item['id'],'type'=>2, 'urltype'=>2]);
+            }else{
+                $url = u('Seller/detail',['id'=>$item['id'], 'urltype'=>2]);
+            }
+        ?>
+    <li class="clearfix" data-id="<?php echo e($item['id']); ?>" onclick="window.location.href='<?php echo e($url); ?>'" <?php if($item['isDelivery'] == 0): ?>style="background:#f3f3f3;"<?php endif; ?>>
+        <a href="javascript:;">
+            <div class="x-naimg">
+                <img src="<?php if(!empty($item['logo'])): ?> <?php echo e(formatImage($item['logo'],200,200)); ?> <?php else: ?> <?php echo e(asset('wap/community/client/images/x5.jpg')); ?> <?php endif; ?>" />
+            </div>
+            <div class="x-index4r">
+                <p class="c-black"><?php echo e($item['name']); ?></p>
+                <p class="x-pjlstct  c-green f12 mt5" style="margin-left:0px;">
+                        <span class="star-rank">
+                            <!-- 五颗星总长70px，此时星级的长度用百分比控制 -->
+                            <span class="star-score" style="width:<?php echo e($item['score'] * 20); ?>%;"></span>
+                        </span>
+                        <?php if($item['orderCount'] > 0): ?>
+                        <span style="line-height:25px;padding-left:5px;">已售 <?php echo e($item['orderCount']); ?></span>
+                    <?php else: ?>
+                        <span style="line-height:25px;padding-left:5px;"></span>
+                        <?php endif; ?>
+                        <span class="fr">
+                            <i class="x-addico"></i>
+                            <span class="compute-distance" data-map-point-x="<?php echo e($item['mapPoint']['x']); ?>" data-map-point-y="<?php echo e($item['mapPoint']['y']); ?>"></span>
+                        </span>
+                </p>
+                <p class="c-green f12 mt5"><?php echo $item['freight']; ?></p>
+            </div>
+        </a>
+    </li>
+    <?php endforeach; ?>
+<?php endif; ?>

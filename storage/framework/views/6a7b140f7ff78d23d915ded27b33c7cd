@@ -1,0 +1,298 @@
+
+<?php $__env->startSection('show_top'); ?>
+    <div data-role="header" data-position="fixed" class="x-header">
+        <h1><i class="x-addico"></i><a href="<?php echo e(u('UserCenter/address',['change'=>1])); ?>" class="title-span"><?php if($orderData['address']): ?><?php echo e($orderData['address']); ?><?php else: ?><span id="locationName">定位中，请稍候</span><?php endif; ?></a><i class="x-rightico"></i></h1>
+        <a class="x-sjr ui-btn-right" href="<?php echo e(u('Seller/search')); ?>"><i class="x-serico"></i></a>
+    </div>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('css'); ?>
+<style type="text/css">
+    .x-iadr .x-lbico{margin-top: 15px;}
+    .x-index1 p{color: #313233;}
+    .x-pjlstct .star-rank,.x-pjlstct .star-score{height:25px;overflow: hidden;}
+</style>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
+    <div role="main" class="ui-content">
+        <!-- 幻灯片 -->
+        <div class="x-sliderct">          
+            <div id="focus" class="focus">
+              <div class="hd">
+                <ul></ul>
+              </div>
+              <div class="bd">
+                <ul>
+                    <?php foreach($data['banner'] as $key => $value): ?>
+                        <li>
+                            <?php if($value['type'] == 1): ?>
+                            <a href="<?php echo e(u('Seller/index',['id'=>$value['arg']])); ?>">
+                                <img _src="<?php echo e(formatImage($value['image'],640,268)); ?>" src="<?php echo e(formatImage($value['image'],640,268)); ?>" />
+                            </a>
+                            <?php elseif($value['type'] == 2 || $value['type'] == 3 || $value['type'] == 6): ?>
+                            <a href="<?php echo e(u('Goods/detail',['goodsId'=>$value['arg']])); ?>">
+                                <img _src="<?php echo e(formatImage($value['image'],640,268)); ?>" src="<?php echo e(formatImage($value['image'],640,268)); ?>" />
+                            </a>
+                            <?php elseif($value['type'] == 4): ?>
+                            <a href="<?php echo e(u('Seller/detail',['id'=>$value['arg']])); ?>">
+                                <img _src="<?php echo e(formatImage($value['image'],640,268)); ?>" src="<?php echo e(formatImage($value['image'],640,268)); ?>" />
+                            </a>
+                            <?php elseif($value['type'] == 7): ?>
+                                <a href="<?php echo e(u('Article/detail',['id'=>$value['arg']])); ?>">
+                                    <img _src="<?php echo e(formatImage($value['image'],640,268)); ?>" src="<?php echo e(formatImage($value['image'],640,268)); ?>" />
+                                </a>
+                            <?php else: ?>
+                            <a href="<?php echo e($value['arg']); ?>">
+                                <img _src="<?php echo e(formatImage($value['image'],640,268)); ?>" src="<?php echo e(formatImage($value['image'],640,268)); ?>" />
+                            </a>
+                            <?php endif; ?>
+                        </li>
+                    <?php endforeach; ?>
+                </ul>
+              </div>
+            </div>
+            <script type="text/javascript">
+            $(function() {
+                <?php if($orderData['address']): ?>
+                var content = "<?php echo e($orderData['address']); ?>";
+                if(content.length <= 20){
+                    $(".title-span").html(content);
+                } else {
+                    $(".title-span").html("<marquee>"+content+"</marquee>");
+                }
+                <?php endif; ?>
+                TouchSlide({ 
+                    slideCell:"#focus",
+                    titCell:".hd ul", //开启自动分页 autoPage:true ，此时设置 titCell 为导航元素包裹层
+                    mainCell:".bd ul", 
+                    effect:"left", 
+                    autoPlay:true,//自动播放
+                    autoPage:true, //自动分页
+                    switchLoad:"_src" //切换加载，真实图片路径为"_src" 
+                  });
+            })
+            </script>
+        </div>
+        <ul class="x-index1 clearfix" style="display:none">
+            <?php if(count($sellerCates) > 0): ?>
+            <?php foreach($sellerCates as $key=>$item): ?>
+			<?php if($key < 7): ?>
+            <li><a href="<?php echo e(u('Seller/index',['id'=>$item['id']])); ?>"><img src="<?php echo e($item['logo']); ?>"><p><?php echo e($item['name']); ?></p></a></li>
+			<?php endif; ?>
+            <?php endforeach; ?>
+            <li><a href="<?php echo e(u('Seller/cates')); ?>"><img src="<?php echo e(asset('wap/community/client/images/s9.png')); ?>"><p>全部分类</p></a></li>
+            <?php endif; ?>        
+		</ul>
+       <ul class="x-index2 clearfix">
+            <?php for($i=0; $i < 2; $i++): ?>
+			<?php $value = $data['notice'][$i]; ?>
+            <?php if($value['type'] == 1): ?>
+            <li><a href="<?php echo e(u('Seller/index',['id'=>$value['arg']])); ?>" class="br"><img src="<?php echo e(formatImage($value['icon'],293,200)); ?>" ></a></li>
+			<?php elseif($value['type'] == 2 || $value['type'] == 3 || $value['type'] == 6): ?>
+            <li><a href="<?php echo e(u('Goods/detail',['goodsId'=>$value['arg']])); ?>" class="br"><img src="<?php echo e(formatImage($value['icon'],293,200)); ?>" ></a></li> 
+            <?php elseif($value['type'] == 4): ?>
+			<li><a href="<?php echo e(u('Seller/detail',['id'=>$value['arg']])); ?>" class="br"><img src="<?php echo e(formatImage($value['icon'],293,200)); ?>" ></a></li>
+            <?php elseif($value['type'] == 7): ?>
+                <li><a href="<?php echo e(u('Article/detail',['id'=>$value['arg']])); ?>" class="br"><img src="<?php echo e(formatImage($value['icon'],293,200)); ?>" ></a></li>
+            <?php else: ?>
+            <li><a href="<?php echo e($value['arg']); ?>" class="br"><img src="<?php echo e(formatImage($value['icon'],293,200)); ?>"></a></li>
+            <?php endif; ?>
+            <?php endfor; ?>
+        </ul>
+        <div class="x-index3">
+            <?php for($i=2; $i< count($data['notice']); $i++): ?>
+			<?php $value = $data['notice'][$i]; ?>
+            <?php if($value['type'] == 1): ?>
+            <li><a href="<?php echo e(u('Seller/index',['id'=>$value['arg']])); ?>" class="br"><img src="<?php echo e(formatImage($value['icon'],586,200)); ?>" ></a></li>
+			<?php elseif($value['type'] == 2 || $value['type'] == 3 || $value['type'] == 6): ?>
+            <li><a href="<?php echo e(u('Goods/detail',['goodsId'=>$value['arg']])); ?>" class="br"><img src="<?php echo e(formatImage($value['icon'],586,200)); ?>" ></a></li>  
+            <?php elseif($value['type'] == 4): ?>
+			<li><a href="<?php echo e(u('Seller/detail',['id'=>$value['arg']])); ?>" class="br"><img src="<?php echo e(formatImage($value['icon'],586,200)); ?>" ></a></li>
+            <?php elseif($value['type'] == 7): ?>
+                <li><a href="<?php echo e(u('Article/detail',['id'=>$value['arg']])); ?>" class="br"><img src="<?php echo e(formatImage($value['icon'],586,200)); ?>" ></a></li>
+			<?php else: ?> 
+            <li><a href="<?php echo e($value['arg']); ?>" class="br"><img src="<?php echo e(formatImage($value['icon'],586,200)); ?>" ></a></li>
+            <?php endif; ?>
+            <?php endfor; ?>
+        </div>
+        <div class="x-lh45 x-lh40 c-green">
+            <img src="<?php echo e(asset('wap/community/client/images/ico/ico1.png')); ?>" class="x-lhico" width="20" />
+            附近推荐商户
+        </div>
+        <ul class="x-index4">
+            <?php if(!empty($orderData)): ?>
+            <?php foreach($data['sellers'] as $item): ?>
+            <li class="clearfix" <?php if($item['isDelivery'] == 0): ?>style="background:#f3f3f3;"<?php endif; ?>>
+                <?php
+                    if($item['countGoods'] >= 0 && $item['countService'] == 0){
+                        $url = u('Goods/index',['id'=>$item['id'],'type'=>1,'urltype'=>1]);
+                    }elseif($item['countGoods'] == 0 && $item['countService'] > 0){
+                        $url = u('Goods/index',['id'=>$item['id'],'type'=>2,'urltype'=>1]);
+                    }else{
+                        $url = u('Seller/detail',['id'=>$item['id'],'urltype'=>1]);
+                    }
+                ?>
+                <a href="<?php echo e($url); ?>">
+                    <div class="x-naimg">
+                        <img src="<?php echo e(formatImage($item['logo'],100,100)); ?>"/>
+                    </div>
+                    <div class="x-index4r">
+                        <p class="c-black"><?php echo e($item['name']); ?></p>
+                        <p class="x-pjlstct  c-green f12 mt5" style="margin-left:0px;">
+                            <span class="star-rank">
+                                <!-- 五颗星总长70px，此时星级的长度用百分比控制 -->
+                                <span class="star-score" style="width:<?php echo e($item['score'] * 20); ?>%;"></span>
+                            </span>
+                            <?php if($item['orderCount'] > 0): ?>
+                                <span style="line-height:25px;padding-left:5px;">已售 <?php echo e($item['orderCount']); ?></span>
+                             <?php else: ?>
+                                <span style="line-height:25px;padding-left:5px;"></span>
+                            <?php endif; ?>
+                            <span class="fr">
+                                <i class="x-addico"></i>
+                                <span class="compute-distance" data-map-point-x="<?php echo e($item['mapPoint']['x']); ?>" data-map-point-y="<?php echo e($item['mapPoint']['y']); ?>"></span>
+                            </span>
+                        </p>
+                        <p class="c-green f12 mt5"><?php echo $item['freight']; ?></p>
+
+                    </div>
+                </a>
+            </li>
+            <?php endforeach; ?>
+            <?php endif; ?>
+        </ul>
+    </div>
+    <?php echo $__env->make('wap.community._layouts.bottom', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('js'); ?>
+<script charset="utf-8" src="http://map.qq.com/api/js?v=2.exp&key=2N2BZ-KKZA4-ZG4UB-XAOJU-HX2ZE-HYB4O&libraries=geometry,convertor"></script>
+<script type="text/javascript">
+    //精确定位
+    jQuery(function ($)
+    {
+        var qqcGeocoder = null;
+        var clientLatLng = null;
+        <?php if(!empty($orderData['mapPointStr'])): ?>
+        var clientLatLngs = "<?php echo e($orderData['mapPointStr']); ?>".split(',');
+        clientLatLng = new qq.maps.LatLng(clientLatLngs[0], clientLatLngs[1]);
+        <?php endif; ?>
+
+        $.gpsposition = function ()
+        {
+            var translatePoint = function (position)
+            {
+                var currentLat = position.coords.latitude;
+                var currentLon = position.coords.longitude;
+                clientLatLng = new qq.maps.LatLng(currentLat, currentLon);
+
+                qq.maps.convertor.translate(new qq.maps.LatLng(currentLat, currentLon), 1, function (res)
+                {
+                    latlng = res[0];
+                    qqcGeocoder.getAddress(latlng);
+                    $.computeDistanceBegin();
+                });
+            }
+
+            qqcGeocoder = new qq.maps.Geocoder({
+                complete: function (result)
+                {
+                <?php if(empty($orderData)): ?>
+                    var nowNearPoi = null;
+                    var nearPoi;
+                    
+                    for(var nearPoiKey in result.detail.nearPois){
+                        nearPoi = result.detail.nearPois[nearPoiKey];
+                        if (nowNearPoi == null || nowNearPoi.dist > nearPoi.dist) {
+                            nowNearPoi = nearPoi;
+                        }
+                    }
+
+                    var address = nowNearPoi.address + nowNearPoi.name;
+                    var reg = new RegExp("^" + result.detail.addressComponents.country, "gi");
+                    address = address.replace(reg, '');
+                    reg = new RegExp("^" + result.detail.addressComponents.province, "gi");
+                    address = address.replace(reg, '');
+                    reg = new RegExp("^" + result.detail.addressComponents.city, "gi");
+                    address = address.replace(reg, '');
+                    reg = new RegExp("^" + result.detail.addressComponents.district, "gi");
+                    address = address.replace(reg, '');
+                    
+                    window.location.href = "<?php echo e(u('Index/index')); ?>?address="+address+"&mapPointStr="+result.detail.location.lat+","+result.detail.location.lng;
+                <?php endif; ?>
+                    //$("#locationName").text(result.detail.address);
+                }
+            });
+
+            var citylocation = new qq.maps.CityService({
+                complete: function (result) {
+                    clientLatLng = result.detail.latLng;
+                    qqcGeocoder.getAddress(result.detail.latLng);
+                    $.computeDistanceBegin();
+                }
+            });
+            
+            <?php if(empty($orderData['mapPointStr'])): ?>
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(translatePoint, function (error){
+                    citylocation.searchLocalCity();
+                },{enableHighAccuracy: true});
+            } else {
+                citylocation.searchLocalCity();
+            }
+            <?php endif; ?>
+        }
+        $(".data-content ul li").click(function ()
+        {
+            var id = parseInt($(this).data('id'));
+            if (id > 0)
+            {
+                window.location.href = "<?php echo e(u('Seller/detail')); ?>" + "?staffId=" + id;
+            }
+        });
+
+        $.computeDistanceBegin = function ()
+        {
+            if (clientLatLng == null) {
+                $.gpsposition();
+                return;
+            }
+
+            $(".compute-distance").each(function ()
+            {
+                var mapPoint = new qq.maps.LatLng($(this).data('map-point-x'), $(this).data('map-point-y'));
+                $.computeDistanceBetween(this, mapPoint);
+                $(this).removeClass('compute-distance');
+            })
+        }
+
+        $.computeDistanceBetween = function (obj, mapPoint)
+        {
+            var distance = qq.maps.geometry.spherical.computeDistanceBetween(clientLatLng, mapPoint);
+            if (distance < 1000)
+            {
+                $(obj).html(Math.round(distance) + 'M');
+            } else
+            {
+                $(obj).html(Math.round(distance / 1000 * 100) / 100 + 'Km');
+            }
+        }
+
+        $.SwiperInit = function (box, item, url)
+        {
+            $(box).infinitescroll({
+                itemSelector: item,
+                debug: false,
+                dataType: 'html',
+                nextUrl: url
+            }, function (data)
+            {
+                $.computeDistanceBegin();
+            });
+        }
+        $.computeDistanceBegin();
+
+    });
+</script>
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('wap.community._layouts.base', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

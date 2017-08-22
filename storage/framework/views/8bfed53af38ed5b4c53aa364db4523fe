@@ -1,0 +1,36 @@
+
+<?php $__env->startSection('show_top'); ?>
+    <div data-role="header" data-position="fixed" class="x-header">
+        <h1>意见反馈</h1>
+        <a href="<?php if(!empty($nav_back_url)): ?> <?php echo e($nav_back_url); ?> <?php else: ?> javascript:history.back(-1); <?php endif; ?>" data-iconpos="notext" class="x-back ui-nodisc-icon" data-shadow="false"></a>
+    </div>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
+    <div role="main" class="ui-content">
+        <div class="y-yjfk">
+            <div class="y-yjtxt f14">
+                <textarea name="content" id="content" placeholder="请输入您的宝贵意见，我们会更加完善的…"></textarea>
+            </div>
+            <button id="submit">提交意见</button>
+        </div>
+    </div>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('js'); ?>
+    <script type="text/javascript">
+        $(function() {
+            $(document).on("touchend","#submit",function(){
+                var content = $("#content").val();
+                $.post("<?php echo e(u('UserCenter/addfeedback')); ?>",{content:content},function(res){
+                    if(res.code == 0) {
+                        $.showSuccess(res.msg,"<?php echo e(u('UserCenter/index')); ?>");
+                    }else{
+                        $.showError(res.msg);
+                    }
+                },"json");
+            })
+        })
+    </script>
+<?php $__env->stopSection(); ?>
+
+
+<?php echo $__env->make('wap.community._layouts.base', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

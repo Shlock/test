@@ -1,0 +1,322 @@
+
+<?php $__env->startSection('css'); ?>
+<link rel="stylesheet" type="text/css" href="<?php echo e(asset('css/jquery.tagsinput.css')); ?>">
+<style type="text/css">
+	#cateSave{display: none;}
+	.page_2,.page_3{display: none;}
+	.m-spboxlst li{margin-bottom: 0px;}
+	#tags_goods-form-item .f-boxr {width:550px;} 
+	#cateSave{display: none;}
+	.page_2,.page_3{display: none;}
+	.m-spboxlst li{margin-bottom: 0px;}
+	#tags_goods-form-item .f-boxr {width:550px;}
+	.f-boxr .btn{background: #efefef; border-color: #dfdfdf; width: 80px; color: #555;}
+	.x-gebox{border: 1px solid #ddd; padding: 5px 20px;}
+	.x-gebox .u-ipttext{width: 100px; margin-right: 10px;}
+	.closege{width: 20px; height: 20px; background: url(<?php echo e(asset("wap/community/client/images/ico/close.png")); ?>); background-size: 100% 100%; display: inline-block; cursor: pointer; vertical-align: middle; margin-top: -2px;}
+	#all-sellers, #selected-sellers {
+		display: inline-block;
+		width: 200px;
+		height: 400px;
+		vertical-align: middle;
+	}
+	.bat-post-buttons {
+		display: inline-block;
+		vertical-align: middle;
+
+	}
+	.bat-post-buttons button {
+		display: block;
+		width: 20px;
+		height: 20px;
+		border: 1px solid #000;
+		margin-bottom: 20px;
+	}
+	.search-selle-wrap {
+		margin-bottom: 20px;
+	}
+</style> 
+<?php $__env->stopSection(); ?> 
+<?php $__env->startSection('content'); ?>
+	<div>
+		<div class="m-zjgltbg">					
+			<div class="p10">
+				<!-- 添加商品 -->
+				<div class="g-fwgl">
+					<p class="f-bhtt f14 clearfix">
+						<span class="ml15 fl">添加商品</span>
+					</p>
+				</div> 
+				<div class="m-tab m-smfw-ser pt20">
+					
+	                    <div class="m-spboxlst " style="">
+					<form id="yz_form" name="yz_form" class="validate-form ajax-form" method="post" action="http://seller.51mycai365.com/SellerGoods/save" enctype="application/x-www-form-urlencoded" target="_self">
+						<div id="name-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 商品名称:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="name" id="name" class="u-ipttext" value="<?php echo e($data['name']); ?>" />&nbsp;<span style="color: #ff0000">(* 必填)</span>
+		            </div>
+		        </div> 
+							<div id="-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 商品分类:
+		            </span>
+		            <div class="f-boxr">
+		                  <select id="cateId" name="cateId" class="sle  " ><?php $select_options = $cate; ?><?php $selecteds = is_array($data['cate']['id']) ? $data['cate']['id'] : [$data['cate']['id']]; ?><?php  foreach($select_options as $options_key => $options_val): ?><?php $options_key = $options_val['id']; ?><?php $options_val = $options_val['name']; ?><?php $selected = in_array($options_key, $selecteds) ? " selected" : ""; ?>
+	                	<option<?php echo $selected; ?> value="<?php echo $options_key; ?>"><?php echo $options_val; ?></option>
+						<?php endforeach; ?></select>
+		            </div>
+		        </div>
+							<div id="price-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 价格:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="price" id="price" class="u-ipttext" value="<?php echo e($data['price']); ?>" />&nbsp;<span style="color: #ff0000">(* 必填)</span>
+		            </div>
+		        </div>
+							<div id="weight-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 重量:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="weight" id="weight" class="u-ipttext" value="<?php echo e($data['weight']); ?>" />&nbsp;<span style="color: #ff0000">(* 必填)</span>
+		            </div>
+		        </div> 
+							<div id="stock-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 库存:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="stock" id="stock" class="u-ipttext" value="<?php if(isset($data['stock'])):?><?php echo e($data['stock']); ?><?php else: ?>0<?php endif; ?>" />
+		            </div>
+		        </div> 
+							<!--yz:fitem name="totalStock" attr="readonly" label="总库存" val="0"></yz:fitem--> 
+							<div id="norms-form-item" class="u-fitem clearfix">
+					            <span class="f-tt">
+					                 规格型号:
+					            </span>
+					            <div class="f-boxr">
+					                <button type="button" class="btn addge add_norms">添加规格</button>
+					            </div>
+					        </div>
+					        <div id="norms-form-item" class="u-fitem clearfix x-addge">
+					            <span class="f-tt">&nbsp;</span>
+					            <div class="f-boxr norms_panel">
+					           	 	<?php foreach($data['norms'] as $item): ?>
+					                <div class="x-gebox">
+					                	<input type="hidden" name="_id[]" value="<?php echo e($item['id']); ?>" >
+										型号：<input type="text" name="_name[]" value="<?php echo e($item['name']); ?>" class="u-ipttext" />
+										价格：<input type="text" name="_price[]" value="<?php echo e($item['price']); ?>" class="u-ipttext" />
+										重量：<input type="text" name="_weight[]" value="<?php echo e($item['weight']); ?>" class="u-ipttext" />
+										库存：<input type="text" name="_stock[]" value="<?php echo e($item['stock']); ?>" class="u-ipttext" />
+										<i class="closege"></i>
+					                </div>
+					            	<?php endforeach; ?>
+					            </div>
+					        </div>
+							<div id="-form-item" class="u-fitem clearfix ">
+							<div id="-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 商品图片:
+		            </span>
+		            <div class="f-boxr">
+		                  <?php $images = $data['images']; ?>
+                <ul id="image-list-1" class="m-tpyllst image-list clearfix" data-input-name="images[]">
+                    <?php foreach($images as $image): ?>
+                    <li class="image-box">
+                        <a class="m-tpyllst-img image-item" href="<?php echo e($image); ?>" target="_blank"><img src="<?php echo e($image); ?>" alt=""></a>
+                        <a class="m-tpyllst-btn image-update-btn" href="javascript:;">
+                            <i class="fa fa-plus"></i> 上传图片
+                        </a>
+                        <a href="javascript:;" class="image-delete fa fa-times"></a>
+                        <input type="hidden" name="images[]" value="<?php echo e($image); ?>"/>
+                    </li>
+                    <?php endforeach; ?>
+                    <li class="image-add-box">
+                        <a class="m-tpyllst-btn image-add-btn" href="javascript:;">
+                            <i class="fa fa-plus"></i> 上传图片
+                        </a>
+                    </li>
+                    &nbsp;<span style="color: #ff0000">(* 必传)</span>
+                </ul>
+		            </div>
+		        </div> 
+							<div id="buyLimit-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 每人限购:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="buyLimit" id="buyLimit" class="u-ipttext" value="<?php echo e($data['buyLimit']); ?>" />
+		            </div>
+		        </div>
+                                <div id="brief-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 商品描述:
+		            </span>
+		            <div class="f-boxr">
+		                  <div id="brief-tip">&nbsp;<span style="color: #ff0000">(* 必填)</span><textarea data-tip-rel="#brief-tip" id="brief_editor" class=" " name="brief"><?php echo e($data['brief']); ?></textarea></div>
+            <script>
+            var brief_editor = KindEditor.create("#brief_editor",{
+                width:'540px',minWidth:'540px',height:'280px',resizeType:1,allowFileManager:false,items: [
+'source', 'undo', 'redo', 'plainpaste', 'plainpaste', 'wordpaste', 'clearhtml', 'quickformat', 'selectall', 'fullscreen', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline', 'hr',
+'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'table', 'insertorderedlist',
+'insertunorderedlist', '|', 'emoticons', 'image', 'link', 'unlink']
+            });
+            </script>
+		            </div>
+		        </div>
+
+							</yz:fitem>    
+							<div id="-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 商品状态:
+		            </span>
+		            <div class="f-boxr">
+		                  <?php $status = (int)$data['status'] ?>
+								<?php $radio_options = array (
+  0 => '0',
+  1 => '1',
+); ?><?php $default = ''; ?><?php $checked = isset($status) ? $status : $default; ?><?php $radio_texts = array (
+  0 => '下架',
+  1 => '上架',
+); ?><?php  foreach($radio_options as $options_key => $options_val): 
+                    $checked_attr = $options_val == $checked ? " checked" : ""; ?>
+                    <label>
+                        <input type="radio" class="uniform " name="status" value="<?php echo $options_val; ?>" <?php echo $checked_attr; ?>/>
+                        <span><?php echo $radio_texts[$options_key]; ?></span>
+                    </label>
+                    <span>&nbsp;&nbsp;</span>
+                    <?php endforeach; ?>
+		            </div>
+		        </div> 
+							<div id="sort-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 排序:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="sort" id="sort" class="u-ipttext" value="<?php echo e($data['sort']); ?>" />
+		            </div>
+		        </div>
+
+							<?php if($checkShowBatPost): ?>
+							<div class="clearfix">
+								<span class="f-tt">批量同步菜场:</span>
+
+								<span class="f-boxr">
+									<div class="search-selle-wrap">
+
+										<input type="text" id="search-seller-input" class="u-ipttext">
+										<button class="btn" type="button" id="search-seller-btn">搜索</button>
+									</div>
+									<select name="" id="all-sellers" multiple>
+									</select>
+
+									<div class="bat-post-buttons">
+										<button type="button" class="l-to-r btn btn-gray" style="height:35px;width:40px;font-weight:bold;">></button>
+										<button type="button" class="r-to-l btn btn-gray" style="height:35px;width:40px;font-weight:bold;"><</button>
+									</div>
+									<select name="bat-post-sellers[]" id="selected-sellers" multiple>
+
+									</select>
+								</span>
+							</div>
+							<?php endif; ?>		<div class="u-fitem clearfix">
+                            <span class="f-tt">
+                                &nbsp;
+                            </span>
+                            <div class="f-boxr">
+                                  <button type="submit" class="u-addspbtn">提 交</button>
+                            </div>
+                        </div>		<input type="hidden" value="<?php echo e($data['id']); ?>" name="id" />
+					</form>
+				</div>
+	                
+				</div>
+			</div>
+		</div>
+	</div>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('js'); ?>
+<?php echo $__env->make('seller._layouts.alert', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+<script src="<?php echo e(asset('js/jquery.tagsinput.min.js')); ?>"></script>  
+<script type="text/tpl" id="normsrow"> 
+	<div class="x-gebox" style="margin-top:3px;">
+		型号：<input type="text" name="_name[]" class="u-ipttext" />
+		价格：<input type="text" name="_price[]" class="u-ipttext" />
+		重量：<input type="text" name="_weight[]" class="u-ipttext" />
+		库存：<input type="text" name="_stock[]" class="u-ipttext" />
+		<i class="closege"></i>
+    </div>
+</script> 
+<script type="text/javascript">
+	$(function () {
+		$(".add_norms").click(function(){
+			$(".norms_panel").append($("#normsrow").html());
+			if($(".x-gebox").length > 0){
+				$(".norms_panel").parent().show();
+			}
+		});
+		$(document).on('click','.closege',function(){
+			$(this).parent().remove();
+			if($(".x-gebox").length <= 0){
+				$(".norms_panel").parent().hide();
+			}
+
+		});
+		$('.r-to-l').on('click', function () {
+			var options = $('#selected-sellers').find(':checked');
+			options.remove();
+
+			$('#all-sellers').append(options);
+
+
+		});
+		$('.l-to-r').on('click', function () {
+			var options = $('#all-sellers').find(':checked');
+			options.remove();
+			$('#selected-sellers').append(options);
+		});
+		var allSeller = <?php echo $allSeller; ?>;
+		renderSeller(allSeller);
+		$('#search-seller-btn').on('click', function () {
+			var newArr = [];
+			var value = $('#search-seller-input').val();
+			allSeller.forEach(function (item) {
+
+				if (~item.name.indexOf(value)) {
+					newArr.push(item);
+				}
+			});
+			renderSeller(newArr);
+		});
+		$('#search-seller-input').keyup(function () {
+			var newArr = [];
+			var value = $('#search-seller-input').val();
+			allSeller.forEach(function (item) {
+
+				if (~item.name.indexOf(value)) {
+					newArr.push(item);
+				}
+			});
+			renderSeller(newArr);
+		});
+		function renderSeller (arr) {
+			var div = $('<select>');
+			arr.forEach(function (item) {
+				var option = $('<option value="' + item.id +  '">' + item.name + '</option>');
+				div.append(option);
+			});
+			$('#all-sellers').html(div.html());
+
+		}
+
+
+	})
+
+
+</script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('seller._layouts.base', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

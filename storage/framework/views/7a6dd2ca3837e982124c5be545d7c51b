@@ -1,0 +1,113 @@
+
+<?php $__env->startSection('css'); ?>
+<style type="text/css">
+</style>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('right_content'); ?>
+	
+		<div id="checkList" class="">
+                    <div class="u-ssct clearfix">
+                    <?php $search_args = Input::all(); ?>
+                    <form id="yzForm" class="" name="yzForm" method="post" action="http://admin.51mycai365.com/ForumComplain/index" target="_self">
+                        <div class="search-row clearfix">
+                      <div id="keywords-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 关键字:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="keywords" id="keywords" class="u-ipttext" value="<?php echo e($search_args['keywords']); ?>" />
+		            </div>
+		        </div>  
+				<div id="-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 状态:
+		            </span>
+		            <div class="f-boxr">
+		                  <select id="status" name="status" class="sle  " ><?php $select_options = array (
+  0 => '0',
+  1 => '1',
+  2 => '2',
+  3 => '3',
+); ?><?php $selecteds = is_array($search_args['status']) ? $search_args['status'] : [$search_args['status']]; ?><?php $select_texts = array (
+  0 => '全部',
+  1 => '拒绝',
+  2 => '未处理',
+  3 => '已处理',
+); ?><?php  foreach($select_options as $options_key => $options_val):
+                    $selected = in_array($options_val, $selecteds) ? " selected" : ""; ?>
+					<option<?php echo $selected; ?> value="<?php echo $options_val; ?>"><?php echo $select_texts[$options_key]; ?></option>
+					<?php endforeach; ?></select>
+		            </div>
+		        </div>
+				<button type="submit" class="btn mr5">
+                        搜索
+                    </button>
+                </div>
+                    </form>
+                </div>
+		<div class="m-tab">
+                      <table id="checkListTable" class="">
+                        <thead><td class="" order="" code=""><span>会员名称</span></td> 
+				<td class="" order="" code=""><span>帖子标题</span></td> 
+				<td class="" order="content" code="content"><span>举报内容</span></td>  
+				<td class="" order="" code=""><span>举报时间</span></td> 
+				<td class="" order="" code=""><span>状态</span></td>
+				<td class="" order="" code=""><span>处理时间</span></td> 
+				<td class="" order="disposeResult" code="disposeResult"><span>备注</span></td>  
+				<td style="text-align:center;white-space:nowrap;"><span>操作</span></td>
+                    </thead><tbody>
+                        <?php foreach($list as $list_index => $list_item): ?>
+                        <?php 
+                            $list_item_css = $list_index % 2 == 0 ? " tr-even" : " tr-odd"; 
+                            $list_item_pk  = $list_item["id"];
+                        ?>
+                        <tr class="tr-<?php echo e($list_item_pk); ?><?php echo e($list_item_css); ?>" key="<?php echo e($list_item_pk); ?>" primary="id"><td class="" code=""><?php echo e($list_item['user']['name']); ?></td> 
+				<td class="" code=""><?php echo e($list_item['posts']['title']); ?></td> 
+				<td class="" style="text-align:center;" code="content"><?php echo e($list_item['content']); ?></td>  
+				<td class="" style="text-align:center;" code=""><?php echo e(Time::toDate($list_item['createTime'])); ?></td> 
+				<td class="" code=""><?php echo e(Lang::get('admin.postscomplain.'.$list_item['status'])); ?></td>
+				<td class="" style="text-align:center;" code=""><?php echo e(Time::toDate($list_item['disposeTime'])); ?></td> 
+				<td class="" style="text-align:center;" code="disposeResult"><?php echo e($list_item['disposeResult']); ?></td>  
+				<td class=""><?php if($list_item['status'] == 0): ?>
+					<a href="javascript:;" class=" blu dispose"  onclick="true" data-pk="<?php echo e($list_item["id"]); ?>" target="_self">处理</a> 
+					<?php endif; ?>
+					<a href="javascript:;" class=" red"  onclick="$.RemoveItem(this, '<?php echo e(u(CONTROLLER_NAME."/destroy",["id" => $list_item["id"]])); ?>', '你确定要删除该数据吗？')" data-pk="<?php echo e($list_item["id"]); ?>" target="_self">删除</a></td>
+                    </tr>
+                    <?php endforeach; ?>
+                </tbody>
+                    </table>
+                </div><?php echo $__env->make('admin._layouts.pager', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                </div>
+	
+	<script type="text/tpl" id="replyTpl">
+	<select id="reply_status" style="width:120px;    height: 35px;" class="form-control">
+		<option value="-1">拒绝</option>
+		<option value="1">已处理</option>
+	</select>
+	<textarea id="reply_remark" style="width:400px;height:100px;border:1px #ccc solid;margin-top: 20px;"></textarea>
+	</script>
+	<script type="text/javascript">
+	$(".dispose").click(function(){
+		var id = $(this).data('pk');
+		$.ShowConfirm($("#replyTpl").html(), function(){ 
+			var remark = $("#reply_remark").val();
+			var status = $("#reply_status").val();  
+			if(status == 0){
+				$.ShowAlert("请选择处理的状态");
+				return ;
+			}
+			if(remark.length > 0) {
+				$.post("<?php echo e(u('ForumComplain/dispose')); ?>",{"id":id,"status":status,"remark":remark},function(res){
+					$.ShowAlert(res.msg);
+					if(res.status==true){
+						window.location.reload();
+					} 
+				},'json')
+			}else{
+				$.ShowAlert("请填写备注信息");
+			}
+		},function(){},'操作提示');
+	})
+	</script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('admin._layouts.base', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

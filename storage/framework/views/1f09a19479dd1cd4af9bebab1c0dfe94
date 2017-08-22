@@ -1,0 +1,61 @@
+
+<?php $__env->startSection('show_top'); ?>
+<div data-role="header" data-position="fixed" class="x-header">
+    <h1>优惠券</h1>
+    <a href="javascript:history.back(-1);" data-iconpos="notext" class="x-back ui-nodisc-icon" data-shadow="false"></a>
+    <!--<a class="x-sjr ui-btn-right y-yd" href="<?php echo e(u('Coupon/get')); ?>">领券<?php if($count > 0): ?><span></span><?php endif; ?></a>-->
+</div>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('js'); ?> 
+    <script src="<?php echo e(asset('static/infinite-scroll/jquery.infinitescroll.js')); ?>"></script> 
+<?php $__env->stopSection(); ?> 
+<?php $__env->startSection('content'); ?>
+    <div role="main">
+        <ul class="y-yhq">
+            <li class="y-available <?php if((int)$args['status'] == 0): ?> on <?php endif; ?>"><a href="<?php echo e(u('Coupon/index')); ?>">未使用</a></li>
+            <li class="y-failure <?php if((int)$args['status'] == 1): ?> on <?php endif; ?>"><a href="<?php echo e(u('Coupon/index',['status' => 1])); ?>">已失效</a></li>
+        </ul>
+        <div class="y-yhqsm f12">
+            <span>有<span class="c-red"><?php echo e($list['count']); ?></span>张优惠券</span>
+            <span class="fr c-red">
+                <img src="<?php echo e(asset('wap/community/client/images/ico/smico.png')); ?>">
+                <a href="<?php echo e(u('More/detail',['code' => 5])); ?>">优惠券说明</a>
+            </span>
+        </div>
+        <?php if(!empty($list['list'])): ?>
+        <ul class="y-xcqlst y-start">
+             <?php echo $__env->make('wap.community.coupon.item', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+        </ul>
+        <?php else: ?>
+            <div class="y-null1">
+                <div class="y-null11">
+                    <img src="<?php echo e(asset('wap/community/client/images/null.png')); ?>" class="y-imgnull">
+                    <!-- <p><a href="<?php echo e(u('Coupon/index')); ?>">空空如也，快去兑换吧！</a></p> -->
+                </div>
+            </div>
+        <?php endif; ?>
+        <div class="y-post">
+            <div class="y-text"><textarea placeholder="我有兑换码…" id="sn"></textarea></div>
+            <input type="submit" class="y-htbtn" value="立即兑换" id="exchange"/>
+        </div>
+    </div>
+<?php echo $__env->make('wap.community._layouts.swiper', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+<script type="text/javascript">
+jQuery(function(){
+    $.SwiperInit('.y-start','li',"<?php echo e(u('Coupon/index',$args)); ?>");
+    $("#exchange").touchend(function(){
+        var sn = $("#sn").val();
+        $.post("<?php echo e(u('Coupon/excoupon')); ?>",{sn:sn},function(res){
+            if(res.code == 0){
+                $.showSuccess(res.msg,"<?php echo e(u('Coupon/index')); ?>");
+            }else{
+                $.showError(res.msg);
+            }
+        },"json");
+    })
+});
+</script>
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('wap.community._layouts.base', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

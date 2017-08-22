@@ -1,0 +1,42 @@
+
+<?php $__env->startSection('right_content'); ?>
+<div class="m-tip mb15">
+	<div class="clearfix bort pb15">
+		<img src="<?php echo e(asset('images/ico/chaico.png')); ?>" alt="" class="fl imgfl">
+		<div class="m-tipct">
+			<p>错误提示</p>
+			<p><?php echo e($msg); ?></p>
+		</div>
+	</div>
+	<p class="pt20">
+		系统将在 <span id="wait">3</span> 秒后自动跳转，
+		<?php if(empty($url)): ?>
+		<a href="javascript:history.back();">点击直接跳转</a>
+		<?php else: ?>
+		<a href="<?php echo e($url); ?>">点击直接跳转</a>
+		<?php endif; ?>
+	</p>
+</div>
+<script type="text/javascript">
+jQuery(function($){
+	var wait = 3;
+	var func = function(){
+		wait--;
+		if(wait < 1){
+			<?php if(empty($url)): ?>
+			history.back();
+			<?php else: ?>
+			location.href = "<?php echo e($url); ?>";
+			<?php endif; ?>
+		}else{
+			$("#wait").html(wait);
+			setTimeout(func,1000);
+		}
+	}
+	setTimeout(func,1000);
+});
+</script>
+<?php $__env->stopSection(); ?>
+
+
+<?php echo $__env->make('admin._layouts.base', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

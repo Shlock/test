@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>收入分类统计</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+        <meta name="format-detection" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="stylesheet" href="<?php echo e(asset('staff/css/weui.css')); ?>">
+        <script src="<?php echo e(asset('staff/js/zepto.min.js')); ?>"></script>
+        <script src="<?php echo e(asset('staff/js/weui.min.js')); ?>"></script>
+    </head>
+    <body>
+        <article class="weui-article">
+            <h1><?php echo e($name); ?></h1>
+        </article>
+        <div class="weui-cells__title" style="text-align:right;">商户订单列表</div>
+        <div class="weui-cells">
+            <?php foreach($data as $val): ?>
+            <a class="weui-cell weui-cell_access" href="/staff/v1/order.oitem?orderId=<?php echo e($val->id); ?>&token=<?php echo e($args[token]); ?>&userId=<?php echo e($args[userId]); ?>&agent=<?php echo e($args[agent]); ?>">
+                <div class="weui-cell__bd">
+                    <p><?php echo e(date('Y-m-d H:i:s',$val->create_time+8*3600)); ?></p>
+                </div>
+                <div class="weui-cell__ft">¥ <?php echo e(number_format($val->money,2)); ?></div>
+            </a>
+            <?php endforeach; ?>
+        </div>
+    </body>
+</html>

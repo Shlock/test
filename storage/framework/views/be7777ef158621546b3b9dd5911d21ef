@@ -1,0 +1,52 @@
+
+<?php $__env->startSection('css'); ?>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('right_content'); ?>
+    
+    <div id="checkList" class="">
+                    <div class="list-btns">
+                      <button type="button" class="btn mr5" onclick="$.RemoveList(this)">
+                        删除
+                    </button>
+                </div>
+        <div class="m-tab">
+                      <table id="checkListTable" class="">
+                        <thead><td style="width:20px; text-align:center;">
+                            <input type="checkbox" onclick="$.TableCheckHandler(this)">
+                        </td><td class="" width="30" order="id" code="id"><span>编号</span></td>
+                <td class="" order="content" code="content"><span>内容</span></td>
+                <td class="" width="120" order="username" code="username"><span>收件人</span></td>
+                <td class="" width="120" order="sendTime" code="sendTime"><span>发送时间</span></td>
+                <td class="" width="60" order="typeStr" code="typeStr"><span>类型</span></td>
+                <td style="text-align:center;white-space:nowrap;" width="60"><span>操作</span></td>
+                    </thead><tbody>
+                        <?php foreach($list as $list_index => $list_item): ?>
+                        <?php 
+                            $list_item_css = $list_index % 2 == 0 ? " tr-even" : " tr-odd"; 
+                            $list_item_pk  = $list_item["id"];
+                        ?>
+                        <tr class="tr-<?php echo e($list_item_pk); ?><?php echo e($list_item_css); ?>" key="<?php echo e($list_item_pk); ?>" primary="id"><td style="width:20px; text-align:center;">
+                            <input type="checkbox" name="key" value="<?php echo e($list_item_pk); ?>" <?php if($list_item["checked_disabled"] == 1): ?> disabled <?php endif; ?> />
+                        </td><td class="" code="id"><?php echo e($list_item['id']); ?></td>
+                <td class="" style="text-align:left;" code="content"><?php echo e($list_item['content']); ?></td>
+                <td class="" style="text-align:left;" code="username"><?php echo e($list_item['username']); ?></td>
+                <td class="" code="sendTime"><?php echo YiZan\Utils\Format::time($list_item['sendTime'], "sendTime", $list_item, array (
+  'code' => 'sendTime',
+  'label' => '发送时间',
+  'type' => 'time',
+  'width' => '120',
+  'attr' => '',
+  'css' => '',
+  'style' => '',
+)); ?></td>
+                <td class="" code="typeStr"><?php echo e($list_item['typeStr']); ?></td>
+                <td class=""><p><a href="javascript:;" class=" red"  onclick="$.RemoveItem(this, '<?php echo e(u(CONTROLLER_NAME."/destroy",["id" => $list_item["id"]])); ?>', '你确定要删除该数据吗？')" data-pk="<?php echo e($list_item["id"]); ?>" target="_self">删除</a></p></td>
+                    </tr>
+                    <?php endforeach; ?>
+                </tbody>
+                    </table>
+                </div><?php echo $__env->make('admin._layouts.pager', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                </div>
+    
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('admin._layouts.base', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

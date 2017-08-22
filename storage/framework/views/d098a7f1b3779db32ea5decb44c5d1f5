@@ -1,0 +1,36 @@
+<?php foreach($list['orderList'] as $v): ?>
+
+    <li id="list_item<?php echo e($v['id']); ?>">
+        <p class="f12">
+            <span><a href="<?php echo e(u('Goods/index',['type'=>$v['orderType'],'id'=>$v['sellerId']])); ?>"><?php echo e($v['shopName']); ?></a></span>
+            <span class="y-zhuangtai c-red"><?php echo e($v['orderStatusStr']); ?></span>
+        </p>
+        <div class="y-ddcontent" onclick="window.location.href='<?php echo e(u("Order/detail",["id"=>$v["id"]])); ?>'">
+            <div class="y-imgcont">
+                <?php foreach($v['goodsImages'] as $g): ?>
+                    <div><img src="<?php echo e(formatImage($g,200,200)); ?>"></div>
+                <?php endforeach; ?>
+            </div>
+            <i class="c-green">共<span class="c-red"><?php echo e($v['count']); ?></span>件<b class="x-rightico"></b></i>
+        </div>
+        <p class="f12">
+            <span class="c-green">订单总额：￥<span class="c-red"><?php echo e($v['totalFee']); ?></span>元</span><span class="y-allddbtn fr mr10">
+                <!--<?php if($v['isCanDelete']): ?>
+                    <a href="javascript:;" class="okorder" data-id="<?php echo e($v['id']); ?>">删除</a>
+                <?php endif; ?>-->
+                <?php if($v['isCanRate']): ?>
+                        <a href="<?php echo e(u('Order/comment',['orderId' => $v['id']])); ?>" class="y-blue">去评价</a>
+                <?php endif; ?>
+                <?php if($v['isCanCancel']): ?>
+                        <a href="javascript:;" class="cancelorder" data-id="<?php echo e($v['id']); ?>" data-status="<?php echo e((int)$v['isContactCancel']); ?>" data-seller="<?php echo e($v['shopName']); ?>" data-tel="<?php echo e($v['sellerTel']); ?>">取消</a>
+                <?php endif; ?>
+                <?php if($v['isCanPay']): ?>
+                    <a href="<?php echo e(u('Order/cashierdesk',['orderId'=>$v['id']])); ?>" class="y-blue">去支付</a>
+                <?php endif; ?>
+                <?php if($v['isCanConfirm']): ?>
+                    <a href="javascript:;" class="confirmorder" data-id="<?php echo e($v['id']); ?>">确认完成</a>
+                <?php endif; ?>
+            </span>
+        </p>
+    </li>
+<?php endforeach; ?>

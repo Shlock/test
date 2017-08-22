@@ -1,0 +1,140 @@
+
+<?php $__env->startSection('css'); ?>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
+	<div class="p20">
+		<div class="m-zjgltbg">
+			<div class="p10">						
+				<p class="f-bhtt f14 clearfix">
+					<span class="ml15 fl">认证设置</span>
+					<a href="<?php echo e(u('Seller/index')); ?>" class="fr mr15 btn f-bluebtn" style="margin-top:8px;">返回</a>
+				</p>
+				<div class="m-quyu1">
+					<div class="m-inforct" style="padding-top:78px;width:750px;"> 
+						
+						<div class="m-spboxlst " style="">
+					<form id="yz_form" name="yz_form" class="validate-form ajax-form" method="post" action="http://seller.51mycai365.com/Seller/updaqualification" enctype="application/x-www-form-urlencoded" target="_self">
+						<div id="authenticate-idcardSn-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 身份证编号:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="authenticate[idcardSn]" id="authenticate-idcardSn" class="u-ipttext" value="<?php echo e($data['authenticate']['idcardSn']); ?>" />
+		            </div>
+		        </div>  
+							<div id="authenticate-idcardPositiveImg-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 身份证正面:
+		            </span>
+		            <div class="f-boxr">
+		                  <ul class="m-tpyllst clearfix">
+	            				<li id="authenticate-idcardPositiveImg-box" class="">
+	            				<?php if( !empty($data['authenticate']['idcardPositiveImg']) ): ?>
+	            					<a id="img-preview-authenticate-idcardPositiveImg" class="m-tpyllst-img" href="<?php echo e($data['authenticate']['idcardPositiveImg']); ?>" target="_blank"><img src="<?php echo e($data['authenticate']['idcardPositiveImg']); ?>" alt=""></a>
+	            				<?php else: ?>
+                                    <a id="img-preview-authenticate-idcardPositiveImg" class="m-tpyllst-img" href="javascript:;" target="_self"><img src="" alt="" style="display:none;"></a>
+	            				<?php endif; ?>
+                                <a class="m-tpyllst-btn img-update-btn" href="javascript:;" data-rel="authenticate-idcardPositiveImg">
+                                    <i class="fa fa-plus"></i> 上传图片
+                                </a>
+	            				<input type="hidden" data-tip-rel="#authenticate-idcardPositiveImg-box" name="authenticate[idcardPositiveImg]" id="authenticate-idcardPositiveImg" value="<?php echo e($data['authenticate']['idcardPositiveImg']); ?>"/>
+	            				</li>
+							</ul>
+		            </div>
+		        </div>  
+							<div id="authenticate-idcardNegativeImg-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 身份证背面:
+		            </span>
+		            <div class="f-boxr">
+		                  <ul class="m-tpyllst clearfix">
+	            				<li id="authenticate-idcardNegativeImg-box" class="">
+	            				<?php if( !empty($data['authenticate']['idcardNegativeImg']) ): ?>
+	            					<a id="img-preview-authenticate-idcardNegativeImg" class="m-tpyllst-img" href="<?php echo e($data['authenticate']['idcardNegativeImg']); ?>" target="_blank"><img src="<?php echo e($data['authenticate']['idcardNegativeImg']); ?>" alt=""></a>
+	            				<?php else: ?>
+                                    <a id="img-preview-authenticate-idcardNegativeImg" class="m-tpyllst-img" href="javascript:;" target="_self"><img src="" alt="" style="display:none;"></a>
+	            				<?php endif; ?>
+                                <a class="m-tpyllst-btn img-update-btn" href="javascript:;" data-rel="authenticate-idcardNegativeImg">
+                                    <i class="fa fa-plus"></i> 上传图片
+                                </a>
+	            				<input type="hidden" data-tip-rel="#authenticate-idcardNegativeImg-box" name="authenticate[idcardNegativeImg]" id="authenticate-idcardNegativeImg" value="<?php echo e($data['authenticate']['idcardNegativeImg']); ?>"/>
+	            				</li>
+							</ul>
+		            </div>
+		        </div> 	
+							<?php if($data['type'] == 2): ?>
+							<div id="authenticate-businessLicenceImg-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 营业执照:
+		            </span>
+		            <div class="f-boxr">
+		                  <ul class="m-tpyllst clearfix">
+	            				<li id="authenticate-businessLicenceImg-box" class="">
+	            				<?php if( !empty($data['authenticate']['businessLicenceImg']) ): ?>
+	            					<a id="img-preview-authenticate-businessLicenceImg" class="m-tpyllst-img" href="<?php echo e($data['authenticate']['businessLicenceImg']); ?>" target="_blank"><img src="<?php echo e($data['authenticate']['businessLicenceImg']); ?>" alt=""></a>
+	            				<?php else: ?>
+                                    <a id="img-preview-authenticate-businessLicenceImg" class="m-tpyllst-img" href="javascript:;" target="_self"><img src="" alt="" style="display:none;"></a>
+	            				<?php endif; ?>
+                                <a class="m-tpyllst-btn img-update-btn" href="javascript:;" data-rel="authenticate-businessLicenceImg">
+                                    <i class="fa fa-plus"></i> 上传图片
+                                </a>
+	            				<input type="hidden" data-tip-rel="#authenticate-businessLicenceImg-box" name="authenticate[businessLicenceImg]" id="authenticate-businessLicenceImg" value="<?php echo e($data['authenticate']['businessLicenceImg']); ?>"/>
+	            				</li>
+							</ul>
+		            </div>
+		        </div>  
+							<?php elseif($data['type'] == 1): ?>
+							<div id="authenticate-certificateImg-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 资质认证:
+		            </span>
+		            <div class="f-boxr">
+		                  <ul class="m-tpyllst clearfix">
+	            				<li id="authenticate-certificateImg-box" class="">
+	            				<?php if( !empty($data['authenticate']['certificateImg']) ): ?>
+	            					<a id="img-preview-authenticate-certificateImg" class="m-tpyllst-img" href="<?php echo e($data['authenticate']['certificateImg']); ?>" target="_blank"><img src="<?php echo e($data['authenticate']['certificateImg']); ?>" alt=""></a>
+	            				<?php else: ?>
+                                    <a id="img-preview-authenticate-certificateImg" class="m-tpyllst-img" href="javascript:;" target="_self"><img src="" alt="" style="display:none;"></a>
+	            				<?php endif; ?>
+                                <a class="m-tpyllst-btn img-update-btn" href="javascript:;" data-rel="authenticate-certificateImg">
+                                    <i class="fa fa-plus"></i> 上传图片
+                                </a>
+	            				<input type="hidden" data-tip-rel="#authenticate-certificateImg-box" name="authenticate[certificateImg]" id="authenticate-certificateImg" value="<?php echo e($data['authenticate']['certificateImg']); ?>"/>
+	            				</li>
+							</ul>
+		            </div>
+		        </div>	
+							<?php endif; ?>
+							<div id="isAuthenticate-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 认证状态:
+		            </span>
+		            <div class="f-boxr">
+		                  <?php if($data['isAuthenticate'] == 1): ?>
+									已认证
+								<?php else: ?>
+									未认证
+								<?php endif; ?>
+		            </div>
+		        </div>		<div class="u-fitem clearfix">
+                            <span class="f-tt">
+                                &nbsp;
+                            </span>
+                            <div class="f-boxr">
+                                  <button type="submit" class="u-addspbtn">提 交</button>
+                            </div>
+                        </div>		<input type="hidden" value="<?php echo e($data['id']); ?>" name="id" />
+					</form>
+				</div>		
+						 
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('js'); ?> 
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('seller._layouts.base', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

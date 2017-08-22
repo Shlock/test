@@ -1,0 +1,102 @@
+
+
+<?php $__env->startSection('right_content'); ?>
+	
+	<div id="checkList" class="">
+                    <div class="u-ssct clearfix">
+                    <?php $search_args = Input::all(); ?>
+                    <form id="yzForm" class="" name="yzForm" method="post" action="http://admin.51mycai365.com/OrderStatistics/index" target="_self">
+                        <div class="search-row clearfix">
+                      <div id="beginTime-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 开始时间:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="beginTime" id="beginTime" class="date u-ipttext" value="<?php echo e(YiZan\Utils\Time::toDate($search_args['beginTime'],'Y-m-d')); ?>" />
+		            </div>
+		        </div>
+				<div id="endTime-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 结束时间:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="endTime" id="endTime" class="date u-ipttext" value="<?php echo e(YiZan\Utils\Time::toDate($search_args['endTime'],'Y-m-d')); ?>" />
+		            </div>
+		        </div>
+				<button type="submit" class="btn mr5">
+                        搜索
+                    </button>
+                </div>
+                    </form>
+                </div>
+                </div> 
+	
+	<div class="m-tab" style="background: #f3f6fa;">
+		<!-- 报表tip -->
+		<div class="m-bbtipct clearfix">
+			
+			<div class="m-btb fr">
+				<table>
+					<thead>
+						<th width="50%">今日总订单数</th>
+						<th width="50%">历史总订单数</th>
+					</thead>
+					<tbody>
+						<tr>
+							<td><?php echo e($data['todayNum']); ?></td>
+							<td><?php echo e($data['totalNum']); ?></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<div class="m-biaoqy mt10" style="padding-bottom: 10px;padding-right:10px;">
+			
+		</div>
+	</div>
+	
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('js'); ?>
+<script type="text/javascript">
+    $(function () {
+        $('.m-biaoqy').highcharts({
+            title: {
+                text: '订单统计数据图表',
+                x: -20 //center
+            },
+            xAxis: {
+                categories: [<?php foreach($data['time'] as $val): ?>'<?php echo e($val); ?>',<?php endforeach; ?>]
+            },
+            yAxis: {
+				min:0,
+                title: {
+                    text: ''
+                },
+                plotLines: [{
+                    value: 0,
+                    width: 1,
+                    color: '#808080'
+                }]
+            },
+
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'middle',
+                borderWidth: 0
+            },
+            series: [
+            <?php foreach($data['data'] as $val): ?>
+            {
+                name: '<?php echo e($val['name']); ?>',
+                data: [<?php foreach($val['val'] as $vo): ?><?php echo e($vo); ?>,<?php endforeach; ?>],
+            },
+            <?php endforeach; ?>
+            ]
+        });
+    });
+</script>
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('admin._layouts.base', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

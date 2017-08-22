@@ -1,0 +1,289 @@
+a{color: #313233;}
+a:hover{color: #ff2d4b;}
+a.x-btn:hover{color: #fff;}
+/* 主题颜色 */
+.c-red{color: #ff2d4b!important;}
+.c-black{color: #313233!important;}
+.c-gray{color: #898888!important;}
+.c-gray2{color: #aaa!important;}
+.c-gray3{color: #999!important;}
+.c-gray4{color: #d0d0d0!important;}
+.c-blue{color: #4eade5!important;}
+.c-white{color: #fff!important;}
+.c-gray5{color: #666!important;}
+.c-bg{background: #ff2d4b!important;}
+.c-bgfff{background: #fff!important;}
+.c-graybg{background: #dedede!important;}
+.c-gray97{background: #979797!important;}
+.c-fxbg{background: #fef7e4!important;}
+.c-yellow{color: #ff8a00!important;}
+/* input placeholder字体样式 */
+::-webkit-input-placeholder{color:#aaa!important;}
+:-moz-placeholder{color:#aaa!important;}
+::-moz-placeholder{color:#aaa!important;}
+:-ms-input-placeholder{color:#aaa!important;}
+/*头部*/
+.bar{background-color: #fff;}
+.bar:after{background-color: #dadada;}
+.bar .button-link{color: #313233;}
+/*底部*/
+.bar-tab .tab-item{color: #818181;}
+.bar-tab .tab-item.active, .bar-tab .tab-item:active{color: #ff2d4b;}
+.bar-tab .tab-item .x-dot{background: #ff2d4b;color: #fff;}
+/*幻灯片*/
+.swiper-pagination-bullet{background: #fff;}
+/*按钮*/
+.button-danger.button-fill{background: #ff2d4b;}
+/*登录*/
+.buttons-tab .button{color: #898888;}
+.buttons-tab .button.active{background: #fff;color: #313233;}
+.y-input input{border: 1px solid #dadada;}
+.y-input input{background-color:#fff;color: #aaa;}
+.y-input i{color: #aaa;}
+.buttons-tab{background: #dedede;}
+.button-danger.button-fill.y-ddbtn{background: #979797;}
+.y-yyyzm a{color: #ff2d4b;}
+.y-yyyzm a.y-wxkjdl{ color:#73bb00;}
+.y-password b{color: #aaa;}
+/*弹窗*/
+.modal-inner{background:#fff;}
+.modal-title{background: #ff2d4b;color: #fff;}
+.modal-button{color: #313233;background:#fff;}
+.modal-button-bold{color: #ff2d4b;}
+.modal-button:after{background-color: #dadada;}
+/*border*/
+.y-main li:before,.y-bgfff:before,.y-orderlst:before,.y-paylst li:before,.y-main li .y-lifs:before,.y-tkck:before,.y-ddxqbtn:before,.y-ddxqbtn2:before,.x-lifepay li:before,.x-lifepay li:after,.bar-tab:before,.list-block .y-wd .item-link:after,.y-balancetop li:before,.y-sylist .item-link:before,.x-citylst.contacts-block .list-group-title:after,.x-advertising li:last-of-type a:after,.list-block.y-xzaddr .item-inner:first-of-type:after,.x-sjfltab .buttons-tab:before,.x-sjfltab .buttons-tab .button:after,.x-zhpx.list-block .item-inner:before,.x-fwlst .x-fwpic:after,.x-closebg .x-prott:after,.y-card .card-content-inner ul li:before,.x-sjbot li:last-of-type:before,.x-bombtn.buttons-row .button:last-child:before,.x-pjpic.card .card-content-inner:before,.x-pjpic.card .card-content-inner:after,.x-pjtotal:before,.x-pjtotal .x-pjtl:after,.list-block.y-shoplist .item-link:after,.x-comment.list-block .item-content:after,.x-sjpjbtn.buttons-tab:after,.x-lifeindex li:first-of-type:after,.y-ddfx:before,.y-ddfx a:last-of-type:before,.x-ltmore:before,.x-ltmore:after,.x-ltmore li:after,.y-topbor:before,.x-post li:after,.x-lifeindex li:first-of-type:after,.x-fxtitle:after,.x-sharesel li:first-of-type:after,.x-hislst.list-block .item-inner:before,.x-serstore.list-block .goodslst:before,.x-serstore.list-block .x-seegoods:before,.x-distancetab li:first-of-type a:after{background-color: #dadada;}
+
+.y-main li:first-of-type:before,.y-paylst li:first-of-type:before,.y-refund:before,.list-block .y-wd li:first-of-type .item-link:after,.nobor.list-block ul:before,.nobor.list-block ul:after,.list-block ul.y-wd:after,.list-block.y-sylist .item-inner:after,.y-sylist li:first-of-type .item-link:before,.y-sylist ul:after,.y-sylist ul:before,.y-wdtx p a:after,.y-wdxxlist.list-block .item-inner:after,.list-block.y-syt ul:after,.list-block.y-syt ul:before,.x-zhpx.list-block .item-inner:after,.x-goods.list-block .item-inner:after{background-color: #fff!important;}
+.y-xtxxlist.list-block ul:after,.lastbor.list-block li:last-of-type .item-inner:after,.y-ddxqlist .list-block.y-sylist ul:after{background-color: #dadada!important;}
+
+/*首页*/
+.y-nav,.y-xzaddrcont{background: #fff;}
+.y-nav li a{color: #353535;}
+.y-swiper .swiper-pagination-bullet{background-color: #ccc;}
+/*首页列表*/
+/*.list-block.media-list.y-sylist .item-media img{border: 1px solid #eee;}*/
+/*.list-block .item-link:after{background-color: #dadada;}*//*列表下边框*/
+
+/*我的头部*/
+.y-bar .title,.y-bar .button-link{color: #fff;}
+
+/*我的*/
+.y-wdtx{color: #fff;}
+.y-wdtximg{border:4px solid #948179;}
+.y-wdtx p a{color:#fff!important;/*border-left:1px solid #fff;*/}
+.y-wd .y-wdicon1{color: #ff8e50;}
+.y-wd .y-wdicon2{color: #ff7171;}
+.y-wd .y-wdicon3{color: #90d25b;}
+.y-wd .y-wdicon4{color: #b7ce4c;}
+.y-wd .y-wdicon5{color: #d477ff;}
+.y-wd .y-wdicon6{color: #ffa70e;}
+.y-wd .y-wdicon7{color: #7cbbfe;}
+.y-wd .y-wdicon8{color: #73c8c1;}
+.y-wd .y-wdicon9{color: #ff9090;}
+.y-wd .y-wdicon10{color: #ffb93f;}
+.y-wd .y-wdicon11{color: #6ab2fe;}
+.y-khrx{background: #e6e4e4;}
+.y-balancetop{background: rgba(0,0,0,0.15);}
+.y-balancetop li{color: #fff;}
+.y-xxcont{background: #ff2d4b;color: #fff;}
+
+/*输入框定位*/
+.y-position{background: #fff;}
+
+/*关于我们*/
+.y-about{background-color: #fff;}
+
+/*意见反馈*/
+.y-yjtxt textarea{border-bottom: 1px solid #dadada;}
+
+/*地址管理*/
+.y-xzshdz li{background:#fff;}
+
+/*我的收藏*/
+.y-scbtn .buttons-row .button{border-color:#fff;color: #313233;background: #fff;}
+.y-scbtn .buttons-row .button.on{border-color:#ff2d4b;color: #fff;background: #ff2d4b;}
+
+/*系统消息*/
+.y-xtxxlist.list-block{background: #fff;}
+.list-block .y-xtxx .item-after{color: #979797;}
+
+/*我的消息*/
+.y-wdxxlist.list-block .item-inner{border: 1px solid #ebeaea;background: #fff;}
+
+/*我的账号*/
+.list-block .y-wdzh .item-title.label{border-right: 1px solid #dadada;}
+.list-block .y-wdzh .y-yzm .item-input input{background: #f5f5f5;border: 1px solid #dadada;}
+.list-block .y-wdzh .y-yzm .item-input .item-link.list-button{color: #2077ce;}
+
+/*全部订单*/
+.buttons-tab.y-ddnav .button{background: #dedede;border-left: 1px solid #dadada;}
+.buttons-tab.y-ddnav .button.active{background: #fff;}
+.buttons-tab.y-ddnav .button:first-child{border-left: 0;}
+.y-ddlistbtn a{color: #ff2d4b;border: 1px solid #ff2d4b;}
+.y-ddlistbtn a.y-ddlistbtnblue{color: #4eade5;border: 1px solid #4eade5;}
+
+/*订单详情*/
+.y-ddxqlct ul li span{color: #c3c3c3;}
+.y-ddxqlct ul li p{color: #686869;}
+.y-main li div a{border: 1px solid #eee;}
+.y-orderlst{background: #fff;}
+.y-ddxqlct .y-ddzt{background: #dadada;color: #5b5b5b;}
+.y-main{background: #fff;}
+.y-main li span.y-phonebtn{border: 1px solid #eee;}
+.y-ddxqbtn{background: #fff;}
+.y-ddxqbtn .ui-btn{color: #fff;}
+.y-ddxqbtn .ui-btn.fl{background: #4eade5;}
+.y-ddxqbtn .ui-btn.fr{background: #ff2d4b;}
+.y-ddxqbtn2{background: #fff;}
+.y-ddxqbtn2 .ui-btn{background: #ff2d4b!important;color: #fff;}
+.y-ddbtn.buttons-row .button{background: #ff2d4b;color: #fff;}
+.y-ddbtn.buttons-row .button.y-ddbtnblue{background: #4eade5;}
+
+/*订单支付*/
+.y-paylst{background:#fff;}
+.y-paylst li .iconfont{border: 1px solid #d2d2d2;}
+.y-paylst li.on .iconfont{color: #ff2d4b;}
+.y-bgfff{background: #fff;}
+/*.y-bgfff:before{background-color: #dadada;}*/
+.y-paybtn{background: #ff2d4b;color: #fff!important;}
+
+/*退款详情*/
+.y-refunddel{background: #fff;}
+.y-tkck li .y-tkxql{background: #bebebe;}
+.y-tkck li.on .y-tkxql{background: #ff2d4b;}
+.y-tkck li.on i{background: #ff2d4b;}
+/*编辑收货地址*/
+.y-mraddr{background: #fff;}
+.y-mraddrmain .y-fxk{border: 1px solid #dadada;}
+.y-mraddrmain.on .y-fxk{border-color: #ff2d4b;}
+/*设置*/
+.y-szbtn{background: none;}
+.y-szbtn .y-paybtn{background: #898888;}
+
+/*所在区域*/
+.list-block.y-syt .item-title.label{width: 4rem;}
+
+/*选择地址*/
+.y-map .searchbar .search-input input{border-color: #dadada;}
+.y-blocktitle{background: #efeff4;}
+.bar.y-barnav .searchbar .search-input input{background: #f1f1f1;}
+/*优惠券*/
+.y-redc{background: #ff2d4b;}
+.y-couponsnav{background: #fff;}
+.buttons-tab.y-couponsnav .button{color: #313233;}
+.buttons-tab.y-couponsnav .button.active {color: #ff2d4b;border-color: #ff2d4b;}
+.y-coupleft p:first-of-type{color: #ec5e73;}
+.y-coupright{background: url(../images/yhq1.png) -1px repeat-y #ec5e73;color: #fff;}
+.y-coupmaindyq .y-coupleft .y-couplmain p:first-of-type{color: #f1bf5f;}
+.y-coupmaindyq .y-coupright{background: url(../images/yhq2.png) -1px repeat-y #f1bf5f;}
+.y-cdkey{background: #fff;}
+.y-cdkey .row .col-80 input{color: #313233;border: 1px solid #dadada;}
+
+.y-cdkey .row .col-20{background:#ff2d4b;}
+/*支付成功与失败*/
+.y-orderpay{background: #fde0e4;color: #ff2d4b;}
+/*订购清单*/
+.y-ddbh{border-left: .2rem solid #ff2d4b;}
+/*购物车*/
+.list-block.media-list.y-qrddqt .item-title-row .y-qrddinput{border: 1px solid #dadada;}
+.y-shopcart .card-footer{background: #f7f7f7;}
+.y-checkbox{border: 1px solid #d2d2d2;}
+.y-shoplist .x-num .icon{color: #898888;}
+.y-shoplist .x-num .icon:hover{color: #ff2d4b;}
+/*充值*/
+.y-sum input{border: 1px solid #f2f2f1;}
+/*店铺地址*/
+.searchbar.y-dpaddrsac .search-input input{border-color: #dadada;}
+/*分享优惠券*/
+.list-block.media-list.y-fxyhqlist .item-content{border-bottom: 1px dashed #fbf0d4;}
+.y-fxkpinput input{border: 1px solid #ff2d4b;}
+
+
+/* 生活圈-版块主页 */
+.x-postlst .icon{color: #f84f66;}
+/* 生活圈-报修记录列表 */
+.list-block ul:before{background-color: #dadada;}
+.list-block ul:after{background-color: #dadada;}
+.list-block .item-content{background: #fff !important;}
+.list-block .item-inner:after{background-color: #dadada !important;}
+.x-recordslst .item-text{color: #898888;}
+.card-header:after{background: #dadada;}
+/* 生活圈-发帖 */
+.x-postmsg.list-block .item-after{color: #313233;}
+.x-postmsg.list-block .item-text{color: #313233;}
+.x-postmsg.list-block .add{color: #56d020;}
+/* 生活圈-故障报修 */
+.list-block .x-troublelst .item-text{color: #313233;}
+/* 生活圈-门禁 */
+.x-sliderbtn.label-switch input[type=checkbox]:checked+.checkbox{background: #ff2d4b;}
+/* 生活圈-我要报修 */
+.x-repair.card .toselect .icon{color: #bebebe;}
+/* 生活圈-物业 */
+.x-property.list-block .item-media{border: .25rem solid #292f38;}
+.x-btn,.x-btnw{background: #ff2d4b; color: #fff;}
+/* 生活圈-我的小区-选择城市 */
+.x-citylst li .duiicon{color: #249dd9;}
+/* 生活圈-小区身份认证 */
+.x-identity.list-block .toselect .icon{color: #bebebe;}
+/* 商家分类 */
+.x-sjfl.buttons-tab{background: #f3f3f3;}
+.x-sjfl.buttons-tab .button{color: #313233;}
+.x-sjfl.buttons-tab .button.on{color: #ff2d4b;}
+.x-sjfl.buttons-tab .button.on .icon{color: #ff2d4b;}
+.x-sjfl.buttons-tab .icon{color: #898888;}
+.x-sjfltab .buttons-tab{background: #f2efee;}
+.x-sjfltab .buttons-tab .button{color: #898888;}
+.x-sjfltab .buttons-tab .button.active{color: #313233; background: #fff;}
+.x-sjfltab .item-content.active{color: #ff2d4b;}
+.actions-modal-label{color: #898888;}
+.actions-modal-button{color: #313233;}
+.actions-modal-button.color-danger{color: #313233; }
+.actions-modal-button.bg-danger{background: #ff2d4b;}
+/* 商品详情页 */
+.x-probox .x-propic{background: #fff;}
+.x-psize span{border: 1px solid #eee;}
+.x-psize span.c-bg{color: #fff; border: 1px solid #ff2d4b;}
+.x-closebg .x-pbtn .join{background: #979797;}
+.x-closebg .x-pbtn .join:hover{background: #737373;}
+.x-closebg .x-pbtn .c-bg{background: #ff2d4b;}
+.x-closebg .x-pbtn .c-bg:hover{background: #df1330;}
+/* 菜单 */
+.x-goodstop.buttons-tab .button{color: #313233; background: #fff;}
+.x-goodstop.buttons-tab .button.active{color: #ff2d4b; border-bottom: .05rem solid #ff2d4b;}
+.x-noticeico{color: #2edaff;}
+.x-goodstab.x-sjfltab{background: #f2efee}
+.x-goodstab.x-sjfltab .buttons-tab .button{color: #313233;}
+.x-goodstab.x-sjfltab .buttons-tab .button.active{color: #ff2d4b;}
+.x-goodstab .x-goodstt.item-inner:after{background-color: #fff !important;}
+.x-goodstab .x-goodstt .item-title{border-left: .25rem solid #bfbfbf; background: #f2efee;}
+.x-goodstab .goodspic{border: 1px solid #eee;}
+/* 商家 */
+.x-sjpic img{border: .1rem solid #fff;}
+.x-bombtn.buttons-row .button{color: #fff; background: #ff2d4b;}
+/* 搜索商家商品 */
+.x-serhot li{background: #e0e0e0;}
+.x-serhot li{background: #fff;}
+.x-serhot li:hover{color: #313233;}
+/* 评价 */
+.x-pjna i{border: 1px solid #e1e1e1;}
+.x-commenttab.buttons-tab .button{color: #313233; border: 1px solid #eee;}
+.x-commenttab.buttons-tab .button.active{background: #ff2d4b; color: #fff; border: 1px solid #ff2d4b;}
+.x-comment .x-commpic img{border: 1px solid #f5f5f5;}
+.x-comment .x-reply{background: #f4f4f4;}
+/* 生活圈-论坛消息 */
+.x-bbsmsg .link{color: #6eb9f3;}
+/* 生活圈-我的帖子 */
+.x-posttabs.x-goodstop.buttons-tab{border-bottom: .5rem solid #efeff4;}
+.x-post .edit{background: #f6a94e; color: #fff;}
+.x-post .delete{background: #ff2d4b; color: #fff;}
+/* 生活圈-帖子详情 */
+.x-borbtn{border: 1px solid #ff2d4b;}
+.x-replypost .search-input input{border: 1px solid #eee; background: #f5f5f5;}
+.x-replypost .search-input input{border: 1px solid #eee; background: #f5f5f5;}
+.x-ltmore{background: #fff;}
+.x-ltmore li:hover{background: #f3f3f3;}
+.x-lifeindex a:hover{color: #313233;}
+/* 搜索结果页面-按商品查看 */
+.x-distancetab li a{color: #898888;}
+.x-distancetab li.on a{color: #ff2d4b;}

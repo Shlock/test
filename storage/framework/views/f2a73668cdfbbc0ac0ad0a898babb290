@@ -1,0 +1,82 @@
+
+
+<?php $__env->startSection('right_content'); ?>
+
+<div class="m-spboxlst " style="">
+					<form id="yz_form" name="yz_form" class="validate-form ajax-form" method="post" action="http://admin.51mycai365.com/UserAppAdvPosition/update" enctype="application/x-www-form-urlencoded" target="_self">
+						<?php if($data['id'] > 0): ?>
+	<div id="code-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 广告位代码:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="code" id="code" class="u-ipttext" disabled value="<?php echo e($data['code']); ?>" />
+		            </div>
+		        </div>
+	<?php else: ?>
+	<div id="code-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 广告位代码:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="code" id="code" class="u-ipttext" value="<?php echo e($data['code']); ?>" /><?php $checkbox_options = array (
+  0 => '1',
+); ?><?php $checkeds = array (
+  0 => '',
+); ?><?php $checkbox_texts = array (
+  0 => '自动生成',
+); ?><?php  foreach($checkbox_options as $options_key => $options_val):
+                    $checked = in_array($options_val, $checkeds) ? " checked" : ""; ?>
+                    <label>
+                        <input type="checkbox" class="uniform " name="isAutoCode" value="<?php echo $options_val; ?>" <?php echo $checked; ?>/>
+                        <span><?php echo $checkbox_texts[$options_key]; ?></span>
+                    </label>
+                    <span>&nbsp;&nbsp;</span>
+                    <?php endforeach; ?>
+		            </div>
+		        </div>
+	<?php endif; ?>
+	
+	<div id="name-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 广告位名称:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="name" id="name" class="u-ipttext" value="<?php echo e($data['name']); ?>" />
+		            </div>
+		        </div>
+
+	<input type="hidden" id="clientType" name="clientType" value="<?php if(isset($data['clientType'])):?><?php echo e($data['clientType']); ?><?php else: ?>buyer<?php endif; ?>"/>
+
+	<div id="width-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 宽度:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="width" id="width" class="u-ipttext" value="<?php echo e($data['width']); ?>" />
+		            </div>
+		        </div>
+	<div id="height-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 高度:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="height" id="height" class="u-ipttext" value="<?php echo e($data['height']); ?>" />
+		            </div>
+		        </div>		<div class="u-fitem clearfix">
+                            <span class="f-tt">
+                                &nbsp;
+                            </span>
+                            <div class="f-boxr">
+                                  <button type="submit" class="u-addspbtn">提 交</button>
+                            </div>
+                        </div>		<input type="hidden" value="<?php echo e($data['id']); ?>" name="id" />
+					</form>
+				</div>
+
+<?php $__env->stopSection(); ?>
+
+
+
+
+<?php echo $__env->make('admin._layouts.base', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

@@ -1,0 +1,59 @@
+<div class="u-tt clearfix">
+	<span class="fl f14">商品列表</span>
+</div>
+<div class="m-taborder tds" style="width:100%;margin-top:15px">
+	<table>
+		<tr style="background-color: #F3F6FA;">
+			<td width="40%">
+				<p class="tc f14">
+                    商品名称
+				</p>
+			</td>
+			<td width="30%">
+				<p class="tc f14">
+					数量
+				</p>
+			</td>
+			<td width="20%">
+				<p class="tc f14">
+					单价
+				</p>
+			</td>
+		</tr>
+        <?php foreach($data['orderGoods'] as $val): ?>
+		<tr>
+			<td width="40%">
+				<p class="tc f14">
+                    <?php echo e($val['goodsName']); ?> <?php if($val['goodsNormsId'] > 0): ?> -【<?php echo e($val['goodsNorms']); ?>】<?php endif; ?>
+				</p>
+			</td>
+			<td width="30%">
+				<p class="tc f14">
+					x<?php echo e($val['num']); ?>
+
+				</p>
+			</td>
+			<td width="20%">
+				<p class="tc f14">
+					￥<?php echo e((double)round(($val['price'] * $val['num']),2)); ?>
+
+				</p>
+			</td>
+		</tr>
+        <?php endforeach; ?>
+		<tr>
+			<td width="100%" colspan="4" >
+				<p class="tr pr10 f14">
+                    <span>总金额：￥<?php echo e($data['totalFee']); ?></span>
+                    <span>商品金额：￥<?php echo e($data['goodsFee']); ?></span>
+                    <span>配送费：￥<?php echo e($data['freight']); ?></span>
+                    <span>优惠金额：￥<?php echo e($data['discountFee']); ?></span>
+                    <span>支付金额：￥<?php echo e($data['payFee']); ?></span>
+                    <span>商家金额：￥<?php echo e($data['sellerFee']); ?></span>
+                    <span>抽成金额：￥<?php echo e((double)$data['drawnFee']); ?></span>
+				</p>
+			</td>
+		</tr>
+
+	</table>
+</div>

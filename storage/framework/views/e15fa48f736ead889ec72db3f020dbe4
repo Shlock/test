@@ -1,0 +1,45 @@
+
+
+<?php $__env->startSection('right_content'); ?>
+	
+	<div id="checkList" class="">
+                    <div class="list-btns">
+                      <a href="create" target="_self" class="btn mr5">
+                        添加
+                    </a>
+                </div>
+		<div class="m-tab">
+                      <table id="checkListTable" class="">
+                        <thead><td class="" order="code" code="code"><span>广告位代码</span></td>
+				<td class="" order="name" code="name"><span>广告位名称</span></td>
+				
+				<td class="" width="80" order="width" code="width"><span>宽度</span></td>  
+				<td class="" width="80" order="height" code="height"><span>高度</span></td>
+				<td style="text-align:center;white-space:nowrap;" width="70"><span>操作</span></td>
+                    </thead><tbody>
+                        <?php foreach($list as $list_index => $list_item): ?>
+                        <?php 
+                            $list_item_css = $list_index % 2 == 0 ? " tr-even" : " tr-odd"; 
+                            $list_item_pk  = $list_item["id"];
+                        ?>
+                        <tr class="tr-<?php echo e($list_item_pk); ?><?php echo e($list_item_css); ?>" key="<?php echo e($list_item_pk); ?>" primary="id"><td class="" code="code"><?php echo e($list_item['code']); ?></td>
+				<td class="" code="name"><?php echo e($list_item['name']); ?></td>
+				
+				<td class="" code="width"><?php echo e($list_item['width']); ?></td>  
+				<td class="" code="height"><?php echo e($list_item['height']); ?></td>
+				<td class=""><a href="<?php echo e(u(CONTROLLER_NAME."/edit",["id" => $list_item["id"]])); ?>" class=" blu"  data-pk="<?php echo e($list_item["id"]); ?>" target="_self">编辑</a>
+					<?php if($list_item['isSystem'] == 0): ?>
+					<a href="javascript:;" class=" red"  onclick="$.RemoveItem(this, '<?php echo e(u(CONTROLLER_NAME."/destroy",["id" => $list_item["id"]])); ?>', '你确定要删除该数据吗？')" data-pk="<?php echo e($list_item["id"]); ?>" target="_self">删除</a>
+					<?php endif; ?></td>
+                    </tr>
+                    <?php endforeach; ?>
+                </tbody>
+                    </table>
+                </div>
+                </div>
+	
+<?php $__env->stopSection(); ?>
+
+
+
+<?php echo $__env->make('admin._layouts.base', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

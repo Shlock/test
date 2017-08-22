@@ -1,0 +1,227 @@
+
+
+<?php $__env->startSection('css'); ?> 
+<style type="text/css">
+
+</style>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('js'); ?>
+
+<?php $__env->stopSection(); ?> 
+
+<?php $__env->startSection('show_top'); ?> 
+    <div data-role="header" data-tap-toggle="false" data-position="fixed" class="x-header">
+        <h1><?php echo e($seller['name']); ?></h1>
+        <a href="<?php if(!empty($nav_back_url)): ?> <?php echo e($nav_back_url); ?> <?php else: ?> javascript:history.back(-1); <?php endif; ?>" data-iconpos="notext" class="x-back ui-nodisc-icon" data-shadow="false"></a>
+        <a class="x-sjr ui-btn-right" href="<?php echo e(u('Seller/search')); ?>"><i class="x-serico"></i></a>
+    </div>
+<?php $__env->stopSection(); ?>  
+
+<?php $__env->startSection('content'); ?>
+    <!-- /content -->
+    <div role="main" class="ui-content x-menu">
+        <?php echo $__env->make('wap.community.goods.sellergoodshead', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+        <div class="x-protype clearfix">
+            <ul class="x-protypett x-menut3" id="scroll_menu">
+                <?php foreach($cate as $ckey => $item): ?>
+                    <?php if(count($item['goods']) > 0): ?>
+                    <li <?php if($ckey == 0): ?> class="on" <?php endif; ?>><a href="javascript:;"><?php echo e($item['name']); ?></a></li>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+            </ul>
+            <div class="x-prolst">
+                <?php foreach($cate as $ckey => $item): ?>
+                    <?php if(count($item['goods']) > 0): ?>
+                        <div class="scroll_top">
+                            <div class="x-prott"><?php echo e($item['name']); ?>(<?php echo e(count($item['goods'])); ?>)</div>
+                            <?php foreach($item['goods'] as $k=>$v): ?>
+                            <div class="x-pro1 clearfix mr10 mt5">
+                                <div class="x-typepic">
+                                    <a href="<?php echo e(u('Goods/detail',['goodsId'=>$v['id']])); ?>">
+                                        <img src="<?php if($v['image']): ?> <?php echo e(formatImage($v['image'],150,150)); ?> <?php else: ?> <?php echo e(asset('wap/community/client/images/wykdimg.png')); ?> <?php endif; ?>" />
+                                    </a>
+                                </div>
+                                <a href="<?php echo e(u('Goods/detail',['goodsId'=>$v['id']])); ?>"><p><?php echo e($v['name']); ?></p></a>
+                                <?php if($v['salesCount'] > 0): ?>
+                                <p style="font-size:10px;color:#979797;line-height:30px;">已售 <?php echo e($v['salesCount']); ?></p>
+                                <?php endif; ?>
+                            </div>
+                                <?php if(count($v['norms']) > 0): ?>
+                                    <div>
+                                        <?php foreach($v['norms'] as $nk => $n): ?>
+                                        <?php
+                                            $normsNum = 0;
+                                            foreach ($cart['data']['goods'] as $carts) {
+                                            if ($carts['normsId'] == $n['id']) {
+                                            $normsNum = $carts['num'];
+                                            break;
+                                            }
+                                            }
+                                        ?>
+                                        <div class="x-pro2 clearfix <?php if($nk > 3): ?> none <?php endif; ?>">
+                                            <a href="#"><div class="prl"><?php echo e($n['name']); ?></div></a>
+                                            <div class="x-num" style="width:100%;right:10px;position:inherit;margin-top:0px;">
+                                                <span class="c-red fl">￥<?php echo e($n['price']); ?></span>
+                                                <div class="cart_items" data-gid="<?php echo e($v['id']); ?>" data-nid="<?php echo e($n['id']); ?>">
+                                                    <i class="jia cart_add"></i>
+                                                    <div class="numr" <?php if($normsNum > 0): ?> style="display: block" <?php endif; ?>>
+                                                        <span class="count"><?php echo e($normsNum); ?></span>
+                                                        <i class="jian cart_sub"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <?php endforeach; ?>
+                                        <?php if(count($v['norms']) > 3): ?>
+                                            <div class="x-proshow">展开剩下<?php echo e(count($v['norms']) - 3); ?>条<i></i></div>
+                                        <?php endif; ?>
+                                    </div>
+                                <?php else: ?>
+                                    <?php
+                                        $goodsNum = 0;
+                                        foreach ($cart['data']['goods'] as $carts) {
+                                        if ($carts['goodsId'] == $v['id'] && $carts['normsId'] == 0) {
+                                        $goodsNum = $carts['num'];
+                                        break;
+                                        }
+                                        }
+                                    ?>
+                                    <div class="x-pro2 clearfix">
+                                        <div class="x-num" style="width:100%;right:10px;position:inherit;margin-top:0px;">
+                                            <span class="c-red fl" style="margin-left:0px;">￥<?php echo e($v['price']); ?></span>
+                                            <div class="cart_items" data-gid="<?php echo e($v['id']); ?>" data-nid="0">
+                                                <i class="jia cart_add"></i>
+                                                <div class="numr" <?php if($goodsNum > 0): ?> style="display: block" <?php endif; ?>>
+                                                    <span class="count"><?php echo e($goodsNum); ?></span>
+                                                    <i class="jian cart_sub"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                <?php endif; ?>
+                                <?php endforeach; ?>
+                        </div>
+                    <?php endif; ?>
+            <?php endforeach; ?>
+
+            </div>
+        </div>
+    </div>
+    <!-- content end -->
+    <!-- footer start -->
+    <?php echo $__env->make('wap.community.goods.cartfooter', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+    <!-- footer end -->
+    <!-- 规格弹框 -->
+    <div class="f-bgtk none size-frame">
+        <div class="x-closebg">
+
+        </div>
+    </div>
+    <script type="text/tpl" id="loadTemp">
+        <img style="position:absolute;top:50%;left:50%;margin-left:-16px;margin-top:-16px;" src="<?php echo e(asset('wap/community/client/css/images/ajax-loader.gif')); ?>" />
+    </script>
+
+    <script src="<?php echo e(asset('wap/community/client/js/cel.js')); ?>"></script>
+    <script type="text/javascript">
+        $('.x-menut3').css({
+            height:$(window).height()-138-50,
+            overflowY:'auto'
+        });
+        var serviceFee = "<?php echo e($seller['serviceFee']); ?>";
+        function toLogin(){
+            window.location.href = "<?php echo e(u('User/login')); ?>";
+        }
+
+        //无规格商品增加
+        $(document).on('touchend', '.cart_add', function(){
+            var obj = $(this);
+            var data = new Object();
+            data.goodsId = obj.parent().data('gid');
+            data.normsId = obj.parent().data('nid');
+            data.num = obj.parent().find('.count').text();
+            data.num++;
+            $.post("<?php echo e(u('Goods/saveCart')); ?>", data, function(res) {
+                if (res.code < 0) {
+                    $.showError("请登录");
+                    setTimeout('toLogin()', 2000);
+                    return;
+                }
+                if (res.code == 0) {
+                    obj.parent().find('.count').text(data.num);
+                    obj.siblings('.numr').show();
+                } else {
+                    $.showError(res.msg);
+                }
+                $(".total_amount").text(res.data.totalAmount);
+                $(".total_price").text(res.data.totalPrice);
+                var result  = serviceFee;
+                for (var i = 0; i < res.data.list.length; i++) {
+                    if (res.data.list[i].id == <?php echo e($seller['id']); ?>) {
+                        result = Math.round((res.data.list[i].serviceFee - res.data.list[i].price) * 100) / 100;
+                        break;
+                    }
+                }
+                if (result > 0) {
+                    $(".choose_complet").text("还差" + result + "元起送").addClass("no-click").css("background-color","#ccc");
+                } else {
+                    $(".choose_complet").text("选好了").removeClass("no-click").css("background-color","#ff2d4b");
+                }
+
+            });
+        });
+        //无规格商品减少
+        $(document).on('touchend', '.cart_sub', function(){
+            var obj = $(this);
+            var data = new Object();
+            data.goodsId = obj.parents(".cart_items").data('gid');
+            data.normsId = obj.parents(".cart_items").data('nid');;
+            data.num = obj.parent().find('.count').text();
+            data.num--;
+            if(data.num < 0) {
+                $.showError('数量必须大于0');
+                return;
+            }
+            $.post("<?php echo e(u('Goods/saveCart')); ?>", data, function(res){
+                // console.log(res.data);
+                if(res.code < 0){
+                    $.showError("请登录");
+                    setTimeout('toLogin()', 2000);
+                    return;
+                }
+                if(res.code == 0){
+                    obj.parent().find('.count').text(data.num);
+                    if(data.num == 0) {
+                        obj.parent().hide();
+                    }
+                } else {
+                    $.showError(res.msg);
+                }
+                //$.showSuccess('减少成功');
+                $(".total_amount").text(res.data.totalAmount);
+                $(".total_price").text(res.data.totalPrice);
+                var result  = serviceFee;
+                for(var i = 0; i < res.data.list.length; i++){
+                    if(res.data.list[i].id == <?php echo e($seller['id']); ?>){
+                        result = Math.round((res.data.list[i].serviceFee - res.data.list[i].price) * 100) /100;
+                        break;
+                    }
+                }
+                if (result > 0) {
+                    $(".choose_complet").text("还差" + result + "元起送").addClass("no-click").css("background-color","#ccc");
+                } else {
+                    $(".choose_complet").text("选好了").removeClass("no-click").css("background-color","#ff2d4b");
+                }
+            });
+        });
+
+        var typelst_h = $(".x-typelst").height();
+        $(".x-fwtypett").css({"height":$(window).height()-210,"min-height":typelst_h});
+        $(".x-proshow").touchend(function(){
+            $(this).siblings(".x-pro2").removeClass("none");
+            $(this).hide();
+        });
+    </script>
+<?php $__env->stopSection(); ?> 
+
+<?php echo $__env->make('wap.community._layouts.base', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

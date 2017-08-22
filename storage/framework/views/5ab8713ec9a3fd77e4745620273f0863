@@ -1,0 +1,111 @@
+
+<?php $__env->startSection('css'); ?>
+<style type="text/css">
+	.m-tab table tbody td{padding: 5px 0px;}
+</style>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
+	<div>
+		<div class="m-zjgltbg">					
+			<div class="p10">
+				<!-- 服务管理 -->
+				<div class="g-fwgl">
+					<p class="f-bhtt f14 clearfix">
+						<span class="ml15 fl">服务管理</span>
+					</p>
+				</div>
+				<!-- 服务表格 -->
+				<div class="m-tab m-smfw-ser">
+					
+	                    <div id="checkList" class="">
+                    <div class="list-btns">
+                      <a href="<?php echo e(u('SellerService/create')); ?>" target="_self" class="btn mr5 btn-gray">
+                        添加服务
+                    </a>
+								<!-- <a href="<?php echo e(u('Goods/export?'.$excel)); ?>" target="_self" class="btn mr5 btn-gray">
+                        导出到Excel
+                    </a> -->
+								<!-- <a href="javascript:$.RemoveList(this)" target="_self" class="btn mr5 btn-gray"$.RemoveList(this)>
+                        删除
+                    </a> -->
+                </div>
+	                    	<div class="u-ssct clearfix">
+                    <?php $search_args = Input::all(); ?>
+                    <form id="yzForm" class="" name="yzForm" method="post" action="http://seller.51mycai365.com/SellerService/index" target="_self">
+                        <div class="search-row clearfix">
+                      <div id="name-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 服务名称:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="name" id="name" class="u-ipttext" value="<?php echo e($search_args['name']); ?>" />
+		            </div>
+		        </div>
+									<div id="-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 分类:
+		            </span>
+		            <div class="f-boxr">
+		                  <select name="cateId" class="sle">
+					                        <option value="0">全部</option>
+					                        <?php foreach($cate as $val): ?>
+					                            <option value="<?php echo e($val['id']); ?>"  <?php if($search_args['cateId'] == $val['id']): ?> selected <?php endif; ?>><?php echo e($val['name']); ?></option>
+					                        <?php endforeach; ?>
+					                    </select>
+		            </div>
+		        </div>
+									<button type="submit" class="btn mr5 btn-gray">
+                        搜索
+                    </button>
+                </div>
+                    </form>
+                </div>
+	                        <div class="m-tab">
+                      <table id="checkListTable" class=" goodstable" relmodule="">
+                        <thead><td class="" width="150" order="" code=""><span>服务名称</span></td>
+	                                <td class="" width="100" order="" code=""><span>服务分类</span></td>
+	                                <td class="" width="50" order="price" code="price"><span>价格</span></td> 
+	                                <!--column code="brief" label="服务描述" width="170"></column--> 
+	                                <td class="" width="60" order="status" code="status"><span>上架/下架</span></td>
+	                                <td style="text-align:center;white-space:nowrap;" width="100"><span>操作</span></td>
+                    </thead><tbody>
+                        <?php foreach($list as $list_index => $list_item): ?>
+                        <?php 
+                            $list_item_css = $list_index % 2 == 0 ? " tr-even" : " tr-odd"; 
+                            $list_item_pk  = $list_item["id"];
+                        ?>
+                        <tr class="tr-<?php echo e($list_item_pk); ?><?php echo e($list_item_css); ?>" key="<?php echo e($list_item_pk); ?>" primary="id"><td class="" style="text-align:left;" code=""><a href="<?php echo e($list_item['image']); ?>" target="_blank" class="goodstable_img fl">
+	                                		<img src="<?php echo e($list_item['image']); ?>" alt="" width="70">
+	                                	</a>
+	                                	<div class="goods_name"><?php echo e($list_item['name']); ?></div></td>
+	                                <td class="" code=""><?php echo e($list_item['cate']['name']); ?></td>
+	                                <td class="" code="price"><?php echo e($list_item['price']); ?></td> 
+	                                <!--column code="brief" label="服务描述" width="170"></column--> 
+	                                <td class="" code="status"><?php echo YiZan\Utils\Format::status($list_item['status'], "status", $list_item, array (
+  'code' => 'status',
+  'label' => '上架/下架',
+  'type' => 'status',
+  'width' => '60',
+  'attr' => '',
+  'css' => '',
+  'style' => '',
+)); ?></td>
+	                                <td class=""><a href="<?php echo e(u(CONTROLLER_NAME."/edit",["id" => $list_item["id"]])); ?>" class=" blu"  data-pk="<?php echo e($list_item["id"]); ?>" target="_self">编辑</a> 
+										<a href="javascript:;" class=" red"  onclick="$.RemoveItem(this, '<?php echo e(u(CONTROLLER_NAME."/destroy",["id" => $list_item["id"]])); ?>', '你确定要删除该数据吗？')" data-pk="<?php echo e($list_item["id"]); ?>" target="_self">删除</a></td>
+                    </tr>
+                    <?php endforeach; ?>
+                </tbody>
+                    </table>
+                </div><?php echo $__env->make('admin._layouts.pager', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                </div>
+	                
+				</div>
+			</div>
+		</div>
+	</div>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('js'); ?>
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('seller._layouts.base', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

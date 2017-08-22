@@ -1,0 +1,41 @@
+
+<?php $__env->startSection('css'); ?>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('right_content'); ?>
+	
+	<div id="checkList" class="">
+                    <div class="m-tab">
+                      <table id="checkListTable" class="">
+                        <thead><td class="" width="150" order="" code=""><span>SN</span></td>
+				<td class="" width="150" order="" code=""><span>商家信息</span></td>
+				<td class="" width="40" order="" code=""><span>金额</span></td>
+				<td class="" order="" code=""><span>描述</span></td>
+				<td class="" width="40" order="" code=""><span>状态</span></td>				<td class="" order="" code=""><span>创建时间</span></td> 
+				<td class="" order="" code=""><span>支付时间</span></td>
+                    </thead><tbody>
+                        <?php foreach($list as $list_index => $list_item): ?>
+                        <?php 
+                            $list_item_css = $list_index % 2 == 0 ? " tr-even" : " tr-odd"; 
+                            $list_item_pk  = $list_item["id"];
+                        ?>
+                        <tr class="tr-<?php echo e($list_item_pk); ?><?php echo e($list_item_css); ?>" key="<?php echo e($list_item_pk); ?>" primary="id"><td class="" style="text-align:center;" code=""><?php echo e($list_item['sn']); ?></td>
+				<td class="" style="text-align:left;" code=""><div>名称：<?php echo e($list_item['seller']['name']); ?></div>
+					<div>手机：<?php echo e($list_item['seller']['mobile']); ?></div></td>
+				<td class="" style="text-align:center;" code=""><?php echo e($list_item['money']); ?></td>
+				<td class="" style="text-align:left;" code=""><?php echo e($list_item['content']); ?></td>
+				<td class="" style="text-align:center;" code=""><?php echo e(Lang::get('admin.sellerPayType.'.$list_item['status'])); ?></td>				<td class="" style="text-align:left;" code=""><?php echo e(yzTime($list_item['createTime'])); ?></td> 
+				<td class="" style="text-align:left;" code=""><?php echo e(yzTime($list_item['payTime'])); ?></td>
+                    </tr>
+                    <?php endforeach; ?>
+                </tbody>
+                    </table>
+                </div><?php echo $__env->make('admin._layouts.pager', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                </div>
+	
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('js'); ?>
+
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('admin._layouts.base', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

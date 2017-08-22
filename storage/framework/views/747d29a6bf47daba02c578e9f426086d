@@ -1,0 +1,1025 @@
+
+<?php $__env->startSection('css'); ?>
+<link rel="stylesheet" type="text/css" href="<?php echo e(asset('css/jquery.tagsinput.css')); ?>">
+<style type="text/css">
+	.m-spboxlst .f-boxr {
+		width: 610px;
+	}
+	.f-boxr .btn{background: #efefef; border-color: #dfdfdf; color: #555;}
+	.x-gebox{border: 1px solid #ddd; padding: 5px 20px;}
+	.x-gebox .u-ipttext{width: 100px; margin-right: 10px;}
+	.closege{width: 20px; height: 20px;  display: inline-block; cursor: pointer; vertical-align: middle; margin-top: -2px; background: url( <?php echo e(asset('wap/community/client/images/ico/close.png')); ?> ); background-size: 100% 100%;}
+    .span-name{width:70px;}
+</style>
+<?php $__env->stopSection(); ?>
+<?php// dd($cateIds) ?>
+<?php $__env->startSection('right_content'); ?>
+
+<div class="m-spboxlst " style="">
+					<form id="yz_form" name="yz_form" class="validate-form ajax-form" method="post" action="http://admin.51mycai365.com/Service/save" enctype="application/x-www-form-urlencoded" target="_self">
+						<dl class="m-ddl">
+		<dt>商家信息</dt>
+		<dd class="clearfix">
+			<div id="name-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 商家名称:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="name" id="name" class="u-ipttext" value="<?php echo e($data['name']); ?>" />
+		            </div>
+		        </div>
+			<?php if($data): ?>
+			<input type="hidden" id="type" name="type" value="<?php if(isset($data['type'])):?><?php echo e($data['type']); ?><?php else: ?><?php echo e($data['type']); ?><?php endif; ?>"/>
+				<?php if($data['type'] == 2): ?>
+				<div id="contacts-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 法人/店主:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="contacts" id="contacts" class="u-ipttext" value="<?php echo e($data['contacts']); ?>" />
+		            </div>
+		        </div>
+				<div id="serviceTel-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 服务电话:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="serviceTel" id="serviceTel" class="u-ipttext" value="<?php echo e($data['serviceTel']); ?>" />
+		            </div>
+		        </div>
+				<?php endif; ?>
+			<?php else: ?>
+			<div id="type-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 加盟类型:
+		            </span>
+		            <div class="f-boxr">
+		                  <?php $radio_options = array (
+  0 => '1',
+  1 => '2',
+); ?><?php $default = ''; ?><?php $checked = ''; ?><?php $radio_texts = array (
+  0 => '个人',
+  1 => '商家',
+); ?><?php  foreach($radio_options as $options_key => $options_val): 
+                    $checked_attr = $options_val == $checked ? " checked" : ""; ?>
+                    <label>
+                        <input type="radio" class="uniform " name="type" value="<?php echo $options_val; ?>" <?php echo $checked_attr; ?>/>
+                        <span><?php echo $radio_texts[$options_key]; ?></span>
+                    </label>
+                    <span>&nbsp;&nbsp;</span>
+                    <?php endforeach; ?>
+		            </div>
+		        </div>
+			<div id="contacts-form-item" class="u-fitem clearfix  sertype">
+		            <span class="f-tt">
+		                 负责人:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="contacts" id="contacts" class="u-ipttext" value="<?php echo e($data['contacts']); ?>" />
+		            </div>
+		        </div>
+			<div id="serviceTel-form-item" class="u-fitem clearfix  sertype">
+		            <span class="f-tt">
+		                 服务电话:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="serviceTel" id="serviceTel" class="u-ipttext" value="<?php echo e($data['serviceTel']); ?>" />
+		            </div>
+		        </div>
+			<?php endif; ?>
+            <div class="m-yhk m-ghkh" >                           
+                <div id="-form-item" class="u-fitem clearfix  send-cate-type send-cate-group">
+		            <span class="f-tt">
+		                 经营类型:
+		            </span>
+		            <div class="f-boxr">
+		                  <div class="input-group">
+                        <table border="0">
+                             <tbody>
+                                <tr>
+                                    <td rowspan="2">
+                                        <select id="cate_1" name="cateIds" class="form-control" multiple="multiple" style="min-width:200px; *width:200px; height:260px;">
+                                        <?php if(count($data['sellerCate']) > 0): ?>
+	                                        <?php foreach($data['sellerCate'] as $item): ?>
+	                                        	<option value="<?php echo e($item['cateId']); ?>" ><?php echo e($item['cates']['name']); ?></option>
+	                                        <?php endforeach; ?>
+                                        <?php endif; ?>
+                                        </select>
+                                    </td>
+                                    <td width="60" align="center" rowspan="2">
+                                        <button type="button" class="btn btn-gray" onclick="$.optionMove('cate_2', 'cate_1', 1);">
+                                            <span class="fa fa-2x fa-angle-double-left"> </span>
+                                        </button>
+                                        <br><br>
+                                        <button type="button" class="btn btn-gray" onclick="$.optionMove('cate_2', 'cate_1');">
+                                            <span class="fa fa-2x fa-angle-left"> </span>
+                                        </button>
+                                        <br><br>
+                                        <button type="button" class="btn btn-gray" onclick="$.optionMove('cate_1', 'cate_2');">
+                                            <span class="fa fa-2x fa-angle-right"> </span>
+                                        </button>
+                                        <br><br>
+                                        <button type="button" class="btn btn-gray" onclick="$.optionMove('cate_1', 'cate_2', 1);">
+                                            <span class="fa fa-2x fa-angle-double-right"> </span>
+                                        </button>
+                                        <input type="hidden" name="cateIds" id="cateIds">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                       <select id="cate_2" class="form-control" multiple="multiple" style="min-width:200px; *width:200px; height:260px;"> 
+                                       	<?php foreach($cateIds as $key => $val): ?>
+	                                       	<?php if($cateIds[$key]['childs']): ?>
+		                                       	<optgroup label="<?php echo e($val['name']); ?>" id="group_<?php echo e($val['id']); ?>">
+		                                       		<?php foreach($cateIds[$key]['childs'] as $cs): ?>
+												    	<option value="<?php echo e($cs['id']); ?>" data-group="<?php echo e($val['id']); ?>"><?php echo e($cs['name']); ?></option>
+												    <?php endforeach; ?>
+												</optgroup>
+	                                        <?php else: ?>
+												<option value="<?php echo e($val['id']); ?>" ><?php echo e($val['name']); ?></option>
+	                                        <?php endif; ?>
+                                        <?php endforeach; ?>
+                                        </select>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="blank3"></div>
+                    </div>
+		            </div>
+		        </div> 
+                <fitem type="script">
+                <script type="text/javascript">
+                    jQuery(function($){ 
+                        $("#yz_form").submit(function(){
+                            var ids = new Array(); 
+                            $("#cate_1 option").each(function(){
+                                ids.push(this.value);
+                            })
+                            $("#cateIds").val(ids);
+                        })
+                        $.optionMove = function(from, to, isAll){
+                            var from = $("#" + from);
+                            var to_group = to;
+                            var to = $("#" + to);
+                            var list;
+                            if(isAll){
+                                list = $('option', from);
+                            }else{
+                                list = $('option:selected', from);
+                            }
+                            list.each(function(){
+                                if($('option[value="' + this.value + '"]', to).length > 0){
+                                    $(this).remove();
+                                } else {
+                                    $('option', to).attr('selected',false);
+                                    //还原时验证是否是子分类（向右移动）
+                                    if(to_group == "cate_2"){
+                                    	//DOM对象转化成JQuery对象
+                                    	var $this = $(this);
+                                    	if($this.attr("data-group") > 0){
+                                    		//移动到对应分组下
+                                    		$("#" + to_group + " #group_"+$this.attr("data-group")).append(this);
+                                    	}else{
+                                    		//移动到最后
+                                    		to.append(this);
+                                    	}
+                                    	
+                                    }
+                                    //（向左移动）
+                                    else{
+                                    	//移动到最后
+                                    	to.append(this);
+                                    }
+                                    
+                                }
+                            });
+                        }
+                
+                    });
+                </script>   
+                </fitem>     
+            </div>
+			<div id="logo-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 商家LOGO:
+		            </span>
+		            <div class="f-boxr">
+		                  <ul class="m-tpyllst clearfix">
+	            				<li id="logo-box" class="">
+	            				<?php if( !empty($data['logo']) ): ?>
+	            					<a id="img-preview-logo" class="m-tpyllst-img" href="<?php echo e($data['logo']); ?>" target="_blank"><img src="<?php echo e($data['logo']); ?>" alt=""></a>
+	            				<?php else: ?>
+                                    <a id="img-preview-logo" class="m-tpyllst-img" href="javascript:;" target="_self"><img src="" alt="" style="display:none;"></a>
+	            				<?php endif; ?>
+                                <a class="m-tpyllst-btn img-update-btn" href="javascript:;" data-rel="logo">
+                                    <i class="fa fa-plus"></i> 上传图片
+                                </a>
+	            				<input type="hidden" data-tip-rel="#logo-box" name="logo" id="logo" value="<?php echo e($data['logo']); ?>"/>
+	            				</li>
+							</ul>
+		            </div>
+		        </div>
+			<div id="image-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 商家背景图:
+		            </span>
+		            <div class="f-boxr">
+		                  <ul class="m-tpyllst clearfix">
+	            				<li id="image-box" class="">
+	            				<?php if( !empty($data['image']) ): ?>
+	            					<a id="img-preview-image" class="m-tpyllst-img" href="<?php echo e($data['image']); ?>" target="_blank"><img src="<?php echo e($data['image']); ?>" alt=""></a>
+	            				<?php else: ?>
+                                    <a id="img-preview-image" class="m-tpyllst-img" href="javascript:;" target="_self"><img src="" alt="" style="display:none;"></a>
+	            				<?php endif; ?>
+                                <a class="m-tpyllst-btn img-update-btn" href="javascript:;" data-rel="image">
+                                    <i class="fa fa-plus"></i> 上传图片
+                                </a>
+	            				<input type="hidden" data-tip-rel="#image-box" name="image" id="image" value="<?php echo e($data['image']); ?>"/>
+	            				</li>
+							</ul>
+		            </div>
+		        </div>
+			<div id="brief-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 简介:
+		            </span>
+		            <div class="f-boxr">
+		                  <textarea name="brief" id="brief" class="u-ttarea"><?php echo e($data['brief']); ?></textarea>
+		            </div>
+		        </div>
+		</dd>
+		<div id="provinceId-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 所在地区:
+		            </span>
+		            <div class="f-boxr">
+		                  <script type="text/javascript" src="http://admin.51mycai365.com/js/city.js"></script><select id="provinceId" name="provinceId" data-val="<?php echo e($data['province']['id']); ?>" data-showtip="0" data-city="cityId" class="sle province_city" style="width:auto; display:inline-block;"></select><select id="cityId" name="cityId" data-val="<?php echo e($data['city']['id']); ?>" data-area="areaId" class="sle" style="width:auto; display:inline-block;"></select><select id="areaId" name="areaId" data-val="<?php echo e($data['area']['id']); ?>" class="sle" style="width:auto; display:inline-block;"></select><script type="text/javascript">jQuery(function($){$.RegionBind("provinceId");});</script>
+		            </div>
+		        </div>
+		<div id="mapPos-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 服务范围:
+		            </span>
+		            <div class="f-boxr">
+		                  <script charset="utf-8" src="http://map.qq.com/api/js?v=2.exp&key=2N2BZ-KKZA4-ZG4UB-XAOJU-HX2ZE-HYB4O&libraries=geometry"></script><input type="text" name="address" id="map-address-1" placeholder="" class="u-ipttext" value="<?php echo e($data['address']); ?>">
+            <button type="button" id="map-search-1" class="btn "><i class="fa fa-map-marker"></i> 定位</button>
+            <button type="button" id="map-refresh-pos-1" class="btn "><i class="fa fa-refresh"></i> 重置范围</button>
+            <div class="blank5"></div>
+            <div id="map-container-1" style="width:540px; height:300px; border:1px solid #ccc;"></div>
+            <input type="hidden" name="mapPoint" id="map-point-1" value="<?php echo e($data['mapPoint']); ?>"/>
+            <input type="hidden" name="mapPos" id="map-pos-1" value="<?php echo e($data['mapPos']); ?>"/>
+            <script type="text/javascript">
+            var qqGeocoder1,qqMap1,qqMarker1,qqPolygon1 = null,qqLatLngs1 = null;
+            var defaultMapPoint1 = "<?php echo e($data['mapPoint']); ?>";
+            jQuery(function($){
+                $(window).load(function(){
+                    var mapCenter1;
+                    if(defaultMapPoint1 == ""){
+                        mapCenter1 = new qq.maps.LatLng(39.916527,116.397128);
+                    } else {
+                        mapCenter1 = new qq.maps.LatLng(<?php echo e($data['mapPoint']); ?>);
+                    }           
+                    qqMap1 = new qq.maps.Map(document.getElementById("map-container-1"),{
+                        center: mapCenter1,
+                        zoom: 13
+                    });
+                    qqMarker1 = new qq.maps.Marker({
+                        map:qqMap1,
+                        draggable:true,
+                        position: mapCenter1
+                    });
+
+                    $("#map-refresh-pos-1").click(function(){
+                        var latLng = mapCenter1;
+                        var tmpLng = qq.maps.geometry.spherical.computeOffset(latLng, 500, 0);
+                        //西北角
+                        var wnLatLng = qq.maps.geometry.spherical.computeOffset(tmpLng, 500, -90);
+                        //东北角
+                        var enLatLng = qq.maps.geometry.spherical.computeOffset(tmpLng, 500, 90);
+                        //东南角
+                        var esLatLng = qq.maps.geometry.spherical.computeOffset(enLatLng, 1000, 180);
+                        //西南角
+                        var nwLatLng = qq.maps.geometry.spherical.computeOffset(wnLatLng, 1000, 180);
+                        qqLatLngs1 = [wnLatLng,enLatLng,esLatLng,nwLatLng];
+                        qqPolygon1.setPath(qqLatLngs1);
+                    });
+
+                    $.createPolygon1 = function(latLng){
+                        if(!qqPolygon1){
+                            var tmpLng = qq.maps.geometry.spherical.computeOffset(latLng, 500, 0);
+                            //西北角
+                            var wnLatLng = qq.maps.geometry.spherical.computeOffset(tmpLng, 500, -90);
+                            //东北角
+                            var enLatLng = qq.maps.geometry.spherical.computeOffset(tmpLng, 500, 90);
+                            //东南角
+                            var esLatLng = qq.maps.geometry.spherical.computeOffset(enLatLng, 1000, 180);
+                            //西南角
+                            var nwLatLng = qq.maps.geometry.spherical.computeOffset(wnLatLng, 1000, 180);
+                            qqLatLngs1 = [wnLatLng,enLatLng,esLatLng,nwLatLng];
+
+                            qqPolygon1 = new qq.maps.Polygon({
+                                map:qqMap1,
+                                editable:true,
+                                visible:true,
+                                path:qqLatLngs1
+                            });
+                        } else {
+                            var heading = qq.maps.geometry.spherical.computeHeading(mapCenter1, latLng);
+                            var distance = qq.maps.geometry.spherical.computeDistanceBetween(mapCenter1, latLng);
+                            qqLatLngs1 = new Array();
+                            qqPolygon1.getPath().forEach(function(element, index){
+                                qqLatLngs1.push(qq.maps.geometry.spherical.computeOffset(element, distance, heading));
+                            });
+                            qqPolygon1.setPath(qqLatLngs1);
+                        }
+                        mapCenter1 = latLng;
+                    }
+
+                    qq.maps.event.addListener(qqMarker1, "dragend", function(event) {
+                        $("#map-point-1").val(event.latLng.getLat() + "," + event.latLng.getLng());
+                        $.createPolygon1(event.latLng);
+                    });
+                    qq.maps.event.addListener(qqMap1, "click", function(event) {
+                        qqMarker1.setPosition(event.latLng);
+                        $.createPolygon1(event.latLng);
+                        $("#map-point-1").val(event.latLng.getLat() + "," + event.latLng.getLng());
+                    });
+
+                    if(defaultMapPoint1 == ""){
+                        var cityLocation1 = new qq.maps.CityService({
+                            complete : function(result){
+                                qqMap1.setCenter(result.detail.latLng);
+                                qqMarker1.setPosition(result.detail.latLng);
+                                $.createPolygon1(result.detail.latLng);
+                                $("#map-point-1").val(result.detail.latLng.getLat() + "," + result.detail.latLng.getLng());
+                            }
+                        });
+                        cityLocation1.searchLocalCity();
+                    } else {
+                        var mapPos1 = "<?php echo e($data['mapPos']); ?>".split("|");
+                        var mpLatLng1;
+                        qqLatLngs1 = new Array();
+                        for(var mpIndex = 0; mpIndex < mapPos1.length; mpIndex++){
+                            mpLatLng1 = mapPos1[mpIndex].split(",");
+                            qqLatLngs1.push(new qq.maps.LatLng(mpLatLng1[0],mpLatLng1[1]));
+                        }
+                        qqPolygon1 = new qq.maps.Polygon({
+                            map:qqMap1,
+                            editable:true,
+                            visible:true,
+                            path:qqLatLngs1
+                        });
+                    }
+                    
+                    qqGeocoder1 = new qq.maps.Geocoder({
+                        complete : function(result){
+                            qqMap1.setCenter(result.detail.location);
+                            qqMarker1.setPosition(result.detail.location);
+                            $.createPolygon1(result.detail.location);
+                            $("#map-point-1").val(result.detail.location.getLat() + "," + result.detail.location.getLng());
+                        }
+                    });
+
+                    $("#map-search-1").click(function(){
+                        if($.trim($("#map-address-1").val()) != ""){
+                            qqGeocoder1.getLocation($("#map-address-1").val());
+                        }
+                    });
+
+                    YZ.AJAX_FROM_SYNC.push(function(){
+                        var maplatLngs = new Array();
+                        qqPolygon1.getPath().forEach(function(element, index){
+                            maplatLngs.push(element.getLat() + "," + element.getLng());
+                        });
+                        $("#map-pos-1").val(maplatLngs.join("|"));
+                    });
+                })
+            })
+            </script>
+		            </div>
+		        </div>
+	</dl>
+	<dl class="m-ddl">
+		<dt>认证信息</dt>
+		<dd class="clearfix">
+			<div id="mobile-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 登录手机号:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="mobile" id="mobile" class="u-ipttext" value="<?php echo e($data['mobile']); ?>" />
+		            </div>
+		        </div>
+			<?php if($data): ?>
+			<div id="pwd-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 密码:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="pwd" id="pwd" class="u-ipttext" disableautocomplete autocomplete="off" />&nbsp;<span>不修改请保留为空</span>
+		            </div>
+		        </div>
+			<div id="-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 认证状态:
+		            </span>
+		            <div class="f-boxr">
+		                  <?php $isAuthenticate = isset($data['isAuthenticate']) ? $data['isAuthenticate'] : 0 ?>
+				<?php $radio_options = array (
+  0 => '1',
+  1 => '0',
+); ?><?php $default = ''; ?><?php $checked = isset($isAuthenticate) ? $isAuthenticate : $default; ?><?php $radio_texts = array (
+  0 => '已认证',
+  1 => '未认证',
+); ?><?php  foreach($radio_options as $options_key => $options_val): 
+                    $checked_attr = $options_val == $checked ? " checked" : ""; ?>
+                    <label>
+                        <input type="radio" class="uniform " name="isAuthenticate" value="<?php echo $options_val; ?>" <?php echo $checked_attr; ?>/>
+                        <span><?php echo $radio_texts[$options_key]; ?></span>
+                    </label>
+                    <span>&nbsp;&nbsp;</span>
+                    <?php endforeach; ?>
+		            </div>
+		        </div>
+			<?php else: ?>
+			<div id="pwd-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 密码:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="pwd" id="pwd" class="u-ipttext" disableautocomplete autocomplete="off" /><p>如果手机号未注册会员，必须设置密码；<br/>如果手机号已经注册过会员，设置密码将重置会员登录密码；</p>
+		            </div>
+		        </div>
+			<?php endif; ?>
+            <?php if($data['type'] == 1): ?>
+                <div id="contacts-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 真实姓名:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="contacts" id="contacts" class="u-ipttext" value="<?php echo e($data['contacts']); ?>" />
+		            </div>
+		        </div>
+            <?php endif; ?>
+			<div id="idcardSn-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 身份证编号:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="idcardSn" id="idcardSn" class="u-ipttext" value="<?php echo e($data['idcardSn']); ?>" />
+		            </div>
+		        </div>  
+			<div id="idcardPositiveImg-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 身份证正面:
+		            </span>
+		            <div class="f-boxr">
+		                  <ul class="m-tpyllst clearfix">
+	            				<li id="idcardPositiveImg-box" class="">
+	            				<?php if( !empty($data['idcardPositiveImg']) ): ?>
+	            					<a id="img-preview-idcardPositiveImg" class="m-tpyllst-img" href="<?php echo e($data['idcardPositiveImg']); ?>" target="_blank"><img src="<?php echo e($data['idcardPositiveImg']); ?>" alt=""></a>
+	            				<?php else: ?>
+                                    <a id="img-preview-idcardPositiveImg" class="m-tpyllst-img" href="javascript:;" target="_self"><img src="" alt="" style="display:none;"></a>
+	            				<?php endif; ?>
+                                <a class="m-tpyllst-btn img-update-btn" href="javascript:;" data-rel="idcardPositiveImg">
+                                    <i class="fa fa-plus"></i> 上传图片
+                                </a>
+	            				<input type="hidden" data-tip-rel="#idcardPositiveImg-box" name="idcardPositiveImg" id="idcardPositiveImg" value="<?php echo e($data['idcardPositiveImg']); ?>"/>
+	            				</li>
+							</ul>
+		            </div>
+		        </div>  
+			<div id="idcardNegativeImg-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 身份证背面:
+		            </span>
+		            <div class="f-boxr">
+		                  <ul class="m-tpyllst clearfix">
+	            				<li id="idcardNegativeImg-box" class="">
+	            				<?php if( !empty($data['idcardNegativeImg']) ): ?>
+	            					<a id="img-preview-idcardNegativeImg" class="m-tpyllst-img" href="<?php echo e($data['idcardNegativeImg']); ?>" target="_blank"><img src="<?php echo e($data['idcardNegativeImg']); ?>" alt=""></a>
+	            				<?php else: ?>
+                                    <a id="img-preview-idcardNegativeImg" class="m-tpyllst-img" href="javascript:;" target="_self"><img src="" alt="" style="display:none;"></a>
+	            				<?php endif; ?>
+                                <a class="m-tpyllst-btn img-update-btn" href="javascript:;" data-rel="idcardNegativeImg">
+                                    <i class="fa fa-plus"></i> 上传图片
+                                </a>
+	            				<input type="hidden" data-tip-rel="#idcardNegativeImg-box" name="idcardNegativeImg" id="idcardNegativeImg" value="<?php echo e($data['idcardNegativeImg']); ?>"/>
+	            				</li>
+							</ul>
+		            </div>
+		        </div> 	
+			<?php if($data): ?>
+				<?php if($data['type'] == 2): ?>
+				<div id="businessLicenceImg-form-item" class="u-fitem clearfix  sertype">
+		            <span class="f-tt">
+		                 营业执照图片:
+		            </span>
+		            <div class="f-boxr">
+		                  <ul class="m-tpyllst clearfix">
+	            				<li id="businessLicenceImg-box" class="">
+	            				<?php if( !empty($data['businessLicenceImg']) ): ?>
+	            					<a id="img-preview-businessLicenceImg" class="m-tpyllst-img" href="<?php echo e($data['businessLicenceImg']); ?>" target="_blank"><img src="<?php echo e($data['businessLicenceImg']); ?>" alt=""></a>
+	            				<?php else: ?>
+                                    <a id="img-preview-businessLicenceImg" class="m-tpyllst-img" href="javascript:;" target="_self"><img src="" alt="" style="display:none;"></a>
+	            				<?php endif; ?>
+                                <a class="m-tpyllst-btn img-update-btn" href="javascript:;" data-rel="businessLicenceImg">
+                                    <i class="fa fa-plus"></i> 上传图片
+                                </a>
+	            				<input type="hidden" data-tip-rel="#businessLicenceImg-box" name="businessLicenceImg" id="businessLicenceImg" value="<?php echo e($data['businessLicenceImg']); ?>"/>
+	            				</li>
+							</ul>
+		            </div>
+		        </div> 
+				<?php else: ?>
+				<div id="certificateImg-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 资质证书图片:
+		            </span>
+		            <div class="f-boxr">
+		                  <ul class="m-tpyllst clearfix">
+	            				<li id="certificateImg-box" class="">
+	            				<?php if( !empty($data['certificateImg']) ): ?>
+	            					<a id="img-preview-certificateImg" class="m-tpyllst-img" href="<?php echo e($data['certificateImg']); ?>" target="_blank"><img src="<?php echo e($data['certificateImg']); ?>" alt=""></a>
+	            				<?php else: ?>
+                                    <a id="img-preview-certificateImg" class="m-tpyllst-img" href="javascript:;" target="_self"><img src="" alt="" style="display:none;"></a>
+	            				<?php endif; ?>
+                                <a class="m-tpyllst-btn img-update-btn" href="javascript:;" data-rel="certificateImg">
+                                    <i class="fa fa-plus"></i> 上传图片
+                                </a>
+	            				<input type="hidden" data-tip-rel="#certificateImg-box" name="certificateImg" id="certificateImg" value="<?php echo e($data['certificateImg']); ?>"/>
+	            				</li>
+							</ul>
+		            </div>
+		        </div> 
+				<?php endif; ?>
+			<?php else: ?>
+			<div id="businessLicenceImg-form-item" class="u-fitem clearfix  sertype">
+		            <span class="f-tt">
+		                 营业执照图片:
+		            </span>
+		            <div class="f-boxr">
+		                  <ul class="m-tpyllst clearfix">
+	            				<li id="businessLicenceImg-box" class="">
+	            				<?php if( !empty($data['businessLicenceImg']) ): ?>
+	            					<a id="img-preview-businessLicenceImg" class="m-tpyllst-img" href="<?php echo e($data['businessLicenceImg']); ?>" target="_blank"><img src="<?php echo e($data['businessLicenceImg']); ?>" alt=""></a>
+	            				<?php else: ?>
+                                    <a id="img-preview-businessLicenceImg" class="m-tpyllst-img" href="javascript:;" target="_self"><img src="" alt="" style="display:none;"></a>
+	            				<?php endif; ?>
+                                <a class="m-tpyllst-btn img-update-btn" href="javascript:;" data-rel="businessLicenceImg">
+                                    <i class="fa fa-plus"></i> 上传图片
+                                </a>
+	            				<input type="hidden" data-tip-rel="#businessLicenceImg-box" name="businessLicenceImg" id="businessLicenceImg" value="<?php echo e($data['businessLicenceImg']); ?>"/>
+	            				</li>
+							</ul>
+		            </div>
+		        </div>
+			<div id="certificateImg-form-item" class="u-fitem clearfix  pertype">
+		            <span class="f-tt">
+		                 资质证书图片:
+		            </span>
+		            <div class="f-boxr">
+		                  <ul class="m-tpyllst clearfix">
+	            				<li id="certificateImg-box" class="">
+	            				<?php if( !empty($data['certificateImg']) ): ?>
+	            					<a id="img-preview-certificateImg" class="m-tpyllst-img" href="<?php echo e($data['certificateImg']); ?>" target="_blank"><img src="<?php echo e($data['certificateImg']); ?>" alt=""></a>
+	            				<?php else: ?>
+                                    <a id="img-preview-certificateImg" class="m-tpyllst-img" href="javascript:;" target="_self"><img src="" alt="" style="display:none;"></a>
+	            				<?php endif; ?>
+                                <a class="m-tpyllst-btn img-update-btn" href="javascript:;" data-rel="certificateImg">
+                                    <i class="fa fa-plus"></i> 上传图片
+                                </a>
+	            				<input type="hidden" data-tip-rel="#certificateImg-box" name="certificateImg" id="certificateImg" value="<?php echo e($data['certificateImg']); ?>"/>
+	            				</li>
+							</ul>
+		            </div>
+		        </div>
+			<?php endif; ?>
+		</dd>
+	</dl>
+	<dl class="m-ddl">
+		<dt>营业设置</dt>
+		<?php if($data): ?>
+		<dd class="clearfix" style="padding:15px;"> 
+			<?php echo $__env->make('admin.common.service.showtime', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?> 
+            <?php echo $__env->make('admin.common.service.sztime', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?> 
+		</dd>
+		<?php endif; ?>
+		<dd class="clearfix">
+			<div id="-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 配送时间:
+		            </span>
+		            <div class="f-boxr">
+		                  <div id="delivery-form-item" class="u-fitem clearfix">
+		            <div class="f-boxr">
+		                <button type="button" class="btn addge add_delivery">添加时间</button>
+		                <span>(最多可添加3个)</span>
+		            </div>
+		        </div>
+		        <div id="delivery-form-item" class="u-fitem clearfix x-addge">
+		            <span class="f-tt">&nbsp;</span>
+		            <div class="f-boxr delivery_panel">
+		           	 	<?php foreach($data['deliveryTimes'] as $item): ?>
+		                <div class="x-gebox">
+							开始时间：<input type="text" name="_stime[]" value="<?php echo e($item['stime']); ?>" class="u-ipttext" />
+							结束时间：<input type="text" name="_etime[]" value="<?php echo e($item['etime']); ?>" class="u-ipttext" />
+							<i class="closege"></i>
+		                </div>
+		            	<?php endforeach; ?>
+		            </div>
+		        </div>
+		            </div>
+		        </div>
+			<div id="-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 起送费:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="serviceFee" class="u-ipttext" value="<?php echo e($data['serviceFee']); ?>" onKeyUp="amount(this)" onBlur="overFormat(this)">
+		            </div>
+		        </div>
+			<div id="-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 配送费:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="deliveryFee" class="u-ipttext" value="<?php echo e($data['deliveryFee']); ?>" onKeyUp="amount(this)" onBlur="overFormat(this)">
+		            </div>
+		        </div>
+			<div id="-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 佣金比例:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="deduct" class="u-ipttext" value="<?php echo e($data['deduct']); ?>" onKeyUp="amount(this)" onBlur="overFormat(this)">
+                  <span style="color:#000;">%</span> 
+                  <span style="color:#ccc;" class="ml10">佣金比例只能是 0% ~ 100% 范围</span>
+		            </div>
+		        </div>
+			<div id="-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 货到付款:
+		            </span>
+		            <div class="f-boxr">
+		                  <?php $checkbox_options = array (
+  0 => '1',
+); ?><?php $checkeds = is_array($data['isCashOnDelivery']) ? $data['isCashOnDelivery'] : [$data['isCashOnDelivery']]; ?><?php $checkbox_texts = array (
+  0 => '支持货到付款',
+); ?><?php  foreach($checkbox_options as $options_key => $options_val):
+                    $checked = in_array($options_val, $checkeds) ? " checked" : ""; ?>
+                    <label>
+                        <input type="checkbox" class="uniform " name="isCashOnDelivery" value="<?php echo $options_val; ?>" <?php echo $checked; ?>/>
+                        <span><?php echo $checkbox_texts[$options_key]; ?></span>
+                    </label>
+                    <span>&nbsp;&nbsp;</span>
+                    <?php endforeach; ?>
+		            </div>
+		        </div>
+		</dd>
+	</dl>
+	<?php if($data): ?>
+	<dl class="m-ddl">
+		<dt>银行卡</dt>
+		<dd class="clearfix">
+			
+			<div class="list-btns add_bank_btn">
+	              <a href="javascript:;" class="btn mr5 addbank" >
+	                添加银行卡
+	            </a>
+	        </div>
+	        
+		<div class="m-tab">
+		<table id="checkListTable" class="">
+        <thead>
+        	<tr><td class="" width="100" order="bank" code="bank"><span>开户行</span></td>
+			<td class="" width="150" order="bankNo" code="bankNo"><span>卡号</span></td>
+			<td class="" order="name" code="name" width="100"><span>开户名</span></td> 
+			<td class="" width="100" order="mobile" code="mobile"><span>手机号</span></td>
+			<td style="text-align:center;white-space:nowrap;" width="60"><span>操作</span></td>
+            </tr>
+        </thead>
+        <tbody id="banks">
+			<?php foreach($data['banks'] as $item): ?>
+            <tr class="tr-68 tr-even" ><td class="" code="bank"><?php echo e($item['bank']); ?></td>
+			<td class="" style="text-align:left;" code="bankNo"><?php echo e($item['bankNo']); ?></td>
+			<td class="" style="text-align:left;" code="name"><?php echo e($item['name']); ?></td> 
+			<td class="" code="mobile"><?php echo e($item['mobile']); ?></td>
+			<td class="">
+				<p><a href="javascript:;" class=" red" onclick="$.RemoveItem(this, '<?php echo e(u('Service/delbank',['id'=>$item['id'],'sellerId'=>$data['id']])); ?>', '你确定要删除该数据吗？')" target="_self">删除</a></p>
+			</td>
+            </tr>
+			<?php endforeach; ?>
+        </tbody>
+        </table>
+        </div>
+		</dd>
+	</dl>
+	<?php endif; ?>		<div class="u-fitem clearfix">
+                            <span class="f-tt">
+                                &nbsp;
+                            </span>
+                            <div class="f-boxr">
+                                  <button type="submit" class="u-addspbtn">提 交</button>
+                            </div>
+                        </div>		<input type="hidden" value="<?php echo e($data['id']); ?>" name="id" />
+					</form>
+				</div>
+
+
+
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('js'); ?>
+    <script type="text/tpl" id="serviceContent">
+	<div style="width:500px;padding:10px;">
+	    <div class="g-szzllst pt10">
+						<div class="u-fitem clearfix ">
+				            <div class="">
+                                <span class="f-tt span-name">
+                                     卡　　号：
+                                </span>
+				                  <input type="text" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" name="bankNo" id="bankNo" class="u-ipttext" maxlength="20">
+				            </div>
+				        </div>
+						<div class="u-fitem clearfix ">
+
+				            <div class="">
+				            <span class="f-tt span-name">
+				                 开  户  行：
+				            </span>
+				                  <input type="text" name="bank" id="bank" class="u-ipttext">
+				            </div>
+				        </div>
+						<div class="u-fitem clearfix ">
+
+				            <div class="">
+				            <span class="f-tt span-name">
+				                 户　　主：
+				            </span>
+				                  <input type="text" name="bank_name" id="bank_name" class="u-ipttext" value="<?php echo e($data['name']); ?>">
+				            </div>
+				        </div>
+						<div class="u-fitem clearfix ">
+
+				            <div class="">
+				            <span class="f-tt span-name">
+				                手机号码：
+				            </span>
+				                  <input type="text" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" name="bank_mobile" id="bank_mobile" class="u-ipttext" maxlength="11">
+				            </div>
+				        </div>
+				        <div class="u-fitem clearfix ">
+
+				            <div class="">
+				            <span class="f-tt span-name">
+				                验  证  码：
+				            </span>
+				                <input type="text" name="verifyCode" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" id="verifyCode" class="u-ipttext" maxlength="6"> <td class="tdtr">
+								<button href="javascript:;" class="btn verify" style="line-height:28px;" onclick="$.getVerify();">获取验证码</button>
+				            </div>
+				        </div>
+					</div>
+
+	</div>
+</script>
+<script type="text/javascript">
+	/**
+	* 实时动态强制更改用户录入
+	* arg1 inputObject
+	**/
+	function amount(th){
+	    var regStrs = [
+	        ['^0(\\d+)$', '$1'], //禁止录入整数部分两位以上，但首位为0
+	        ['[^\\d\\.]+$', ''], //禁止录入任何非数字和点
+	        ['\\.(\\d?)\\.+', '.$1'], //禁止录入两个以上的点
+	        ['^(\\d+\\.\\d{2}).+', '$1'] //禁止录入小数点后两位以上
+	    ];
+	    for(i=0; i<regStrs.length; i++){
+	        var reg = new RegExp(regStrs[i][0]);
+	        th.value = th.value.replace(reg, regStrs[i][1]);
+	    }
+	}
+ 
+	/**
+	* 录入完成后，输入模式失去焦点后对录入进行判断并强制更改，并对小数点进行0补全
+	* arg1 inputObject
+	* 这个函数写得很傻，是我很早以前写的了，没有进行优化，但功能十分齐全，你尝试着使用
+	* 其实有一种可以更快速的JavaScript内置函数可以提取杂乱数据中的数字：
+	* parseFloat('10');
+	**/
+	function overFormat(th){
+	    var v = th.value;
+	    if(v === ''){
+	        v = '0.00';
+	    }else if(v === '0'){
+	        v = '0.00';
+	    }else if(v === '0.'){
+	        v = '0.00';
+	    }else if(/^0+\d+\.?\d*.*$/.test(v)){
+	        v = v.replace(/^0+(\d+\.?\d*).*$/, '$1');
+	        v = inp.getRightPriceFormat(v).val;
+	    }else if(/^0\.\d$/.test(v)){
+	        v = v + '0';
+	    }else if(!/^\d+\.\d{2}$/.test(v)){
+	        if(/^\d+\.\d{2}.+/.test(v)){
+	            v = v.replace(/^(\d+\.\d{2}).*$/, '$1');
+	        }else if(/^\d+$/.test(v)){
+	            v = v + '.00';
+	        }else if(/^\d+\.$/.test(v)){
+	            v = v + '00';
+	        }else if(/^\d+\.\d$/.test(v)){
+	            v = v + '0';
+	        }else if(/^[^\d]+\d+\.?\d*$/.test(v)){
+	            v = v.replace(/^[^\d]+(\d+\.?\d*)$/, '$1');
+	        }else if(/\d+/.test(v)){
+	            v = v.replace(/^[^\d]*(\d+\.?\d*).*$/, '$1');
+	            ty = false;
+	        }else if(/^0+\d+\.?\d*$/.test(v)){
+	            v = v.replace(/^0+(\d+\.?\d*)$/, '$1');
+	            ty = false;
+	        }else{
+	            v = '0.00';
+	        }
+	    }
+	    th.value = v;
+	}
+	if(ParesInt(document.getElementById("deduct").value) > 100)
+	{
+	     document.getElementById("deduct").value = 100;
+	}
+	// function txt_onchange(sender, min)
+	// {
+	// 	var value = parseFloat(sender.value);
+
+	// 	if(isNaN(value))
+	// 	{
+	// 		sender.value = "0";
+	// 	}
+	// 	else
+	// 	{
+	// 		if(value < min)
+	// 		{
+	// 			sender.value = min;
+	// 		}
+
+	// 		sender.value = value.toFixed(2);
+	// 	}
+	// }
+	// function txt_onchanges(sender, 0, 100)
+	// {
+	// 	var value = parseFloat(sender.value);
+
+	// 	if(isNaN(value))
+	// 	{
+	// 		sender.value = "0";
+	// 	}
+	// 	else
+	// 	{
+	// 		if(value < 0)
+	// 		{
+	// 			sender.value = 0;
+	// 		}
+
+	// 		if(value > 100)
+	// 		{
+	// 			sender.value = 100;
+	// 		}
+
+	// 		sender.value = value.toFixed(2);
+	// 	}
+	// }
+	$(function(){
+		$(".addbank").click(function() {
+            var dialog = $.zydialogs.open($("#serviceContent").html(), {
+                boxid:'SET_GROUP_WEEBOX',
+                width:300,
+                title:'银行卡信息',
+                showClose:true,
+                showButton:true,
+                showOk:true,
+                showCancel:true,
+                okBtnName: '确认',
+                cancelBtnName: '取消',
+                contentType:'content',
+                onOk: function(){
+                    var bank = $("#bank").val();
+                    var bankNo = $("#bankNo").val();
+                    var mobile = $("#bank_mobile").val();
+                    var name = $("#bank_name").val();
+                    var verifyCode = $("#verifyCode").val();
+                    var id = "<?php echo e($data['id']); ?>";
+                    $.post("<?php echo e(u('Service/banksave')); ?>", {'bank':bank,'bankNo':bankNo,'mobile':mobile,'id':id,'name':name,'verifyCode':verifyCode} ,function(res){
+                        if(res.code == 0) {
+                            $("#banks").empty();
+                            if (res.data.length > 0) {
+                                var banksinfo = res.data;
+                                for (var i = 0; i < banksinfo.length; i++) {
+                                	url = "<?php echo e(u('Service/delbank')); ?>?id="+banksinfo[i].id+"&sellerId="+banksinfo[i].sellerId;
+                                    var htmls = '<tr class="tr-68 tr-even" ><td class="" code="bank">'+banksinfo[i].bank +'</td><td class="" style="text-align:left;" code="bankNo">'+banksinfo[i].bankNo +'</td><td class="" style="text-align:left;" code="name">'+banksinfo[i].name +'</td><td class="" code="mobile">'+banksinfo[i].mobile +'</td><td class=""><p><a href="javascript:;" class=" red" onclick="$.RemoveItem(this, '+url+', "你确定要删除该数据吗？")" target="_self">删除</a></p></td></tr>';
+                                    $("#banks").append(htmls);
+                                };
+                            };
+                            $.zydialogs.close("SET_GROUP_WEEBOX");
+                            $(".add_bank_btn").remove();
+                        }else{
+                            $.ShowAlert(res.msg);
+                        }
+                    },"json");
+                },
+                onCancel:function(){
+                    $.zydialogs.close("SET_GROUP_WEEBOX");
+                }
+            });
+		})
+		
+
+		
+		$("input:radio[name='type']").change(function(){
+			if( $(this).val() == 2 ) {
+				$('.sertype').show();
+				$('.pertype').hide();
+			}else{
+				$('.sertype').hide();
+				$('.pertype').show();
+			}
+		});
+        $.getVerify = function(){
+            var mobile = $("#bank_mobile").val();
+            var sellerId = "<?php echo e($data['id']); ?>";
+            if(sellerId !=　""){
+                var reg = /^1[\d+]{10}$/;
+                if(!reg.test(mobile)){
+                    $.ShowAlert('请输入正确的手机号码');
+                    return false;
+                }
+                time();
+                $.post("<?php echo e(u('Service/userverify')); ?>",{mobile:mobile},function(result){
+                    $(".system_msg").text(result.msg);
+                },'json');
+            }else{
+                $.ShowAlert('服务人员ID不能为空');
+                return false;
+            }
+        }
+
+		var wait = 60; 
+		function time() {    
+		    if (wait == 0) { 
+				$(".verify").removeAttr("disabled") ;
+		        $(".verify").text("免费获取验证码"); 
+		        $(".system_msg").text("");
+		        wait = 60; 
+		    } else { 
+		        $(".verify").attr('disabled',"true");
+		        $(".verify").text(wait + "秒后重新获取验证码");
+		        wait--; 
+		        setTimeout(function () {
+		            time();
+		        },
+		        1000)
+		    }
+		}  
+	})
+
+	$("input[name='isCashPay']").click(function(){
+		if(this.checked){
+			$(this).val(1);
+		} else {
+			$(this).val(0);
+		}
+	});
+
+</script>
+<?php echo $__env->make('seller._layouts.alert', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+<script src="<?php echo e(asset('js/jquery.tagsinput.min.js')); ?>"></script>  
+<script type="text/tpl" id="deliveryrow"> 
+	<div class="x-gebox" style="margin-top:3px;">
+		开始时间：<input type="text" name="_stime[]" class="u-ipttext" placeholder="00:00"/>
+		结束时间：<input type="text" name="_etime[]" class="u-ipttext" placeholder="12:00"/>
+		<i class="closege"></i>
+    </div>
+</script> 
+<script type="text/javascript">
+	$(".add_delivery").click(function(){  
+		if ($(".x-gebox").length == 3) {
+			$.ShowAlert('配送时间段最多添加3个'); 
+			return false;
+		};
+		$(".delivery_panel").append($("#deliveryrow").html()); 
+		if($(".x-gebox").length > 0){
+			$(".delivery_panel").parent().show();
+		}
+	});
+	$(document).on('click','.closege',function(){ 
+		$(this).parent().remove();
+		if($(".x-gebox").length <= 0){
+			$(".delivery_panel").parent().hide();
+		}
+	});
+	$(function(){
+		$("input[name='deduct']").attr("maxlength","6");
+	})
+</script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('admin._layouts.base', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

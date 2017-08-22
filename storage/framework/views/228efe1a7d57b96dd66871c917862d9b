@@ -1,0 +1,107 @@
+
+<?php $__env->startSection('css'); ?>
+<style type="text/css">
+	.m-spboxlst .f-tt{width: 165px;}
+	.ts{color: #999;margin-left: 5px;}
+</style>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('right_content'); ?>
+	
+	<div class="m-spboxlst " style="">
+					<form id="yz_form" name="yz_form" class="validate-form ajax-form" method="post" action="http://admin.51mycai365.com/OrderConfig/save" enctype="application/x-www-form-urlencoded" target="_self">
+						<?php foreach($list as $key => $value): ?>
+			<?php
+				$code = $value['code']; 
+				$data[$code] = $value['val'];
+				$val = trim($value['val']); 
+				$name = $value['name'];
+				$default_val = explode(',', $value['defaultVals']);
+				$default_names = explode(',', $value['defaultNames']);
+			?>
+			<!-- <?php if( $value['showType'] == 'image' ): ?> -->
+			<div id="<?php echo $code; ?>-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 <?php echo e($name); ?>:
+		            </span>
+		            <div class="f-boxr">
+		                  <ul class="m-tpyllst clearfix">
+	            				<li id="<?php echo $code; ?>-box" class="">
+	            				<?php if( !empty($data['<?php echo $code; ?>']) ): ?>
+	            					<a id="img-preview-<?php echo $code; ?>" class="m-tpyllst-img" href="<?php echo e($data['<?php echo $code; ?>']); ?>" target="_blank"><img src="<?php echo e($data['<?php echo $code; ?>']); ?>" alt=""></a>
+	            				<?php else: ?>
+                                    <a id="img-preview-<?php echo $code; ?>" class="m-tpyllst-img" href="javascript:;" target="_self"><img src="" alt="" style="display:none;"></a>
+	            				<?php endif; ?>
+                                <a class="m-tpyllst-btn img-update-btn" href="javascript:;" data-rel="<?php echo $code; ?>">
+                                    <i class="fa fa-plus"></i> 上传图片
+                                </a>
+	            				<input type="hidden" data-tip-rel="#<?php echo $code; ?>-box" name="<?php echo $code; ?>" id="<?php echo $code; ?>" value="<?php echo e($data['<?php echo $code; ?>']); ?>"/>
+	            				</li>
+							</ul>
+		            </div>
+		        </div>
+			<!-- <?php elseif( $value['showType'] == 'textarea' ): ?> -->
+			<div id="<?php echo $code; ?>-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 <?php echo e($name); ?>:
+		            </span>
+		            <div class="f-boxr">
+		                  <textarea name="<?php echo $code; ?>" id="<?php echo $code; ?>" class="u-ttarea"><?php if(isset($data['<?php echo $code; ?>'])):?><?php echo e($data['<?php echo $code; ?>']); ?><?php else: ?><?php echo e($val); ?><?php endif; ?></textarea>
+		            </div>
+		        </div>
+			<!-- <?php elseif( $value['showType'] == 'select' ): ?> -->
+			<div id="-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 <?php echo e($name); ?>:
+		            </span>
+		            <div class="f-boxr">
+		                  <select id="<?php echo $code; ?>" name="<?php echo $code; ?>" class="sle  " ><?php $select_options = $default_val; ?><?php $selecteds = is_array($val) ? $val : [$val]; ?><?php $select_texts = $default_names; ?><?php  foreach($select_options as $options_key => $options_val):
+                    $selected = in_array($options_val, $selecteds) ? " selected" : ""; ?>
+					<option<?php echo $selected; ?> value="<?php echo $options_val; ?>"><?php echo $select_texts[$options_key]; ?></option>
+					<?php endforeach; ?></select>
+		            </div>
+		        </div>
+			<!-- <?php else: ?> -->
+			<div id="<?php echo $code; ?>-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 <?php echo e($name); ?>:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="<?php echo $code; ?>" id="<?php echo $code; ?>" class="u-ipttext" value="<?php if(isset($data['<?php echo $code; ?>'])):?><?php echo e($data['<?php echo $code; ?>']); ?><?php else: ?><?php echo e($val); ?><?php endif; ?>" /><span class="ts"><?php echo e($value['tooltip']); ?></span>
+		            </div>
+		        </div>
+			<!-- <?php endif; ?> -->
+		<?php endforeach; ?>		<div class="u-fitem clearfix">
+                            <span class="f-tt">
+                                &nbsp;
+                            </span>
+                            <div class="f-boxr">
+                                  <button type="submit" class="u-addspbtn">提 交</button>
+                            </div>
+                        </div>		<input type="hidden" value="<?php echo e($data['id']); ?>" name="id" />
+					</form>
+				</div>
+	
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('js'); ?>
+<script type="text/javascript">
+	$(function(){
+		var staff_deduct_type = $("#staff_deduct_type").val();
+		if (staff_deduct_type == 2) {
+			$("#staff_deduct_value").next().text('%');
+		} else {
+			$("#staff_deduct_value").next().text('元');
+		}
+
+		$('#staff_deduct_type').change(function(){
+			var staff_deduct_type = $(this).val();
+			if (staff_deduct_type == 2) {
+				$("#staff_deduct_value").next().text('%');
+			} else {
+				$("#staff_deduct_value").next().text('元');
+			}
+		});
+	})
+</script>
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('admin._layouts.base', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

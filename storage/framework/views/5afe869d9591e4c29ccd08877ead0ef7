@@ -1,0 +1,88 @@
+
+<?php $__env->startSection('css'); ?>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('right_content'); ?>
+	
+		<div id="checkList" class="">
+                    <div class="u-ssct clearfix">
+                    <?php $search_args = Input::all(); ?>
+                    <form id="yzForm" class="" name="yzForm" method="post" action="http://admin.51mycai365.com/SellerApply/index" target="_self">
+                        <div class="search-row clearfix">
+                      <div id="name-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 商家名:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="name" id="name" class="u-ipttext" value="<?php echo e($search_args['name']); ?>" />
+		            </div>
+		        </div>
+					<div id="-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 审核状态:
+		            </span>
+		            <div class="f-boxr">
+		                  <select id="isCheck" name="isCheck" class="sle  " ><?php $select_options = array (
+  0 => '2',
+  1 => '1',
+); ?><?php $selecteds = is_array($search_args['isCheck']) ? $search_args['isCheck'] : [$search_args['isCheck']]; ?><?php $select_texts = array (
+  0 => '待审核',
+  1 => '拒绝',
+); ?><?php  foreach($select_options as $options_key => $options_val):
+                    $selected = in_array($options_val, $selecteds) ? " selected" : ""; ?>
+					<option<?php echo $selected; ?> value="<?php echo $options_val; ?>"><?php echo $select_texts[$options_key]; ?></option>
+					<?php endforeach; ?></select>
+		            </div>
+		        </div>
+					<button type="submit" class="btn mr5">
+                        搜索
+                    </button>
+                </div>
+                    </form>
+                </div>
+			<div class="list-btns">
+                      
+                </div>
+			<div class="m-tab">
+                      <table id="checkListTable" class="">
+                        <thead><td class="" width="40" order="id" code="id"><span>编号</span></td>
+					<td class="" order="name" code="name"><span>商家名</span></td>
+					<td class="" order="contacts" code="contacts"><span>联系人</span></td>
+					<td class="" width="100" order="mobile" code="mobile"><span>电话</span></td>
+					<td class="" order="createTime" code="createTime"><span>申请时间</span></td>
+					<td class="" width="40" order="isCheck" code="isCheck"><span>状态</span></td>
+					<td class="" order="checkVal" code="checkVal"><span>操作理由</span></td>
+					<td style="text-align:center;white-space:nowrap;" width="60"><span>操作</span></td>
+                    </thead><tbody>
+                        <?php foreach($list as $list_index => $list_item): ?>
+                        <?php 
+                            $list_item_css = $list_index % 2 == 0 ? " tr-even" : " tr-odd"; 
+                            $list_item_pk  = $list_item["id"];
+                        ?>
+                        <tr class="tr-<?php echo e($list_item_pk); ?><?php echo e($list_item_css); ?>" key="<?php echo e($list_item_pk); ?>" primary="id"><td class="" code="id"><?php echo e($list_item['id']); ?></td>
+					<td class="" style="text-align:left;" code="name"><?php echo e($list_item['name']); ?></td>
+					<td class="" code="contacts"><?php echo e($list_item['contacts'] ? $list_item['contacts'] : $list_item['name']); ?></td>
+					<td class="" style="text-align:left;" code="mobile"><?php echo e($list_item['mobile']); ?></td>
+					<td class="" code="createTime"><?php echo e(yztime($list_item['createTime'])); ?></td>
+					<td class="" code="isCheck"><?php if($list_item['isCheck'] == 1): ?>
+						<p>已通过</p>
+						<?php elseif($list_item['isCheck'] == -1): ?>
+						<p>拒绝</p>
+						<?php else: ?>
+						<p>待审核</p>
+						<?php endif; ?></td>
+					<td class="" code="checkVal"><?php echo e($list_item['checkVal']); ?></td>
+					<td class=""><a href="<?php echo e(u(CONTROLLER_NAME."/edit",["id" => $list_item["id"]])); ?>" class=" blu"  data-pk="<?php echo e($list_item["id"]); ?>" target="_self">编辑</a>
+						<a href="javascript:;" class=" red"  onclick="$.RemoveItem(this, '<?php echo e(u(CONTROLLER_NAME."/destroy",["id" => $list_item["id"]])); ?>', '你确定要删除该数据吗？')" data-pk="<?php echo e($list_item["id"]); ?>" target="_self">删除</a></td>
+                    </tr>
+                    <?php endforeach; ?>
+                </tbody>
+                    </table>
+                </div><?php echo $__env->make('admin._layouts.pager', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                </div>
+	
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('js'); ?>
+<?php $__env->stopSection(); ?>
+
+
+<?php echo $__env->make('admin._layouts.base', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

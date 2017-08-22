@@ -1,0 +1,158 @@
+
+
+<?php $__env->startSection('show_top'); ?>
+    <div data-role="header" data-position="fixed" class="x-header">
+        <h1><?php echo e($seller_data['name']); ?></h1>
+        <a href="<?php if(!empty($nav_back_url)): ?> <?php echo e($nav_back_url); ?> <?php else: ?> javascript:history.back(-1); <?php endif; ?>" data-iconpos="notext" class="x-back ui-nodisc-icon" data-shadow="false"></a>
+        <span class="x-sjr ui-btn-right"><i class="x-sjsc collect_opration <?php if($seller_data['isCollect'] == 1): ?>on <?php endif; ?>"></i></span>
+    </div>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+<div role="main" class="ui-content">
+        <ul class="x-sjtab">
+            <li <?php if(CONTROLLER_NAME == 'Goods' && ACTION_NAME == 'index'): ?> class="on" <?php endif; ?>><a href="<?php echo e(u('Goods/index',['id'=>$seller_data['id'], 'type'=>1])); ?>">商品</a></li>
+            <li <?php if(CONTROLLER_NAME == 'Goods' && ACTION_NAME == 'comment'): ?> class="on" <?php endif; ?>><a href="<?php echo e(u('Goods/comment',['id'=>$seller_data['id']])); ?>">评价</a></li>
+            <li <?php if(CONTROLLER_NAME == 'Seller' && ACTION_NAME == 'detail'): ?> class="on" <?php endif; ?>><a href="<?php echo e(u('Seller/detail',['id'=>$seller_data['id']])); ?>">商家</a></li>
+        </ul>
+        <div class="x-topic x-sja" style="margin-top:0;">
+            <img src="<?php if(!empty($seller_data['image'])): ?><?php echo e(formatImage($seller_data['image'],375,260)); ?><?php else: ?><?php echo e(asset('wap/community/client/images/sj.jpg')); ?><?php endif; ?>" />
+            <div class="x-sjdel">
+                <div class="x-sjpic"><img src="<?php if(!empty($seller_data['logo'])): ?> <?php echo e(formatImage($seller_data['logo'],200,200)); ?> <?php else: ?> <?php echo e(asset('wap/community/client/images/x5.jpg')); ?> <?php endif; ?>" /></div>
+                <div class="x-sjfont"><?php echo e($seller_data['name']); ?></div>
+                <ul class="x-sjbot">
+                    <li>
+                        <div class="x-sjbot1">
+                            <p>￥<?php echo e($seller_data['serviceFee']); ?></p>
+                            <p class="f12">起送价</p>
+                        </div>
+                        <div class="x-sjbot2"></div>
+                    </li>
+                    <li>
+                        <p>￥<?php echo e($seller_data['deliveryFee']); ?></p>
+                        <p class="f12">配送费</p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <ul class="x-sjdel2">
+            <li>
+                <div class="x-brico">
+                    <img src="<?php echo e(asset('wap/community/client/images/ico/time.png')); ?>" width="18" />
+                </div>
+                <div class="x-brr"><?php echo e($seller_data['businessHours']); ?></div>
+            </li>
+            <li>
+                <div class="x-brico">
+                    <img src="<?php echo e(asset('wap/community/client/images/ico/ico4.png')); ?>" width="18" />
+                </div>
+                <div class="x-brr"><?php echo e($seller_data['tel']); ?><a href="tel:<?php echo e($seller_data['tel']); ?>"><i class="x-phone2ico"></i></a></div>
+            </li>
+            <li>
+                <div class="x-brico">
+                    <img src="<?php echo e(asset('wap/community/client/images/ico/ico2.png')); ?>" width="14" />
+                </div>
+                <div class="x-brr"><?php echo e($seller_data['address']); ?></div>
+            </li>
+            <li>
+                <div class="x-brico">
+                    <img src="<?php echo e(asset('wap/community/client/images/ico/notice2.png')); ?>" width="18" />
+                </div>
+                <div class="x-brr" id="notice">
+                    <?php if(count($articles)>0): ?>
+                    <?php foreach($articles as $key => $value): ?>
+                    <span><?php echo $value['content']; ?></span><br/>
+                    <?php endforeach; ?> 
+                    <?php else: ?> 
+                    <span>暂无最新公告信息</span>
+                    <?php endif; ?>
+                </div>
+            </li>
+        </ul>
+        <div class="x-lh45 c-green">商家介绍</div>
+        <ul class="x-brbg" style="margin-top:0;">
+            <li class="c-black">
+                <?php echo e($seller_data['detail'] ? $seller_data['detail'] : '暂无介绍'); ?>
+
+            </li>
+        </ul>
+    </div>
+    <div data-role="footer" data-position="fixed" data-tap-toggle="false" class="x-footer">
+        <?php if($seller_data['countService'] > 0 && $seller_data['countGoods'] < 1): ?>
+        <div class="x-choicefw c-bg" <?php if($seller_data['isDelivery'] == 1): ?>onclick="window.location.href='<?php echo e(u('Goods/index',['id'=>$seller_data['id'],'type'=>2])); ?>'"<?php else: ?> style="background:#ddd;" <?php endif; ?>>选择服务</div>
+        <?php elseif($seller_data['countGoods'] > 0 && $seller_data['countService'] > 0): ?>
+        <ul class="x-choicefw clearfix">
+            <li class="c-bg" <?php if($seller_data['isDelivery'] == 1): ?>onclick="window.location.href='<?php echo e(u('Goods/index',['id'=>$seller_data['id'],'type'=>2])); ?>'"<?php else: ?> style="background:#ddd;" <?php endif; ?>>选择服务</li>
+            <li class="c-bg" <?php if($seller_data['isDelivery'] == 1): ?>onclick="window.location.href='<?php echo e(u('Goods/index',['id'=>$seller_data['id'],'type'=>1])); ?>'"<?php else: ?> style="background:#ddd;" <?php endif; ?>>购买商品</li>
+        </ul>
+        <?php else: ?>
+            <div class="x-choicefw c-bg" <?php if($seller_data['isDelivery'] == 1): ?>onclick="window.location.href='<?php echo e(u('Goods/index',['id'=>$seller_data['id'],'type'=>1])); ?>'"<?php else: ?> style="background:#ddd;" <?php endif; ?>>购买商品</div>
+        <?php endif; ?>
+    </div>
+
+<!--收藏弹框-->
+<div class="x-bgtk none">
+    <div class="x-bgtk1" style="position: absolute; left: 0px; top: 311px;">
+        <div class="x-tkbgi">
+            <div class="ts"></div>
+        </div> 
+    </div>
+</div>
+    <script>
+        $(".collect_opration").click(function() {
+            var obj = new Object();
+            var collect = $(this);
+            obj.id = "<?php echo e($seller_data['id']); ?>";
+            obj.type = 2;
+            if(collect.hasClass("on")){
+                $.post("<?php echo e(u('UserCenter/delcollect')); ?>",obj,function(result){
+                    if(result.code == 0){
+                        collect.removeClass("on");
+                        $('.x-bgtk').removeClass('none').show().find('.ts').text('取消收藏成功');
+                        $('.x-bgtk1').css({
+                            position:'absolute',
+                            left: ($(window).width() - $('.x-bgtk1').outerWidth())/2,
+                            top: ($(window).height() - $('.x-bgtk1').outerHeight())/2 + $(document).scrollTop()
+                        });
+                        setTimeout(function(){
+                            $('.x-bgtk').fadeOut('2000',function(){
+                                $('.x-bgtk').addClass('none');
+                            });
+                        },'1000');
+                        //$.showSuccess(result.msg);
+                    } else if(result.code == 99996){
+                        window.location.href = "<?php echo e(u('User/login')); ?>";
+                    } else {
+                        $.showError(result.msg);
+                    }
+                },'json');
+            }else{
+                $.post("<?php echo e(u('UserCenter/addcollect')); ?>",obj,function(result){
+                    if(result.code == 0){
+                        collect.addClass("on");
+                        $('.x-bgtk').removeClass('none').show().find('.ts').text('收藏成功');
+                        $('.x-bgtk1').css({
+                            position:'absolute',
+                            left: ($(window).width() - $('.x-bgtk1').outerWidth())/2,
+                            top: ($(window).height() - $('.x-bgtk1').outerHeight())/2 + $(document).scrollTop()
+                        });
+                        setTimeout(function(){
+                            $('.x-bgtk').fadeOut('2000',function(){
+                                $('.x-bgtk').addClass('none');
+                            });
+                        },'1000');
+                       // $.showSuccess(result.msg);
+                    } else if(result.code == 99996){
+                        window.location.href = "<?php echo e(u('User/login')); ?>";
+                    } else {
+                        $.showError(result.msg);
+                    }
+                },'json');
+            }
+        });
+
+    </script>
+<?php $__env->stopSection(); ?>
+
+ 
+<?php echo $__env->make('wap.community._layouts.base', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

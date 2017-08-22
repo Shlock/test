@@ -1,0 +1,74 @@
+
+<?php $__env->startSection('css'); ?>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
+	<div class="p20">
+		<div class="m-zjgltbg">
+			<div class="p10">						
+				<p class="f-bhtt f14 clearfix">
+					<span class="ml15 fl">其他设置</span>
+					<a href="<?php echo e(u('Seller/index')); ?>" class="fr mr15 btn f-bluebtn" style="margin-top:8px;">返回</a>
+				</p>
+				<div class="m-quyu1">
+					<div class="m-inforct" style="padding-top:78px;width:750px;"> 
+						
+						<div class="m-spboxlst " style="">
+					<form id="yz_form" name="yz_form" class="validate-form ajax-form" method="post" action="http://seller.51mycai365.com/Seller/updaterest" enctype="application/x-www-form-urlencoded" target="_self">
+						<div id="brief-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 简介:
+		            </span>
+		            <div class="f-boxr">
+		                  <textarea name="brief" id="brief" class="u-ttarea"><?php echo e($data['brief']); ?></textarea>
+		            </div>
+		        </div> 
+							<div id="status-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 状态:
+		            </span>
+		            <div class="f-boxr">
+		                  <?php $radio_options = array (
+  0 => '0',
+  1 => '1',
+); ?><?php $default = ''; ?><?php $checked = isset($data['status']) ? $data['status'] : $default; ?><?php $radio_texts = array (
+  0 => '停业',
+  1 => '正常',
+); ?><?php  foreach($radio_options as $options_key => $options_val): 
+                    $checked_attr = $options_val == $checked ? " checked" : ""; ?>
+                    <label>
+                        <input type="radio" class="uniform " name="status" value="<?php echo $options_val; ?>" <?php echo $checked_attr; ?>/>
+                        <span><?php echo $radio_texts[$options_key]; ?></span>
+                    </label>
+                    <span>&nbsp;&nbsp;</span>
+                    <?php endforeach; ?>
+		            </div>
+		        </div>
+							<div id="sort-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 排序:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="sort" id="sort" class="u-ipttext" value="<?php echo e($data['sort']); ?>" />
+		            </div>
+		        </div>		<div class="u-fitem clearfix">
+                            <span class="f-tt">
+                                &nbsp;
+                            </span>
+                            <div class="f-boxr">
+                                  <button type="submit" class="u-addspbtn">提 交</button>
+                            </div>
+                        </div>		<input type="hidden" value="<?php echo e($data['id']); ?>" name="id" />
+					</form>
+				</div>		
+						 
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('js'); ?> 
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('seller._layouts.base', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

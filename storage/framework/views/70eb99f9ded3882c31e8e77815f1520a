@@ -1,0 +1,17 @@
+
+<?php $__env->startSection('title'); ?><?php echo e($data['title']); ?><?php $__env->stopSection(); ?>
+<?php $__env->startSection('show_top'); ?>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
+<div class="y-gywm" style="background-color:#fff;">
+	<div>
+		<p class="f14"><?php echo $data['content']; ?></p>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function() {
+        $(".y-gywm").css("min-height",$(window).height()-45);
+    })
+</script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('wap.community._layouts.base', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

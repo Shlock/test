@@ -1,0 +1,1147 @@
+
+
+<?php $__env->startSection('js'); ?>
+
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('show_top'); ?>
+    <div data-role="header" data-position="fixed" class="x-header">
+        <h1>评价</h1>
+        <a href="javascript:history.back(-1);" data-iconpos="notext" class="x-back ui-nodisc-icon" data-shadow="false"></a>
+    </div>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
+    <div role="main" class="ui-content x-sorta">
+        <div class="y-ddbh" style="border:0;">
+            <span>订单编号：<?php echo e($order['sn']); ?></span>
+        </div>
+        <ul class="y-wdddmain">
+            <li style="margin:0;" onclick="window.location.href='<?php echo u("Order/detail",["id" => Input::get("orderId")]); ?>'">
+                <div class="y-ddcontent" style="border:0">
+                    <div class="y-imgcont">
+                        <?php foreach($order['cartSellers'] as $vo): ?>
+                        <div><img src="<?php echo e($vo['goodsImages']); ?>"></div>
+                        <?php endforeach; ?>
+                    </div>
+                    <i class="c-green">共<span class="c-red"><?php echo e($order['count']); ?></span>件<b class="x-rightico"></b></i>
+                </div>
+            </li>
+        </ul>
+        <div class="x-pjstar clearfix">
+            <span>评分</span>
+            <i class="x-star"></i>
+            <i class="x-star"></i>
+            <i class="x-star"></i>
+            <i class="x-star"></i>
+            <i class="x-star"></i>
+        </div>
+        <div class="x-pjbot">
+            <div class="x-pjtxt">
+                <textarea placeholder="您的意见很重要！来点评一下吧…" id="content"></textarea>
+            </div>
+            <div class="x-pjpic clearfix">
+                <ul>
+                    <li id="image-form-1-li"><div><label for="image-form-file-1"><img src="<?php echo e(asset('wap/community/client/images/addpic.png')); ?>"  id="img1"></label><a href="javascript:;" class="delete none" data-index="1"></a></div></li>
+                    <li id="image-form-2-li"><div><label for="image-form-file-2"><img src="<?php echo e(asset('wap/community/client/images/addpic.png')); ?>"  id="img2"></label><a href="javascript:;" class="delete none" data-index="2"></a></div></li>
+                    <li id="image-form-3-li"><div><label for="image-form-file-3"><img src="<?php echo e(asset('wap/community/client/images/addpic.png')); ?>"  id="img3"></label><a href="javascript:;" class="delete none" data-index="3"></a></div></li>
+                    <li id="image-form-4-li"><div><label for="image-form-file-4"><img src="<?php echo e(asset('wap/community/client/images/addpic.png')); ?>"  id="img4"></label><a href="javascript:;" class="delete none" data-index="4"></a></div></li>
+                    <li id="image-form-5-li"><div><label for="image-form-file-5"><img src="<?php echo e(asset('wap/community/client/images/addpic.png')); ?>"  id="img5"></label><a href="javascript:;" class="delete none" data-index="5"></a></div></li>
+                    <li id="image-form-6-li"><div><label for="image-form-file-6"><img src="<?php echo e(asset('wap/community/client/images/addpic.png')); ?>"  id="img6"></label><a href="javascript:;" class="delete none" data-index="6"></a></div></li>
+                    <li id="image-form-7-li"><div><label for="image-form-file-7"><img src="<?php echo e(asset('wap/community/client/images/addpic.png')); ?>"  id="img7"></label><a href="javascript:;" class="delete none" data-index="7"></a></div></li>
+                    <li id="image-form-8-li"><div><label for="image-form-file-8"><img src="<?php echo e(asset('wap/community/client/images/addpic.png')); ?>"  id="img8"></label><a href="javascript:;" class="delete none" data-index="8"></a></div></li>
+                </ul>
+                <div style="display:none">
+                    
+                        <canvas id="image-form-canvas"></canvas>
+                <link rel="stylesheet" type="text/css" href="http://wap.51mycai365.com/static/cropper/cropper.css">
+                <script charset="utf-8" src="http://wap.51mycai365.com/static/cropper/cropper.js"></script>
+                <script>
+                    var isImageFormCropperInit = false;
+                    var imageFormCropperSubmitFunc = null;
+                    var imageFormCropperClearFunc = null;
+                    var isImageFormCropperUpload = false;
+                    jQuery(function($){
+                        $.getIsImageFormCropper = function(){
+                            try{
+                                $("#image-form-canvas").get(0).getContext("2d");
+                            } catch(e) {
+                                return false;
+                            }
+
+                            if(window.FileReader){
+                                return true;
+                            } else {
+                                return false;
+                            }
+                        }
+
+                        $.setImageFormCropperUploadStatus = function(type) {
+                            switch (type) {
+                                case 1: 
+                                    isImageFormCropperUpload = true;
+                                    $("#image-from-cropper-preview-box > span").hide(); 
+                                    $("#image-from-cropper-save-btn").removeClass("disabled");
+                                    break;
+                                case 2:
+                                    isImageFormCropperUpload = false;
+                                    $("#image-from-cropper-preview-box > span").html("图片上传中...").show();
+                                    $("#image-from-cropper-save-btn").addClass("disabled"); 
+                                    break;
+                                case 3:
+                                case 4:
+                                    isImageFormCropperUpload = true;
+                                    $("#image-from-cropper-preview-box > span").hide();
+                                    $("#image-from-cropper-save-btn").removeClass("disabled"); 
+                                    $("#image-from-cropper-box").addClass("none");
+                                    break;
+                                
+                                default: 
+                                    isImageFormCropperUpload = false;
+                                    $("#image-from-cropper-preview-box > span").html("图片加载中...").show();
+                                    $("#image-from-cropper-save-btn").addClass("disabled"); 
+                                    break;
+                            } 
+                        }
+
+                        $("#image-from-cropper-save-btn").click(function(event){ 
+                            if(!isImageFormCropperUpload){
+                                return;
+                            }
+                            $.setImageFormCropperUploadStatus(2);
+                            var maxWidth = $("#image-from-cropper-save-btn").data("maxwidth");
+                            var imageData = $("#image-from-cropper-preview").cropper("getData");
+                            var width = maxWidth > imageData.width ? imageData.width : maxWidth;
+                            var canvas = $("#image-from-cropper-preview").cropper("getCroppedCanvas", {
+                                "width": width
+                            });
+                            if (imageFormCropperSubmitFunc != null) {
+                                imageFormCropperSubmitFunc.call(this, canvas);
+                            }
+                        });
+
+                        $("#image-from-cropper-clear-btn").click(function(event) {  
+                            $("#image-from-cropper-box").addClass("none"); 
+                            if (imageFormCropperClearFunc != null) {
+                                imageFormCropperClearFunc.call(this);
+                            }
+                        });
+                    });
+                </script>
+            <?php
+            $image_form_args1 = \YiZan\Utils\Image::getFormArgs();
+        ?><form id="image-form-1" action="<?php echo e($image_form_args1['wap_action']); ?>" method="post" enctype="multipart/form-data" target="image-form-iframe-1">
+            <?php foreach($image_form_args1['args'] as $image_form_arg_key => $image_form_arg_val): ?>
+            <input type="hidden" name="<?php echo e($image_form_arg_key); ?>" class="form-hidden" value="<?php echo e($image_form_arg_val); ?>" />
+            <?php endforeach; ?>
+        <input type="hidden" name="<?php echo e($image_form_args1['save_path']['name']); ?>" class="form-hidden" value="<?php echo e($image_form_args1['save_path']['path']); ?>" />
+            <input type="hidden" id="image-from-val-1" name="images" class="form-hidden" value="" />
+            <input type="hidden" id="image-form-iscanvas-1" name="iscanvas" value="0"  />
+            <input type="file" id="image-form-file-1" name="<?php echo e($image_form_args1['file_name']); ?>" style="border:none; background:transparent; width:1000px; height:500px;" accept="image/*" /></form>
+                <div id="image-form-hidden-1" style="display:none;">
+                    <input type="hidden" id="image-form-canvas-1" name="<?php echo e($image_form_args1['file_name']); ?>"  />
+                </div>
+                <iframe id="image-form-iframe-1" name="image-form-iframe-1" style="display:none;"></iframe>
+                <script>
+                    var isCropper1 = 1;
+                    var cropperMaxWidth1 = 640;
+                    var imageFormFileHtml1 = '<input type="file" id="image-form-file-1" name="<?php echo e($image_form_args1['file_name']); ?>" style="border:none; background:transparent; width:1000px; height:500px;" accept="image/*" />';
+                    jQuery(function($){
+                        $(document).on("change", "#image-form-file-1", function(){
+                            $.submitFormToIframe = function(type) {
+                                $("#image-form-file-1").get(0).disabled = true;
+                                $("#image-form-iscanvas-1").val(type);
+                                $("#").show();
+                                $("#image-form-iframe-1").one("load", function(){
+                                    try{
+                                        var iframeDocument = this.contentDocument || this.contentWindow.document;
+                                        var result = $.trim(iframeDocument.body.innerHTML);
+                                        result = result == "" ? {"status":false} : JSON.parse(result);
+                                        if (result && result.status) {
+                                            var date = new Date();
+                                            $("#img1").attr("src","<?php echo formatImage($image_form_args1['image_url'], 100, 100, 1); ?>?" + date.getTime());
+                                            $("#image-from-val-1").val("<?php echo e($image_form_args1['image_url']); ?>");
+                                            $("#image-form-1").trigger("uploadsucc");  
+                                            $("#image-from-cropper-box").addClass("none"); 
+                                            if (imageFormCropperClearFunc != null) {
+                                                imageFormCropperClearFunc.call(this);
+                                            }
+                                            $.setImageFormCropperUploadStatus(3);
+                                        } else {
+                                            $.showError("上传图片失败");
+                                            $.setImageFormCropperUploadStatus(4);
+                                        }
+                                    }catch(e){
+                                        $.showError("上传图片失败");
+                                        $.setImageFormCropperUploadStatus(4);
+                                    } 
+                                    
+                                    $("#").hide();
+                                    if (type == 1) {
+                                        var canvasInput = $("#image-form-canvas-1");
+                                        canvasInput.val("");
+                                        $("#image-form-hidden-1").append(canvasInput);
+                                    }
+                                    $("#image-form-file-1").remove();
+                                    $("#image-form-1").append(imageFormFileHtml1);
+                                });
+                                $("#image-form-1").submit();
+                            }
+
+                            imageFormCropperSubmitFunc = null;
+                            imageFormCropperClearFunc = null;
+                            if($(this).val() != "" && typeof(this.files) !== "undefined") {
+                                var file = this.files[0];
+                                if ($.getIsImageFormCropper() && isCropper1 == 1) {
+                                    $("#image-from-cropper-box").removeClass("none");
+                                    $.setImageFormCropperUploadStatus(0);
+                                    $("#image-from-cropper-save-btn").data("maxwidth", cropperMaxWidth1);
+                                    var reader = new FileReader(); 
+                                    reader.readAsDataURL(file);
+                                    $(reader).load(function(){
+                                        $("#image-from-cropper-preview").cropper("destroy");
+                                        $("#image-from-cropper-preview").get(0).src = this.result;
+                                        
+                                        $("#image-from-cropper-preview").cropper({
+                                              strict: false,
+                                              guides: false,
+                                              highlight: false,
+                                              dragCrop: false,
+                                              cropBoxMovable: false,
+                                              cropBoxResizable: false
+                                        });
+
+                                        $("#image-from-cropper-preview").on("built.cropper", function () {
+                                            $.setImageFormCropperUploadStatus(1);
+                                            $("#image-from-cropper-preview").cropper("crop");
+                                            return true;
+                                        });
+
+                                        isImageFormCropperInit = true;
+                                        imageFormCropperSubmitFunc = function(canvas) {
+                                            var canvasInput = $("#image-form-canvas-1");
+                                            canvasInput.val(canvas.toDataURL());
+                                            $("#image-form-1").append(canvasInput);
+                                            var fileInput = $("#image-form-file-1");
+                                            $("#image-form-hidden-1").append(fileInput)
+                                            $.submitFormToIframe(1);
+                                        }
+
+                                        imageFormCropperClearFunc = function() { 
+                                            $.setImageFormCropperUploadStatus(3);
+                                            $("#image-form-file-1").remove();
+                                            $("#image-form-1").append(imageFormFileHtml1);
+                                        }
+                                    });
+                                    return false;
+                                } else if(file.size > 5242881){
+                                    $.showError("请选择小于 5M 的图片");
+                                    event.preventDefault();
+                                    event.stopPropagation();
+                                    event.stopImmediatePropagation();
+                                    return false;
+                                }
+                            }
+                            $.submitFormToIframe(0);
+                        })
+                    });
+                </script>
+                        <?php
+            $image_form_args2 = \YiZan\Utils\Image::getFormArgs();
+        ?><form id="image-form-2" action="<?php echo e($image_form_args2['wap_action']); ?>" method="post" enctype="multipart/form-data" target="image-form-iframe-2">
+            <?php foreach($image_form_args2['args'] as $image_form_arg_key => $image_form_arg_val): ?>
+            <input type="hidden" name="<?php echo e($image_form_arg_key); ?>" class="form-hidden" value="<?php echo e($image_form_arg_val); ?>" />
+            <?php endforeach; ?>
+        <input type="hidden" name="<?php echo e($image_form_args2['save_path']['name']); ?>" class="form-hidden" value="<?php echo e($image_form_args2['save_path']['path']); ?>" />
+            <input type="hidden" id="image-from-val-2" name="images" class="form-hidden" value="" />
+            <input type="hidden" id="image-form-iscanvas-2" name="iscanvas" value="0"  />
+            <input type="file" id="image-form-file-2" name="<?php echo e($image_form_args2['file_name']); ?>" style="border:none; background:transparent; width:1000px; height:500px;" accept="image/*" /></form>
+                <div id="image-form-hidden-2" style="display:none;">
+                    <input type="hidden" id="image-form-canvas-2" name="<?php echo e($image_form_args2['file_name']); ?>"  />
+                </div>
+                <iframe id="image-form-iframe-2" name="image-form-iframe-2" style="display:none;"></iframe>
+                <script>
+                    var isCropper2 = 1;
+                    var cropperMaxWidth2 = 640;
+                    var imageFormFileHtml2 = '<input type="file" id="image-form-file-2" name="<?php echo e($image_form_args2['file_name']); ?>" style="border:none; background:transparent; width:1000px; height:500px;" accept="image/*" />';
+                    jQuery(function($){
+                        $(document).on("change", "#image-form-file-2", function(){
+                            $.submitFormToIframe = function(type) {
+                                $("#image-form-file-2").get(0).disabled = true;
+                                $("#image-form-iscanvas-2").val(type);
+                                $("#").show();
+                                $("#image-form-iframe-2").one("load", function(){
+                                    try{
+                                        var iframeDocument = this.contentDocument || this.contentWindow.document;
+                                        var result = $.trim(iframeDocument.body.innerHTML);
+                                        result = result == "" ? {"status":false} : JSON.parse(result);
+                                        if (result && result.status) {
+                                            var date = new Date();
+                                            $("#img2").attr("src","<?php echo formatImage($image_form_args2['image_url'], 100, 100, 1); ?>?" + date.getTime());
+                                            $("#image-from-val-2").val("<?php echo e($image_form_args2['image_url']); ?>");
+                                            $("#image-form-2").trigger("uploadsucc");  
+                                            $("#image-from-cropper-box").addClass("none"); 
+                                            if (imageFormCropperClearFunc != null) {
+                                                imageFormCropperClearFunc.call(this);
+                                            }
+                                            $.setImageFormCropperUploadStatus(3);
+                                        } else {
+                                            $.showError("上传图片失败");
+                                            $.setImageFormCropperUploadStatus(4);
+                                        }
+                                    }catch(e){
+                                        $.showError("上传图片失败");
+                                        $.setImageFormCropperUploadStatus(4);
+                                    } 
+                                    
+                                    $("#").hide();
+                                    if (type == 1) {
+                                        var canvasInput = $("#image-form-canvas-2");
+                                        canvasInput.val("");
+                                        $("#image-form-hidden-2").append(canvasInput);
+                                    }
+                                    $("#image-form-file-2").remove();
+                                    $("#image-form-2").append(imageFormFileHtml2);
+                                });
+                                $("#image-form-2").submit();
+                            }
+
+                            imageFormCropperSubmitFunc = null;
+                            imageFormCropperClearFunc = null;
+                            if($(this).val() != "" && typeof(this.files) !== "undefined") {
+                                var file = this.files[0];
+                                if ($.getIsImageFormCropper() && isCropper2 == 1) {
+                                    $("#image-from-cropper-box").removeClass("none");
+                                    $.setImageFormCropperUploadStatus(0);
+                                    $("#image-from-cropper-save-btn").data("maxwidth", cropperMaxWidth2);
+                                    var reader = new FileReader(); 
+                                    reader.readAsDataURL(file);
+                                    $(reader).load(function(){
+                                        $("#image-from-cropper-preview").cropper("destroy");
+                                        $("#image-from-cropper-preview").get(0).src = this.result;
+                                        
+                                        $("#image-from-cropper-preview").cropper({
+                                              strict: false,
+                                              guides: false,
+                                              highlight: false,
+                                              dragCrop: false,
+                                              cropBoxMovable: false,
+                                              cropBoxResizable: false
+                                        });
+
+                                        $("#image-from-cropper-preview").on("built.cropper", function () {
+                                            $.setImageFormCropperUploadStatus(1);
+                                            $("#image-from-cropper-preview").cropper("crop");
+                                            return true;
+                                        });
+
+                                        isImageFormCropperInit = true;
+                                        imageFormCropperSubmitFunc = function(canvas) {
+                                            var canvasInput = $("#image-form-canvas-2");
+                                            canvasInput.val(canvas.toDataURL());
+                                            $("#image-form-2").append(canvasInput);
+                                            var fileInput = $("#image-form-file-2");
+                                            $("#image-form-hidden-2").append(fileInput)
+                                            $.submitFormToIframe(1);
+                                        }
+
+                                        imageFormCropperClearFunc = function() { 
+                                            $.setImageFormCropperUploadStatus(3);
+                                            $("#image-form-file-2").remove();
+                                            $("#image-form-2").append(imageFormFileHtml2);
+                                        }
+                                    });
+                                    return false;
+                                } else if(file.size > 5242881){
+                                    $.showError("请选择小于 5M 的图片");
+                                    event.preventDefault();
+                                    event.stopPropagation();
+                                    event.stopImmediatePropagation();
+                                    return false;
+                                }
+                            }
+                            $.submitFormToIframe(0);
+                        })
+                    });
+                </script>
+                        <?php
+            $image_form_args3 = \YiZan\Utils\Image::getFormArgs();
+        ?><form id="image-form-3" action="<?php echo e($image_form_args3['wap_action']); ?>" method="post" enctype="multipart/form-data" target="image-form-iframe-3">
+            <?php foreach($image_form_args3['args'] as $image_form_arg_key => $image_form_arg_val): ?>
+            <input type="hidden" name="<?php echo e($image_form_arg_key); ?>" class="form-hidden" value="<?php echo e($image_form_arg_val); ?>" />
+            <?php endforeach; ?>
+        <input type="hidden" name="<?php echo e($image_form_args3['save_path']['name']); ?>" class="form-hidden" value="<?php echo e($image_form_args3['save_path']['path']); ?>" />
+            <input type="hidden" id="image-from-val-3" name="images" class="form-hidden" value="" />
+            <input type="hidden" id="image-form-iscanvas-3" name="iscanvas" value="0"  />
+            <input type="file" id="image-form-file-3" name="<?php echo e($image_form_args3['file_name']); ?>" style="border:none; background:transparent; width:1000px; height:500px;" accept="image/*" /></form>
+                <div id="image-form-hidden-3" style="display:none;">
+                    <input type="hidden" id="image-form-canvas-3" name="<?php echo e($image_form_args3['file_name']); ?>"  />
+                </div>
+                <iframe id="image-form-iframe-3" name="image-form-iframe-3" style="display:none;"></iframe>
+                <script>
+                    var isCropper3 = 1;
+                    var cropperMaxWidth3 = 640;
+                    var imageFormFileHtml3 = '<input type="file" id="image-form-file-3" name="<?php echo e($image_form_args3['file_name']); ?>" style="border:none; background:transparent; width:1000px; height:500px;" accept="image/*" />';
+                    jQuery(function($){
+                        $(document).on("change", "#image-form-file-3", function(){
+                            $.submitFormToIframe = function(type) {
+                                $("#image-form-file-3").get(0).disabled = true;
+                                $("#image-form-iscanvas-3").val(type);
+                                $("#").show();
+                                $("#image-form-iframe-3").one("load", function(){
+                                    try{
+                                        var iframeDocument = this.contentDocument || this.contentWindow.document;
+                                        var result = $.trim(iframeDocument.body.innerHTML);
+                                        result = result == "" ? {"status":false} : JSON.parse(result);
+                                        if (result && result.status) {
+                                            var date = new Date();
+                                            $("#img3").attr("src","<?php echo formatImage($image_form_args3['image_url'], 100, 100, 1); ?>?" + date.getTime());
+                                            $("#image-from-val-3").val("<?php echo e($image_form_args3['image_url']); ?>");
+                                            $("#image-form-3").trigger("uploadsucc");  
+                                            $("#image-from-cropper-box").addClass("none"); 
+                                            if (imageFormCropperClearFunc != null) {
+                                                imageFormCropperClearFunc.call(this);
+                                            }
+                                            $.setImageFormCropperUploadStatus(3);
+                                        } else {
+                                            $.showError("上传图片失败");
+                                            $.setImageFormCropperUploadStatus(4);
+                                        }
+                                    }catch(e){
+                                        $.showError("上传图片失败");
+                                        $.setImageFormCropperUploadStatus(4);
+                                    } 
+                                    
+                                    $("#").hide();
+                                    if (type == 1) {
+                                        var canvasInput = $("#image-form-canvas-3");
+                                        canvasInput.val("");
+                                        $("#image-form-hidden-3").append(canvasInput);
+                                    }
+                                    $("#image-form-file-3").remove();
+                                    $("#image-form-3").append(imageFormFileHtml3);
+                                });
+                                $("#image-form-3").submit();
+                            }
+
+                            imageFormCropperSubmitFunc = null;
+                            imageFormCropperClearFunc = null;
+                            if($(this).val() != "" && typeof(this.files) !== "undefined") {
+                                var file = this.files[0];
+                                if ($.getIsImageFormCropper() && isCropper3 == 1) {
+                                    $("#image-from-cropper-box").removeClass("none");
+                                    $.setImageFormCropperUploadStatus(0);
+                                    $("#image-from-cropper-save-btn").data("maxwidth", cropperMaxWidth3);
+                                    var reader = new FileReader(); 
+                                    reader.readAsDataURL(file);
+                                    $(reader).load(function(){
+                                        $("#image-from-cropper-preview").cropper("destroy");
+                                        $("#image-from-cropper-preview").get(0).src = this.result;
+                                        
+                                        $("#image-from-cropper-preview").cropper({
+                                              strict: false,
+                                              guides: false,
+                                              highlight: false,
+                                              dragCrop: false,
+                                              cropBoxMovable: false,
+                                              cropBoxResizable: false
+                                        });
+
+                                        $("#image-from-cropper-preview").on("built.cropper", function () {
+                                            $.setImageFormCropperUploadStatus(1);
+                                            $("#image-from-cropper-preview").cropper("crop");
+                                            return true;
+                                        });
+
+                                        isImageFormCropperInit = true;
+                                        imageFormCropperSubmitFunc = function(canvas) {
+                                            var canvasInput = $("#image-form-canvas-3");
+                                            canvasInput.val(canvas.toDataURL());
+                                            $("#image-form-3").append(canvasInput);
+                                            var fileInput = $("#image-form-file-3");
+                                            $("#image-form-hidden-3").append(fileInput)
+                                            $.submitFormToIframe(1);
+                                        }
+
+                                        imageFormCropperClearFunc = function() { 
+                                            $.setImageFormCropperUploadStatus(3);
+                                            $("#image-form-file-3").remove();
+                                            $("#image-form-3").append(imageFormFileHtml3);
+                                        }
+                                    });
+                                    return false;
+                                } else if(file.size > 5242881){
+                                    $.showError("请选择小于 5M 的图片");
+                                    event.preventDefault();
+                                    event.stopPropagation();
+                                    event.stopImmediatePropagation();
+                                    return false;
+                                }
+                            }
+                            $.submitFormToIframe(0);
+                        })
+                    });
+                </script>
+                        <?php
+            $image_form_args4 = \YiZan\Utils\Image::getFormArgs();
+        ?><form id="image-form-4" action="<?php echo e($image_form_args4['wap_action']); ?>" method="post" enctype="multipart/form-data" target="image-form-iframe-4">
+            <?php foreach($image_form_args4['args'] as $image_form_arg_key => $image_form_arg_val): ?>
+            <input type="hidden" name="<?php echo e($image_form_arg_key); ?>" class="form-hidden" value="<?php echo e($image_form_arg_val); ?>" />
+            <?php endforeach; ?>
+        <input type="hidden" name="<?php echo e($image_form_args4['save_path']['name']); ?>" class="form-hidden" value="<?php echo e($image_form_args4['save_path']['path']); ?>" />
+            <input type="hidden" id="image-from-val-4" name="images" class="form-hidden" value="" />
+            <input type="hidden" id="image-form-iscanvas-4" name="iscanvas" value="0"  />
+            <input type="file" id="image-form-file-4" name="<?php echo e($image_form_args4['file_name']); ?>" style="border:none; background:transparent; width:1000px; height:500px;" accept="image/*" /></form>
+                <div id="image-form-hidden-4" style="display:none;">
+                    <input type="hidden" id="image-form-canvas-4" name="<?php echo e($image_form_args4['file_name']); ?>"  />
+                </div>
+                <iframe id="image-form-iframe-4" name="image-form-iframe-4" style="display:none;"></iframe>
+                <script>
+                    var isCropper4 = 1;
+                    var cropperMaxWidth4 = 640;
+                    var imageFormFileHtml4 = '<input type="file" id="image-form-file-4" name="<?php echo e($image_form_args4['file_name']); ?>" style="border:none; background:transparent; width:1000px; height:500px;" accept="image/*" />';
+                    jQuery(function($){
+                        $(document).on("change", "#image-form-file-4", function(){
+                            $.submitFormToIframe = function(type) {
+                                $("#image-form-file-4").get(0).disabled = true;
+                                $("#image-form-iscanvas-4").val(type);
+                                $("#").show();
+                                $("#image-form-iframe-4").one("load", function(){
+                                    try{
+                                        var iframeDocument = this.contentDocument || this.contentWindow.document;
+                                        var result = $.trim(iframeDocument.body.innerHTML);
+                                        result = result == "" ? {"status":false} : JSON.parse(result);
+                                        if (result && result.status) {
+                                            var date = new Date();
+                                            $("#img4").attr("src","<?php echo formatImage($image_form_args4['image_url'], 100, 100, 1); ?>?" + date.getTime());
+                                            $("#image-from-val-4").val("<?php echo e($image_form_args4['image_url']); ?>");
+                                            $("#image-form-4").trigger("uploadsucc");  
+                                            $("#image-from-cropper-box").addClass("none"); 
+                                            if (imageFormCropperClearFunc != null) {
+                                                imageFormCropperClearFunc.call(this);
+                                            }
+                                            $.setImageFormCropperUploadStatus(3);
+                                        } else {
+                                            $.showError("上传图片失败");
+                                            $.setImageFormCropperUploadStatus(4);
+                                        }
+                                    }catch(e){
+                                        $.showError("上传图片失败");
+                                        $.setImageFormCropperUploadStatus(4);
+                                    } 
+                                    
+                                    $("#").hide();
+                                    if (type == 1) {
+                                        var canvasInput = $("#image-form-canvas-4");
+                                        canvasInput.val("");
+                                        $("#image-form-hidden-4").append(canvasInput);
+                                    }
+                                    $("#image-form-file-4").remove();
+                                    $("#image-form-4").append(imageFormFileHtml4);
+                                });
+                                $("#image-form-4").submit();
+                            }
+
+                            imageFormCropperSubmitFunc = null;
+                            imageFormCropperClearFunc = null;
+                            if($(this).val() != "" && typeof(this.files) !== "undefined") {
+                                var file = this.files[0];
+                                if ($.getIsImageFormCropper() && isCropper4 == 1) {
+                                    $("#image-from-cropper-box").removeClass("none");
+                                    $.setImageFormCropperUploadStatus(0);
+                                    $("#image-from-cropper-save-btn").data("maxwidth", cropperMaxWidth4);
+                                    var reader = new FileReader(); 
+                                    reader.readAsDataURL(file);
+                                    $(reader).load(function(){
+                                        $("#image-from-cropper-preview").cropper("destroy");
+                                        $("#image-from-cropper-preview").get(0).src = this.result;
+                                        
+                                        $("#image-from-cropper-preview").cropper({
+                                              strict: false,
+                                              guides: false,
+                                              highlight: false,
+                                              dragCrop: false,
+                                              cropBoxMovable: false,
+                                              cropBoxResizable: false
+                                        });
+
+                                        $("#image-from-cropper-preview").on("built.cropper", function () {
+                                            $.setImageFormCropperUploadStatus(1);
+                                            $("#image-from-cropper-preview").cropper("crop");
+                                            return true;
+                                        });
+
+                                        isImageFormCropperInit = true;
+                                        imageFormCropperSubmitFunc = function(canvas) {
+                                            var canvasInput = $("#image-form-canvas-4");
+                                            canvasInput.val(canvas.toDataURL());
+                                            $("#image-form-4").append(canvasInput);
+                                            var fileInput = $("#image-form-file-4");
+                                            $("#image-form-hidden-4").append(fileInput)
+                                            $.submitFormToIframe(1);
+                                        }
+
+                                        imageFormCropperClearFunc = function() { 
+                                            $.setImageFormCropperUploadStatus(3);
+                                            $("#image-form-file-4").remove();
+                                            $("#image-form-4").append(imageFormFileHtml4);
+                                        }
+                                    });
+                                    return false;
+                                } else if(file.size > 5242881){
+                                    $.showError("请选择小于 5M 的图片");
+                                    event.preventDefault();
+                                    event.stopPropagation();
+                                    event.stopImmediatePropagation();
+                                    return false;
+                                }
+                            }
+                            $.submitFormToIframe(0);
+                        })
+                    });
+                </script>
+                        <?php
+            $image_form_args5 = \YiZan\Utils\Image::getFormArgs();
+        ?><form id="image-form-5" action="<?php echo e($image_form_args5['wap_action']); ?>" method="post" enctype="multipart/form-data" target="image-form-iframe-5">
+            <?php foreach($image_form_args5['args'] as $image_form_arg_key => $image_form_arg_val): ?>
+            <input type="hidden" name="<?php echo e($image_form_arg_key); ?>" class="form-hidden" value="<?php echo e($image_form_arg_val); ?>" />
+            <?php endforeach; ?>
+        <input type="hidden" name="<?php echo e($image_form_args5['save_path']['name']); ?>" class="form-hidden" value="<?php echo e($image_form_args5['save_path']['path']); ?>" />
+            <input type="hidden" id="image-from-val-5" name="images" class="form-hidden" value="" />
+            <input type="hidden" id="image-form-iscanvas-5" name="iscanvas" value="0"  />
+            <input type="file" id="image-form-file-5" name="<?php echo e($image_form_args5['file_name']); ?>" style="border:none; background:transparent; width:1000px; height:500px;" accept="image/*" /></form>
+                <div id="image-form-hidden-5" style="display:none;">
+                    <input type="hidden" id="image-form-canvas-5" name="<?php echo e($image_form_args5['file_name']); ?>"  />
+                </div>
+                <iframe id="image-form-iframe-5" name="image-form-iframe-5" style="display:none;"></iframe>
+                <script>
+                    var isCropper5 = 1;
+                    var cropperMaxWidth5 = 640;
+                    var imageFormFileHtml5 = '<input type="file" id="image-form-file-5" name="<?php echo e($image_form_args5['file_name']); ?>" style="border:none; background:transparent; width:1000px; height:500px;" accept="image/*" />';
+                    jQuery(function($){
+                        $(document).on("change", "#image-form-file-5", function(){
+                            $.submitFormToIframe = function(type) {
+                                $("#image-form-file-5").get(0).disabled = true;
+                                $("#image-form-iscanvas-5").val(type);
+                                $("#").show();
+                                $("#image-form-iframe-5").one("load", function(){
+                                    try{
+                                        var iframeDocument = this.contentDocument || this.contentWindow.document;
+                                        var result = $.trim(iframeDocument.body.innerHTML);
+                                        result = result == "" ? {"status":false} : JSON.parse(result);
+                                        if (result && result.status) {
+                                            var date = new Date();
+                                            $("#img5").attr("src","<?php echo formatImage($image_form_args5['image_url'], 100, 100, 1); ?>?" + date.getTime());
+                                            $("#image-from-val-5").val("<?php echo e($image_form_args5['image_url']); ?>");
+                                            $("#image-form-5").trigger("uploadsucc");  
+                                            $("#image-from-cropper-box").addClass("none"); 
+                                            if (imageFormCropperClearFunc != null) {
+                                                imageFormCropperClearFunc.call(this);
+                                            }
+                                            $.setImageFormCropperUploadStatus(3);
+                                        } else {
+                                            $.showError("上传图片失败");
+                                            $.setImageFormCropperUploadStatus(4);
+                                        }
+                                    }catch(e){
+                                        $.showError("上传图片失败");
+                                        $.setImageFormCropperUploadStatus(4);
+                                    } 
+                                    
+                                    $("#").hide();
+                                    if (type == 1) {
+                                        var canvasInput = $("#image-form-canvas-5");
+                                        canvasInput.val("");
+                                        $("#image-form-hidden-5").append(canvasInput);
+                                    }
+                                    $("#image-form-file-5").remove();
+                                    $("#image-form-5").append(imageFormFileHtml5);
+                                });
+                                $("#image-form-5").submit();
+                            }
+
+                            imageFormCropperSubmitFunc = null;
+                            imageFormCropperClearFunc = null;
+                            if($(this).val() != "" && typeof(this.files) !== "undefined") {
+                                var file = this.files[0];
+                                if ($.getIsImageFormCropper() && isCropper5 == 1) {
+                                    $("#image-from-cropper-box").removeClass("none");
+                                    $.setImageFormCropperUploadStatus(0);
+                                    $("#image-from-cropper-save-btn").data("maxwidth", cropperMaxWidth5);
+                                    var reader = new FileReader(); 
+                                    reader.readAsDataURL(file);
+                                    $(reader).load(function(){
+                                        $("#image-from-cropper-preview").cropper("destroy");
+                                        $("#image-from-cropper-preview").get(0).src = this.result;
+                                        
+                                        $("#image-from-cropper-preview").cropper({
+                                              strict: false,
+                                              guides: false,
+                                              highlight: false,
+                                              dragCrop: false,
+                                              cropBoxMovable: false,
+                                              cropBoxResizable: false
+                                        });
+
+                                        $("#image-from-cropper-preview").on("built.cropper", function () {
+                                            $.setImageFormCropperUploadStatus(1);
+                                            $("#image-from-cropper-preview").cropper("crop");
+                                            return true;
+                                        });
+
+                                        isImageFormCropperInit = true;
+                                        imageFormCropperSubmitFunc = function(canvas) {
+                                            var canvasInput = $("#image-form-canvas-5");
+                                            canvasInput.val(canvas.toDataURL());
+                                            $("#image-form-5").append(canvasInput);
+                                            var fileInput = $("#image-form-file-5");
+                                            $("#image-form-hidden-5").append(fileInput)
+                                            $.submitFormToIframe(1);
+                                        }
+
+                                        imageFormCropperClearFunc = function() { 
+                                            $.setImageFormCropperUploadStatus(3);
+                                            $("#image-form-file-5").remove();
+                                            $("#image-form-5").append(imageFormFileHtml5);
+                                        }
+                                    });
+                                    return false;
+                                } else if(file.size > 5242881){
+                                    $.showError("请选择小于 5M 的图片");
+                                    event.preventDefault();
+                                    event.stopPropagation();
+                                    event.stopImmediatePropagation();
+                                    return false;
+                                }
+                            }
+                            $.submitFormToIframe(0);
+                        })
+                    });
+                </script>
+                        <?php
+            $image_form_args6 = \YiZan\Utils\Image::getFormArgs();
+        ?><form id="image-form-6" action="<?php echo e($image_form_args6['wap_action']); ?>" method="post" enctype="multipart/form-data" target="image-form-iframe-6">
+            <?php foreach($image_form_args6['args'] as $image_form_arg_key => $image_form_arg_val): ?>
+            <input type="hidden" name="<?php echo e($image_form_arg_key); ?>" class="form-hidden" value="<?php echo e($image_form_arg_val); ?>" />
+            <?php endforeach; ?>
+        <input type="hidden" name="<?php echo e($image_form_args6['save_path']['name']); ?>" class="form-hidden" value="<?php echo e($image_form_args6['save_path']['path']); ?>" />
+            <input type="hidden" id="image-from-val-6" name="images" class="form-hidden" value="" />
+            <input type="hidden" id="image-form-iscanvas-6" name="iscanvas" value="0"  />
+            <input type="file" id="image-form-file-6" name="<?php echo e($image_form_args6['file_name']); ?>" style="border:none; background:transparent; width:1000px; height:500px;" accept="image/*" /></form>
+                <div id="image-form-hidden-6" style="display:none;">
+                    <input type="hidden" id="image-form-canvas-6" name="<?php echo e($image_form_args6['file_name']); ?>"  />
+                </div>
+                <iframe id="image-form-iframe-6" name="image-form-iframe-6" style="display:none;"></iframe>
+                <script>
+                    var isCropper6 = 1;
+                    var cropperMaxWidth6 = 640;
+                    var imageFormFileHtml6 = '<input type="file" id="image-form-file-6" name="<?php echo e($image_form_args6['file_name']); ?>" style="border:none; background:transparent; width:1000px; height:500px;" accept="image/*" />';
+                    jQuery(function($){
+                        $(document).on("change", "#image-form-file-6", function(){
+                            $.submitFormToIframe = function(type) {
+                                $("#image-form-file-6").get(0).disabled = true;
+                                $("#image-form-iscanvas-6").val(type);
+                                $("#").show();
+                                $("#image-form-iframe-6").one("load", function(){
+                                    try{
+                                        var iframeDocument = this.contentDocument || this.contentWindow.document;
+                                        var result = $.trim(iframeDocument.body.innerHTML);
+                                        result = result == "" ? {"status":false} : JSON.parse(result);
+                                        if (result && result.status) {
+                                            var date = new Date();
+                                            $("#img6").attr("src","<?php echo formatImage($image_form_args6['image_url'], 100, 100, 1); ?>?" + date.getTime());
+                                            $("#image-from-val-6").val("<?php echo e($image_form_args6['image_url']); ?>");
+                                            $("#image-form-6").trigger("uploadsucc");  
+                                            $("#image-from-cropper-box").addClass("none"); 
+                                            if (imageFormCropperClearFunc != null) {
+                                                imageFormCropperClearFunc.call(this);
+                                            }
+                                            $.setImageFormCropperUploadStatus(3);
+                                        } else {
+                                            $.showError("上传图片失败");
+                                            $.setImageFormCropperUploadStatus(4);
+                                        }
+                                    }catch(e){
+                                        $.showError("上传图片失败");
+                                        $.setImageFormCropperUploadStatus(4);
+                                    } 
+                                    
+                                    $("#").hide();
+                                    if (type == 1) {
+                                        var canvasInput = $("#image-form-canvas-6");
+                                        canvasInput.val("");
+                                        $("#image-form-hidden-6").append(canvasInput);
+                                    }
+                                    $("#image-form-file-6").remove();
+                                    $("#image-form-6").append(imageFormFileHtml6);
+                                });
+                                $("#image-form-6").submit();
+                            }
+
+                            imageFormCropperSubmitFunc = null;
+                            imageFormCropperClearFunc = null;
+                            if($(this).val() != "" && typeof(this.files) !== "undefined") {
+                                var file = this.files[0];
+                                if ($.getIsImageFormCropper() && isCropper6 == 1) {
+                                    $("#image-from-cropper-box").removeClass("none");
+                                    $.setImageFormCropperUploadStatus(0);
+                                    $("#image-from-cropper-save-btn").data("maxwidth", cropperMaxWidth6);
+                                    var reader = new FileReader(); 
+                                    reader.readAsDataURL(file);
+                                    $(reader).load(function(){
+                                        $("#image-from-cropper-preview").cropper("destroy");
+                                        $("#image-from-cropper-preview").get(0).src = this.result;
+                                        
+                                        $("#image-from-cropper-preview").cropper({
+                                              strict: false,
+                                              guides: false,
+                                              highlight: false,
+                                              dragCrop: false,
+                                              cropBoxMovable: false,
+                                              cropBoxResizable: false
+                                        });
+
+                                        $("#image-from-cropper-preview").on("built.cropper", function () {
+                                            $.setImageFormCropperUploadStatus(1);
+                                            $("#image-from-cropper-preview").cropper("crop");
+                                            return true;
+                                        });
+
+                                        isImageFormCropperInit = true;
+                                        imageFormCropperSubmitFunc = function(canvas) {
+                                            var canvasInput = $("#image-form-canvas-6");
+                                            canvasInput.val(canvas.toDataURL());
+                                            $("#image-form-6").append(canvasInput);
+                                            var fileInput = $("#image-form-file-6");
+                                            $("#image-form-hidden-6").append(fileInput)
+                                            $.submitFormToIframe(1);
+                                        }
+
+                                        imageFormCropperClearFunc = function() { 
+                                            $.setImageFormCropperUploadStatus(3);
+                                            $("#image-form-file-6").remove();
+                                            $("#image-form-6").append(imageFormFileHtml6);
+                                        }
+                                    });
+                                    return false;
+                                } else if(file.size > 5242881){
+                                    $.showError("请选择小于 5M 的图片");
+                                    event.preventDefault();
+                                    event.stopPropagation();
+                                    event.stopImmediatePropagation();
+                                    return false;
+                                }
+                            }
+                            $.submitFormToIframe(0);
+                        })
+                    });
+                </script>
+                        <?php
+            $image_form_args7 = \YiZan\Utils\Image::getFormArgs();
+        ?><form id="image-form-7" action="<?php echo e($image_form_args7['wap_action']); ?>" method="post" enctype="multipart/form-data" target="image-form-iframe-7">
+            <?php foreach($image_form_args7['args'] as $image_form_arg_key => $image_form_arg_val): ?>
+            <input type="hidden" name="<?php echo e($image_form_arg_key); ?>" class="form-hidden" value="<?php echo e($image_form_arg_val); ?>" />
+            <?php endforeach; ?>
+        <input type="hidden" name="<?php echo e($image_form_args7['save_path']['name']); ?>" class="form-hidden" value="<?php echo e($image_form_args7['save_path']['path']); ?>" />
+            <input type="hidden" id="image-from-val-7" name="images" class="form-hidden" value="" />
+            <input type="hidden" id="image-form-iscanvas-7" name="iscanvas" value="0"  />
+            <input type="file" id="image-form-file-7" name="<?php echo e($image_form_args7['file_name']); ?>" style="border:none; background:transparent; width:1000px; height:500px;" accept="image/*" /></form>
+                <div id="image-form-hidden-7" style="display:none;">
+                    <input type="hidden" id="image-form-canvas-7" name="<?php echo e($image_form_args7['file_name']); ?>"  />
+                </div>
+                <iframe id="image-form-iframe-7" name="image-form-iframe-7" style="display:none;"></iframe>
+                <script>
+                    var isCropper7 = 1;
+                    var cropperMaxWidth7 = 640;
+                    var imageFormFileHtml7 = '<input type="file" id="image-form-file-7" name="<?php echo e($image_form_args7['file_name']); ?>" style="border:none; background:transparent; width:1000px; height:500px;" accept="image/*" />';
+                    jQuery(function($){
+                        $(document).on("change", "#image-form-file-7", function(){
+                            $.submitFormToIframe = function(type) {
+                                $("#image-form-file-7").get(0).disabled = true;
+                                $("#image-form-iscanvas-7").val(type);
+                                $("#").show();
+                                $("#image-form-iframe-7").one("load", function(){
+                                    try{
+                                        var iframeDocument = this.contentDocument || this.contentWindow.document;
+                                        var result = $.trim(iframeDocument.body.innerHTML);
+                                        result = result == "" ? {"status":false} : JSON.parse(result);
+                                        if (result && result.status) {
+                                            var date = new Date();
+                                            $("#img7").attr("src","<?php echo formatImage($image_form_args7['image_url'], 100, 100, 1); ?>?" + date.getTime());
+                                            $("#image-from-val-7").val("<?php echo e($image_form_args7['image_url']); ?>");
+                                            $("#image-form-7").trigger("uploadsucc");  
+                                            $("#image-from-cropper-box").addClass("none"); 
+                                            if (imageFormCropperClearFunc != null) {
+                                                imageFormCropperClearFunc.call(this);
+                                            }
+                                            $.setImageFormCropperUploadStatus(3);
+                                        } else {
+                                            $.showError("上传图片失败");
+                                            $.setImageFormCropperUploadStatus(4);
+                                        }
+                                    }catch(e){
+                                        $.showError("上传图片失败");
+                                        $.setImageFormCropperUploadStatus(4);
+                                    } 
+                                    
+                                    $("#").hide();
+                                    if (type == 1) {
+                                        var canvasInput = $("#image-form-canvas-7");
+                                        canvasInput.val("");
+                                        $("#image-form-hidden-7").append(canvasInput);
+                                    }
+                                    $("#image-form-file-7").remove();
+                                    $("#image-form-7").append(imageFormFileHtml7);
+                                });
+                                $("#image-form-7").submit();
+                            }
+
+                            imageFormCropperSubmitFunc = null;
+                            imageFormCropperClearFunc = null;
+                            if($(this).val() != "" && typeof(this.files) !== "undefined") {
+                                var file = this.files[0];
+                                if ($.getIsImageFormCropper() && isCropper7 == 1) {
+                                    $("#image-from-cropper-box").removeClass("none");
+                                    $.setImageFormCropperUploadStatus(0);
+                                    $("#image-from-cropper-save-btn").data("maxwidth", cropperMaxWidth7);
+                                    var reader = new FileReader(); 
+                                    reader.readAsDataURL(file);
+                                    $(reader).load(function(){
+                                        $("#image-from-cropper-preview").cropper("destroy");
+                                        $("#image-from-cropper-preview").get(0).src = this.result;
+                                        
+                                        $("#image-from-cropper-preview").cropper({
+                                              strict: false,
+                                              guides: false,
+                                              highlight: false,
+                                              dragCrop: false,
+                                              cropBoxMovable: false,
+                                              cropBoxResizable: false
+                                        });
+
+                                        $("#image-from-cropper-preview").on("built.cropper", function () {
+                                            $.setImageFormCropperUploadStatus(1);
+                                            $("#image-from-cropper-preview").cropper("crop");
+                                            return true;
+                                        });
+
+                                        isImageFormCropperInit = true;
+                                        imageFormCropperSubmitFunc = function(canvas) {
+                                            var canvasInput = $("#image-form-canvas-7");
+                                            canvasInput.val(canvas.toDataURL());
+                                            $("#image-form-7").append(canvasInput);
+                                            var fileInput = $("#image-form-file-7");
+                                            $("#image-form-hidden-7").append(fileInput)
+                                            $.submitFormToIframe(1);
+                                        }
+
+                                        imageFormCropperClearFunc = function() { 
+                                            $.setImageFormCropperUploadStatus(3);
+                                            $("#image-form-file-7").remove();
+                                            $("#image-form-7").append(imageFormFileHtml7);
+                                        }
+                                    });
+                                    return false;
+                                } else if(file.size > 5242881){
+                                    $.showError("请选择小于 5M 的图片");
+                                    event.preventDefault();
+                                    event.stopPropagation();
+                                    event.stopImmediatePropagation();
+                                    return false;
+                                }
+                            }
+                            $.submitFormToIframe(0);
+                        })
+                    });
+                </script>
+                        <?php
+            $image_form_args8 = \YiZan\Utils\Image::getFormArgs();
+        ?><form id="image-form-8" action="<?php echo e($image_form_args8['wap_action']); ?>" method="post" enctype="multipart/form-data" target="image-form-iframe-8">
+            <?php foreach($image_form_args8['args'] as $image_form_arg_key => $image_form_arg_val): ?>
+            <input type="hidden" name="<?php echo e($image_form_arg_key); ?>" class="form-hidden" value="<?php echo e($image_form_arg_val); ?>" />
+            <?php endforeach; ?>
+        <input type="hidden" name="<?php echo e($image_form_args8['save_path']['name']); ?>" class="form-hidden" value="<?php echo e($image_form_args8['save_path']['path']); ?>" />
+            <input type="hidden" id="image-from-val-8" name="images" class="form-hidden" value="" />
+            <input type="hidden" id="image-form-iscanvas-8" name="iscanvas" value="0"  />
+            <input type="file" id="image-form-file-8" name="<?php echo e($image_form_args8['file_name']); ?>" style="border:none; background:transparent; width:1000px; height:500px;" accept="image/*" /></form>
+                <div id="image-form-hidden-8" style="display:none;">
+                    <input type="hidden" id="image-form-canvas-8" name="<?php echo e($image_form_args8['file_name']); ?>"  />
+                </div>
+                <iframe id="image-form-iframe-8" name="image-form-iframe-8" style="display:none;"></iframe>
+                <script>
+                    var isCropper8 = 1;
+                    var cropperMaxWidth8 = 640;
+                    var imageFormFileHtml8 = '<input type="file" id="image-form-file-8" name="<?php echo e($image_form_args8['file_name']); ?>" style="border:none; background:transparent; width:1000px; height:500px;" accept="image/*" />';
+                    jQuery(function($){
+                        $(document).on("change", "#image-form-file-8", function(){
+                            $.submitFormToIframe = function(type) {
+                                $("#image-form-file-8").get(0).disabled = true;
+                                $("#image-form-iscanvas-8").val(type);
+                                $("#").show();
+                                $("#image-form-iframe-8").one("load", function(){
+                                    try{
+                                        var iframeDocument = this.contentDocument || this.contentWindow.document;
+                                        var result = $.trim(iframeDocument.body.innerHTML);
+                                        result = result == "" ? {"status":false} : JSON.parse(result);
+                                        if (result && result.status) {
+                                            var date = new Date();
+                                            $("#img8").attr("src","<?php echo formatImage($image_form_args8['image_url'], 100, 100, 1); ?>?" + date.getTime());
+                                            $("#image-from-val-8").val("<?php echo e($image_form_args8['image_url']); ?>");
+                                            $("#image-form-8").trigger("uploadsucc");  
+                                            $("#image-from-cropper-box").addClass("none"); 
+                                            if (imageFormCropperClearFunc != null) {
+                                                imageFormCropperClearFunc.call(this);
+                                            }
+                                            $.setImageFormCropperUploadStatus(3);
+                                        } else {
+                                            $.showError("上传图片失败");
+                                            $.setImageFormCropperUploadStatus(4);
+                                        }
+                                    }catch(e){
+                                        $.showError("上传图片失败");
+                                        $.setImageFormCropperUploadStatus(4);
+                                    } 
+                                    
+                                    $("#").hide();
+                                    if (type == 1) {
+                                        var canvasInput = $("#image-form-canvas-8");
+                                        canvasInput.val("");
+                                        $("#image-form-hidden-8").append(canvasInput);
+                                    }
+                                    $("#image-form-file-8").remove();
+                                    $("#image-form-8").append(imageFormFileHtml8);
+                                });
+                                $("#image-form-8").submit();
+                            }
+
+                            imageFormCropperSubmitFunc = null;
+                            imageFormCropperClearFunc = null;
+                            if($(this).val() != "" && typeof(this.files) !== "undefined") {
+                                var file = this.files[0];
+                                if ($.getIsImageFormCropper() && isCropper8 == 1) {
+                                    $("#image-from-cropper-box").removeClass("none");
+                                    $.setImageFormCropperUploadStatus(0);
+                                    $("#image-from-cropper-save-btn").data("maxwidth", cropperMaxWidth8);
+                                    var reader = new FileReader(); 
+                                    reader.readAsDataURL(file);
+                                    $(reader).load(function(){
+                                        $("#image-from-cropper-preview").cropper("destroy");
+                                        $("#image-from-cropper-preview").get(0).src = this.result;
+                                        
+                                        $("#image-from-cropper-preview").cropper({
+                                              strict: false,
+                                              guides: false,
+                                              highlight: false,
+                                              dragCrop: false,
+                                              cropBoxMovable: false,
+                                              cropBoxResizable: false
+                                        });
+
+                                        $("#image-from-cropper-preview").on("built.cropper", function () {
+                                            $.setImageFormCropperUploadStatus(1);
+                                            $("#image-from-cropper-preview").cropper("crop");
+                                            return true;
+                                        });
+
+                                        isImageFormCropperInit = true;
+                                        imageFormCropperSubmitFunc = function(canvas) {
+                                            var canvasInput = $("#image-form-canvas-8");
+                                            canvasInput.val(canvas.toDataURL());
+                                            $("#image-form-8").append(canvasInput);
+                                            var fileInput = $("#image-form-file-8");
+                                            $("#image-form-hidden-8").append(fileInput)
+                                            $.submitFormToIframe(1);
+                                        }
+
+                                        imageFormCropperClearFunc = function() { 
+                                            $.setImageFormCropperUploadStatus(3);
+                                            $("#image-form-file-8").remove();
+                                            $("#image-form-8").append(imageFormFileHtml8);
+                                        }
+                                    });
+                                    return false;
+                                } else if(file.size > 5242881){
+                                    $.showError("请选择小于 5M 的图片");
+                                    event.preventDefault();
+                                    event.stopPropagation();
+                                    event.stopImmediatePropagation();
+                                    return false;
+                                }
+                            }
+                            $.submitFormToIframe(0);
+                        })
+                    });
+                </script>
+                    
+                </div>
+            </div>
+            <div class="x-pjna on">匿名评价<i class="x-nmico"></i></div>
+        </div>
+    </div>
+    <!-- content end -->
+    <div data-role="footer" data-position="fixed" data-tap-toggle="false" class="x-footer">
+        <div class="x-choicefw c-bg" id="submit">提交</div>
+    </div>
+    </div>
+    <script type="text/javascript">
+        $(function() {
+            var star = 0;
+            var isAno = 1;
+            var orderId = "<?php echo e(Input::get('orderId')); ?>";
+
+            //评价星级选择
+            $(document).on("touchend",".x-pjstar i",function(){
+                var arri = $(".x-pjstar i");
+                var index = $(".x-pjstar i").index(this);
+                star = parseInt(index)+1;
+                $(".x-pjstar i").addClass("on");
+                $(".x-pjstar i:gt(" + index + ")").removeClass("on");
+            }).on("uploadsucc",".x-pjpic form",function(){
+                        $("#" + this.id + "-li .delete").removeClass('none');
+                    });
+            $(".x-pjna").touchend(function(){
+                if($(this).hasClass("on")){
+                    isAno = 0;
+                    $(this).removeClass("on");
+                }else{
+                    isAno = 1;
+                    $(this).addClass("on");
+                }
+            });
+            //评价页面照片删除
+            $(".x-pjpic .delete").touchend(function ()
+            {
+                $(this).parents("li").find("img").attr("src", "<?php echo e(asset('wap/community/client/images/addpic.png')); ?>");
+                $(this).addClass("none");
+                $("#image-from-val-" + index).val("");
+            });
+
+            $("#submit").touchend(function(){
+                var images = new Array();
+                $("input[name=images]").each(function(index,val){
+                    if($(this).val() != "" ){
+                        images.push($(this).val());
+                    }
+                })
+                var content = $("#content").val();
+                var data = {
+                    orderId: orderId,
+                    content: content,
+                    images: images,
+                    isAno: isAno,
+                    star: star
+                };
+                $.post("<?php echo e(u('Order/docomment')); ?>", data, function(res){
+                    if(res.code == 0) {
+                        $.showSuccess(res.msg);
+                        window.location.href = "<?php echo e(u('Order/detail',['id'=>Input::get('orderId')])); ?>";
+                    }else if(res.code == '99996'){
+                        window.location.href = "<?php echo e(u('User/login')); ?>";
+                    }else{
+                        $.showError(res.msg);
+                    }
+                },"json");
+            })
+
+        })
+    </script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('wap.community._layouts.base_order', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

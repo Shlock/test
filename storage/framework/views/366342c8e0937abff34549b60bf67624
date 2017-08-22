@@ -1,0 +1,219 @@
+
+<?php $__env->startSection('css'); ?>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('right_content'); ?>
+
+	<div class="m-spboxlst " style="">
+					<form id="yz_form" name="yz_form" class="validate-form ajax-form" method="post" action="http://admin.51mycai365.com/User/update" enctype="application/x-www-form-urlencoded" target="_self">
+						<div id="avatar-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 头像:
+		            </span>
+		            <div class="f-boxr">
+		                  <ul class="m-tpyllst clearfix">
+	            				<li id="avatar-box" class="">
+	            				<?php if( !empty($data['avatar']) ): ?>
+	            					<a id="img-preview-avatar" class="m-tpyllst-img" href="<?php echo e($data['avatar']); ?>" target="_blank"><img src="<?php echo e($data['avatar']); ?>" alt=""></a>
+	            				<?php else: ?>
+                                    <a id="img-preview-avatar" class="m-tpyllst-img" href="javascript:;" target="_self"><img src="" alt="" style="display:none;"></a>
+	            				<?php endif; ?>
+                                <a class="m-tpyllst-btn img-update-btn" href="javascript:;" data-rel="avatar">
+                                    <i class="fa fa-plus"></i> 上传图片
+                                </a>
+	            				<input type="hidden" data-tip-rel="#avatar-box" name="avatar" id="avatar" value="<?php echo e($data['avatar']); ?>"/>
+	            				</li>
+							</ul>
+		            </div>
+		        </div>  
+		<div id="mobile-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 手机号码:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="mobile" id="mobile" class="u-ipttext" value="<?php echo e($data['mobile']); ?>" />
+		            </div>
+		        </div>  
+		<div id="name-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 昵称:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="name" id="name" class="u-ipttext" value="<?php echo e($data['name']); ?>" />
+		            </div>
+		        </div>    
+		<div id="pwd-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 密码:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="pwd" id="pwd" class="u-ipttext" disableautocomplete autocomplete="off" />&nbsp;<span>不修改请保留为空</span>
+		            </div>
+		        </div>   
+		<div id="-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 余额:
+		            </span>
+		            <div class="f-boxr">
+		                  <p>￥<?php echo e(isset($data['balance']) ? $data['balance'] : '0.00'); ?></p>
+		            </div>
+		        </div>  
+		<div id="status-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 会员状态:
+		            </span>
+		            <div class="f-boxr">
+		                  <?php $radio_options = array (
+  0 => '0',
+  1 => '1',
+); ?><?php $default = ''; ?><?php $checked = isset($data['status']) ? $data['status'] : $default; ?><?php $radio_texts = array (
+  0 => '锁定',
+  1 => '正常',
+); ?><?php  foreach($radio_options as $options_key => $options_val): 
+                    $checked_attr = $options_val == $checked ? " checked" : ""; ?>
+                    <label>
+                        <input type="radio" class="uniform " name="status" value="<?php echo $options_val; ?>" <?php echo $checked_attr; ?>/>
+                        <span><?php echo $radio_texts[$options_key]; ?></span>
+                    </label>
+                    <span>&nbsp;&nbsp;</span>
+                    <?php endforeach; ?>
+		            </div>
+		        </div>
+		<div id="regIp-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 注册IP:
+		            </span>
+		            <div class="f-boxr">
+		                  <span name="regIp" id="regIp" class=""><?php echo e($data['regIp']); ?></span>
+		            </div>
+		        </div>
+		<div id="recommendUser-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 推荐人:
+		            </span>
+		            <div class="f-boxr">
+		                  <span name="recommendUser" id="recommendUser" class=""><?php echo e($data['recommendUser']); ?></span>
+		            </div>
+		        </div> 
+		<div id="regAddress-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 注册时地址:
+		            </span>
+		            <div class="f-boxr">
+		                  <span name="regAddress" id="regAddress" class=""><?php echo e($data['regAddress']); ?></span>
+		            </div>
+		        </div> 
+		<div id="LatLng-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 注册时地址坐标:
+		            </span>
+		            <div class="f-boxr">
+		                  <span name="LatLng" id="LatLng" class=""><?php echo e($data['LatLng']); ?></span>
+		            </div>
+		        </div> 
+
+		<div id="isExtensionWorker-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 是否推广人员:
+		            </span>
+		            <div class="f-boxr">
+		                  <?php $radio_options = array (
+  0 => '0',
+  1 => '1',
+); ?><?php $default = ''; ?><?php $checked = isset($data['isExtensionWorker']) ? $data['isExtensionWorker'] : $default; ?><?php $radio_texts = array (
+  0 => '否',
+  1 => '是',
+); ?><?php  foreach($radio_options as $options_key => $options_val): 
+                    $checked_attr = $options_val == $checked ? " checked" : ""; ?>
+                    <label>
+                        <input type="radio" class="uniform " name="isExtensionWorker" value="<?php echo $options_val; ?>" <?php echo $checked_attr; ?>/>
+                        <span><?php echo $radio_texts[$options_key]; ?></span>
+                    </label>
+                    <span>&nbsp;&nbsp;</span>
+                    <?php endforeach; ?>
+		            </div>
+		        </div>
+		<div id="extensionAddress-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 推广的地理位置:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="extensionAddress" id="extensionAddress" class="u-ipttext" value="<?php echo e($data['extensionAddress']); ?>" />
+		            </div>
+		        </div> 
+		<div id="extensionLatLng-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 推广位置坐标:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="extensionLatLng" id="extensionLatLng" class="u-ipttext" value="<?php echo e($data['extensionLatLng']); ?>" />
+		            </div>
+		        </div> 
+
+		<div id="mapPointPicker-form-item" class="u-fitem clearfix ">
+            <span class="f-tt">
+                &nbsp;
+            </span>
+            <div class="f-boxr">
+                通过<a target="_blank" href="http://www.mayixueyuan.com/tool/baidumapapi/">百度坐标拾取器</a>获得精确的位置坐标
+            </div>
+        </div>
+
+		<div id="extensionRange-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 推广有效范围:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="extensionRange" id="extensionRange" class="u-ipttext" value="<?php echo e($data['extensionRange']); ?>" />&nbsp;<span>公里</span>
+		            </div>
+		        </div>		<div class="u-fitem clearfix">
+                            <span class="f-tt">
+                                &nbsp;
+                            </span>
+                            <div class="f-boxr">
+                                  <button type="submit" class="u-addspbtn">提 交</button>
+                            </div>
+                        </div>		<input type="hidden" value="<?php echo e($data['id']); ?>" name="id" />
+					</form>
+				</div>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$('#isExtensionWorker-form-item').find('.uniform').click(function(){
+				//alert($(this).val());
+				if($(this).val() == 1){
+					$('#extensionAddress-form-item').show();
+					$('#extensionLatLng-form-item').show();
+					$('#extensionAddress-form-item').show();
+					$('#mapPointPicker-form-item').show();
+					$('#extensionRange-form-item').show();
+				}else{
+					$('#extensionAddress-form-item').hide();
+					$('#extensionLatLng-form-item').hide();
+					$('#extensionAddress-form-item').hide();
+					$('#mapPointPicker-form-item').hide();
+					$('#extensionRange-form-item').hide();
+				}
+			});
+
+			if($('#yz_form input[name="isExtensionWorker"]:checked ').val()==1){
+				$('#extensionAddress-form-item').show();
+				$('#extensionLatLng-form-item').show();
+				$('#extensionAddress-form-item').show();
+				$('#mapPointPicker-form-item').show();
+				$('#extensionRange-form-item').show();
+			}else{
+				$('#extensionAddress-form-item').hide();
+				$('#extensionLatLng-form-item').hide();
+				$('#extensionAddress-form-item').hide();
+				$('#mapPointPicker-form-item').hide();
+				$('#extensionRange-form-item').hide();
+		}
+		});
+	</script>
+<?php foreach($errors->all() as $error): ?>
+    <p class="error"><?php echo e($error); ?></p>
+ <?php endforeach; ?>
+ 
+
+
+<?php $__env->stopSection(); ?> 
+<?php echo $__env->make('admin._layouts.base', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

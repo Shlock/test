@@ -1,0 +1,57 @@
+
+<?php $__env->startSection('css'); ?>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('right_content'); ?>
+     
+    <div id="checkList" class="">
+                    <div class="tabs">
+					<div class="tab-navs u-spnav u-orderlstnav">
+					<ul class="clearfix"> 
+						<li class="tab-nav <?php if($status == 2): ?> on <?php endif; ?>">
+    				<a href="<?php echo e(u('PropertyApply/index',['status'=>'2'])); ?>" target="_self">未审核</a>
+    			</li>
+                <li class="tab-nav <?php if($status == 1): ?> on <?php endif; ?>">
+    				<a href="<?php echo e(u('PropertyApply/index',['status'=>'1'])); ?>" target="_self">已拒绝</a>
+    			</li>
+					</ul>
+				</div>
+				</div>  
+        <div class="m-tab">
+                      <table id="checkListTable" class="">
+                        <thead><td class="" order="name" code="name"><span>公司名称</span></td>  
+				<td class="" order="" code=""><span>小区名称</span></td> 
+				<td class="" order="contacts" code="contacts"><span>联系人</span></td>  
+				<td class="" order="mobile" code="mobile"><span>联系电话</span></td>
+				<td class="" order="createTime" code="createTime"><span>提交日期</span></td>
+                <td style="text-align:center;white-space:nowrap;" width="60"><span>操作</span></td>
+                    </thead><tbody>
+                        <?php foreach($list as $list_index => $list_item): ?>
+                        <?php 
+                            $list_item_css = $list_index % 2 == 0 ? " tr-even" : " tr-odd"; 
+                            $list_item_pk  = $list_item["id"];
+                        ?>
+                        <tr class="tr-<?php echo e($list_item_pk); ?><?php echo e($list_item_css); ?>" key="<?php echo e($list_item_pk); ?>" primary="id"><td class="" code="name"><?php echo e($list_item['name']); ?></td>  
+				<td class="" style="text-align:center;" code=""><?php echo e($list_item['district']['name']); ?></td> 
+				<td class="" code="contacts"><?php echo e($list_item['contacts']); ?></td>  
+				<td class="" code="mobile"><?php echo e($list_item['mobile']); ?></td>
+				<td class="" code="createTime"><?php echo e(yztime($list_item['createTime'])); ?></td>
+                <td class=""><?php if($list_item['isCheck'] == 0): ?>
+                    <a href="<?php echo e(u('PropertyApply/detail', ['id'=>$list_item['id']])); ?>" class=" blu"  data-pk="<?php echo e($list_item["id"]); ?>" target="_self">审核</a> 
+                    <?php else: ?>
+                    <a href="<?php echo e(u('PropertyApply/detail', ['id'=>$list_item['id']])); ?>" class=" "  data-pk="<?php echo e($list_item["id"]); ?>" target="_self">申请详情</a> 
+                    <?php endif; ?></td>
+                    </tr>
+                    <?php endforeach; ?>
+                </tbody>
+                    </table>
+                </div><?php echo $__env->make('admin._layouts.pager', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                </div>
+     
+	<script type="text/javascript">
+    	$(function(){ 
+    	});
+    </script>
+<?php $__env->stopSection(); ?>
+
+
+<?php echo $__env->make('admin._layouts.base', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

@@ -1,0 +1,191 @@
+
+<?php $__env->startSection('css'); ?>
+<style type="text/css">
+	#checkListTable{table-layout:fixed;}
+	.hoverred{color: #000}
+	.hoverred:hover{color: red}
+</style>
+<?php $__env->stopSection(); ?>
+<?php
+ $result = [
+ 	['id'=>'','name'=>'全部'],
+ 	['id'=>'good','name'=>'好评'],
+ 	['id'=>'neutral','name'=>'中评'],
+ 	['id'=>'bad','name'=>'差评'],
+ ];
+  $replyStatus = [
+ 	['id'=>'0','name'=>'全部'],
+ 	['id'=>'1','name'=>'未回复'],
+ 	['id'=>'2','name'=>'已回复'],
+ ];
+ ?>
+<?php $__env->startSection('right_content'); ?>
+	
+		<div id="checkList" class="">
+                    <div class="u-ssct clearfix">
+                    <?php $search_args = Input::all(); ?>
+                    <form id="yzForm" class="" name="yzForm" method="post" action="http://admin.51mycai365.com/OrderRate/index" target="_self">
+                        <div class="search-row clearfix">
+                      <div id="userMobile-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 会员信息:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="userMobile" id="userMobile" class="u-ipttext" value="<?php echo e($search_args['userMobile']); ?>" />
+		            </div>
+		        </div>
+					<div id="sellerMobile-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 机构信息:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="sellerMobile" id="sellerMobile" class="u-ipttext" value="<?php echo e($search_args['sellerMobile']); ?>" />
+		            </div>
+		        </div>
+					<div id="-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 评价结果:
+		            </span>
+		            <div class="f-boxr">
+		                  <select id="result" name="result" class="sle  " ><?php $select_options = $result; ?><?php $selecteds = is_array($search_args['result']) ? $search_args['result'] : [$search_args['result']]; ?><?php  foreach($select_options as $options_key => $options_val): ?><?php $options_key = $options_val['id']; ?><?php $options_val = $options_val['name']; ?><?php $selected = in_array($options_key, $selecteds) ? " selected" : ""; ?>
+	                	<option<?php echo $selected; ?> value="<?php echo $options_key; ?>"><?php echo $options_val; ?></option>
+						<?php endforeach; ?></select>
+		            </div>
+		        </div>
+                </div>
+				<div class="search-row clearfix">
+                      <div id="orderSn-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 订单号:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="orderSn" id="orderSn" class="u-ipttext" value="<?php echo e($search_args['orderSn']); ?>" />
+		            </div>
+		        </div>
+					<div id="staffMobile-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 服务员工:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="staffMobile" id="staffMobile" class="u-ipttext" value="<?php echo e($search_args['staffMobile']); ?>" />
+		            </div>
+		        </div>
+					<div id="-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 是否回复:
+		            </span>
+		            <div class="f-boxr">
+		                  <select id="replyStatus" name="replyStatus" class="sle  " ><?php $select_options = $replyStatus; ?><?php $selecteds = is_array($search_args['replyStatus']) ? $search_args['replyStatus'] : [$search_args['replyStatus']]; ?><?php  foreach($select_options as $options_key => $options_val): ?><?php $options_key = $options_val['id']; ?><?php $options_val = $options_val['name']; ?><?php $selected = in_array($options_key, $selecteds) ? " selected" : ""; ?>
+	                	<option<?php echo $selected; ?> value="<?php echo $options_key; ?>"><?php echo $options_val; ?></option>
+						<?php endforeach; ?></select>
+		            </div>
+		        </div>
+					<button type="submit" class="btn mr5">
+                        搜索
+                    </button>
+                </div>
+                    </form>
+                </div>
+			<div class="m-tab">
+                      <table id="checkListTable" class="">
+                        <thead>
+						<td class="" width="100" order="user" code="user"><span>会员</span></td>
+						<td class="" width="100" order="seller" code="seller"><span>商家</span></td>
+						<td class="" width="100" order="staff" code="staff"><span>员工</span></td>
+						<td class="" width="100" order="" code=""><span>评分</span></td>
+						<td class="" width="120" order="createTime" code="createTime"><span>点评时间</span></td>
+					<td style="text-align:center;white-space:nowrap;"><span>操作</span></td></thead><tbody>
+                        <?php foreach($list as $list_index => $list_item): ?>
+                        <?php 
+                            $list_item_css = $list_index % 2 == 0 ? " tr-even" : " tr-odd"; 
+                            $list_item_pk  = $list_item["id"];
+                        ?>
+
+						<tr class="<?php echo e($list_item_css); ?>">
+
+							<td style="text-align:left">
+								<p><?php echo e(isset($list_item['user']['name']) ? $list_item['user']['name'] : '-'); ?></p>
+								<p><?php echo e(isset($list_item['user']['mobile']) ? $list_item['user']['mobile'] : '-'); ?></p>
+							</td>
+
+							<td style="text-align:left">
+								<p><?php echo e(isset($list_item['seller']['name']) ? $list_item['seller']['name'] : '-'); ?></p>
+								<p><?php echo e(isset($list_item['seller']['mobile']) ? $list_item['seller']['mobile'] : '-'); ?></p>
+							</td>
+							<td style="text-align:left">
+								<p><?php echo e(isset($list_item['staff']['name']) ? $list_item['staff']['name'] : '-'); ?></p>
+								<p><?php echo e(isset($list_item['staff']['mobile']) ? $list_item['staff']['mobile'] : '-'); ?></p>
+							</td>
+							<td>
+								<span><?php echo e($list_item['star']); ?></span>
+							</td>
+							<td>
+								<?php echo e(yztime($list_item['createTime'])); ?>
+
+							</td>
+							<td rowspan="2">
+								 
+									<p>
+										<a href="<?php echo e(u('OrderRate/detail', ['id'=>$list_item['id']])); ?>" class=" blu"  data-pk="<?php echo e($list_item["id"]); ?>" target="_self">编辑/回复</a>
+									</p>
+									<p>
+										<a href="<?php echo e(u('Order/detail',['id'=> $list_item['orderId']])); ?>" class=""  style="color:#000" data-pk="<?php echo e($list_item["id"]); ?>" target="_new">订单</a>
+									</p>
+									<p><a href="javascript:;" class=" red"  onclick="$.RemoveItem(this, '<?php echo e(u(CONTROLLER_NAME."/destroy",["id" => $list_item["id"]])); ?>', '你确定要删除该数据吗？')" data-pk="<?php echo e($list_item["id"]); ?>" target="_self">删除</a></p>
+								
+							</td>
+						</tr>
+						<tr class="<?php echo e($list_item_css); ?>">
+							<td colspan="2" style="text-align:left;vertical-align:top;word-wrap:break-word">
+								<p>评价：<?php echo e($list_item['content']); ?></p>
+								<!--<?php foreach($list_item['images'] as $image): ?>-->
+								<a href="<?php echo e($image); ?>" target="_blank"><img src="<?php echo e($image); ?>" alt="" height="40"></a>
+								<!-- <?php endforeach; ?> -->
+							</td>
+							<td colspan="3" style="text-align:left;vertical-align:top;word-wrap:break-word">
+                                <p>回复时间：<?php echo e(Time::toDate($list_item['replyTime'], 'Y-m-d H:i:s')); ?></p>
+								回复：<?php echo e($list_item['reply']); ?>
+
+							</td>
+						</tr>
+                        <tr class="<?php echo e($list_item_css); ?>">
+                            <td colspan="6" style="text-align:left;vertical-align:top;word-wrap:break-word">
+                                订单编号：<?php echo e($list_item['order']['sn']); ?>
+
+                            </td>
+                        </tr>
+					
+                    <?php endforeach; ?>
+                </tbody>
+                    </table>
+                </div><?php echo $__env->make('admin._layouts.pager', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                </div>
+	
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('js'); ?>
+<script type="text/tpl" id="replyTpl">
+<textarea id="replyContent" style="width:400px;height:100px;border:1px #ccc solid"></textarea>
+</script>
+<script type="text/javascript">
+	//function reply(url) {
+		//window.location.href = url;
+		// $.ShowConfirm($("#replyTpl").html(), function(){
+		// 	var content = $("#replyContent").val();
+		// 	if(content.length > 0) {
+		// 		$.post("<?php echo e(u('OrderRate/rateReply')); ?>",{"id":id,"content":content},function(res){
+		// 			if(res.status==true){
+		// 				window.location.reload();
+		// 			}else{
+		// 				$.ShowAlert(res.msg);
+		// 			}
+		// 		},'json')
+		// 	}else{
+		// 		$.ShowAlert("请填写回复内容");
+		// 	}
+		// },null,'评价回复');
+	//}
+</script>
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('admin._layouts.base', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

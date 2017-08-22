@@ -1,0 +1,10 @@
+<div data-role="footer" data-tap-toggle="false" data-position="fixed" class="x-footer">
+    <div data-role="navbar" class="x-footnav">
+        <ul class="x-bar">
+            <li <?php if($nav == 'index'): ?> class="on" <?php endif; ?>><a href="<?php echo e(u('Index/index')); ?>" class="x-home"><i class="fr1"></i><span>首页</span></a></li>
+            <li <?php if($nav == 'goodscart'): ?> class="on" <?php endif; ?>><a href="<?php echo e(u('GoodsCart/index')); ?>" class="x-cart"><i class="fr2"><?php if((int)$counts['cartGoodsCount'] > 0): ?><span class="x-dot c-bg" id="cart_amount"><?php echo e((int)$counts['cartGoodsCount']); ?></span><?php endif; ?></i><span>购物车</span></a></li>
+            <li <?php if($nav == 'forum'): ?> class="on" <?php endif; ?>><a href="<?php echo e(u('Forum/index')); ?>" class="x-order"><i class="fr3"></i><span>生活圈</span></a></li>
+            <li <?php if($nav == 'mine'): ?> class="on" <?php endif; ?>><a href="<?php echo e(u('User/index')); ?>" class="x-my"><i class="fr4"><?php if((int)$counts['newMsgCount'] > 0): ?><span class="x-dot c-bg"><?php echo e((int)$counts['newMsgCount']); ?></span><?php endif; ?></i><span>我的</span></a></li>
+        </ul>
+    </div>
+</div>

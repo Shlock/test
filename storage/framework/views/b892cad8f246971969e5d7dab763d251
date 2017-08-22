@@ -1,0 +1,244 @@
+
+<?php $__env->startSection('show_top'); ?>
+    <div data-role="header" data-position="fixed" class="x-header">
+        <h1><?php echo e($cate['name']); ?></h1>
+        <a href="<?php if(!empty($nav_back_url)): ?> <?php echo e($nav_back_url); ?> <?php else: ?> javascript:history.back(-1); <?php endif; ?>" data-iconpos="notext" class="x-back ui-nodisc-icon" data-shadow="false"></a>
+        <a class="x-sjr ui-btn-right" href="<?php echo e(u('Seller/search')); ?>"><img src="<?php echo e(asset('wap/images/ico/search.png')); ?>" width="23" /></a>
+    </div>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('css'); ?>
+    <style>
+        .x-pjlstct .star-rank,.x-pjlstct .star-score{height:25px;overflow: hidden;}
+    </style>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('js'); ?>
+    <script src="<?php echo e(asset('static/infinite-scroll/jquery.infinitescroll.js')); ?>"></script>
+<?php $__env->stopSection(); ?>
+<?php
+    $sorts = array(
+        0 => '综合排序',
+        1 => '按销量倒序',
+        2 => '按起送价',
+        3 => '距离最近',
+        4 => '评分最高',
+    );
+?>
+<?php $__env->startSection('content'); ?> 
+    <div role="main" class="ui-content" style="min-height: 457px;padding-top: 0px;">
+        <ul class="x-sjsort clearfix" style="z-index:10; display: none;">
+            <li class="on">
+                <p class="x-sortl x-sjsortt"><span><?php if($args['id'] > 0 && $args['id'] == $cate['id']): ?><?php echo e($cate['name']); ?> <?php else: ?> 全部 <?php endif; ?></span><i class="x-sdown"></i></p>
+                <div class="x-sortmask">
+                    <div class="mask1"></div>
+                    <div data-role="tabs" id="tabs" class="x-fwtype x-sortlst clearfix">
+                        <div data-role="navbar" class="x-fwtypett">
+                            <ul>
+                                <?php foreach($seller_cates as $key => $item): ?>
+                                <li><a href="#row_<?php echo e($key+1); ?>" data-ajax="false" class="<?php if($key == 0): ?>ui-btn-active first <?php endif; ?>" ><?php echo e($item['name']); ?></a></li>
+                                <?php endforeach; ?>
+                            </ul>
+                        </div>
+                        <?php foreach($seller_cates as $k => $item): ?>
+                            <div id="row_<?php echo e($k+1); ?>">
+                                <ul class="x-typelst typecate">
+                                    <li data-id="<?php echo e($item['id']); ?>">全部</li>
+                                    <?php foreach($seller_cates[$k]['childs'] as $val): ?>
+                                    <li data-id="<?php echo e($val['id']); ?>"><?php echo e($val['name']); ?></li>
+                                    <?php endforeach; ?>
+                                </ul>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+            </li>
+            <li class="x-sortr1">
+                <p class="x-sortr x-sjsortt"><span><?php echo e($sorts[$args['sort']]); ?></span><i class="x-sdown"></i></p>
+                <div class="x-sort2 typesort" style="z-index:10;">
+                    <?php foreach($sorts as $key => $st): ?>
+                    <p data-id="<?php echo e($key); ?>"><?php echo e($st); ?></p>
+                    <?php endforeach; ?>
+                </div>
+            </li>
+        </ul>
+        <?php if(!empty($data)): ?>
+        <ul class="x-index4">
+            <?php echo $__env->make('wap.community.seller.seller_item', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+        </ul>
+        <?php else: ?>
+            <div class="x-serno c-green">
+                <img src="<?php echo e(asset('wap/community/client/images/ico/cry.png')); ?>"  />
+                <span>很抱歉！没有找到相关商家！</span>
+            </div>
+        <?php endif; ?>
+    </div>
+
+    <?php echo $__env->make('wap.community._layouts.swiper', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+    <script charset="utf-8" src="http://map.qq.com/api/js?v=2.exp&key=2N2BZ-KKZA4-ZG4UB-XAOJU-HX2ZE-HYB4O&libraries=geometry,convertor"></script>
+    <script>
+        var clientLatLng = null;
+        var isSortPosition = false;
+        var pageArgs = <?php echo json_encode($args); ?>;
+        <?php if(!empty($args['mapPoint'])): ?>
+        var clientLatLngs = "<?php echo e($args['mapPoint']); ?>".split(',');
+        clientLatLng = new qq.maps.LatLng(clientLatLngs[0], clientLatLngs[1]);
+        <?php endif; ?>
+
+        jQuery(function($){
+
+            $.SwiperInit('.x-index4','li',"<?php echo e(u('Seller/index',$args)); ?>");
+            $(".data-content ul li").click(function(){
+                var id = parseInt($(this).data('id'));
+                if(id > 0){
+                    window.location.href = "<?php echo e(u('Seller/detail')); ?>"+"?staffId="+id;
+                }
+            });
+
+            $.gpsposition = function () {
+                var translatePoint = function (position) {
+                    var currentLat = position.coords.latitude;
+                    var currentLon = position.coords.longitude;
+                    qq.maps.convertor.translate(new qq.maps.LatLng(currentLat, currentLon), 1, function (res) {
+                        clientLatLng = res[0];
+                        $.computeDistanceBegin();
+                    });
+                }
+
+                var citylocation = new qq.maps.CityService({
+                    complete: function (result) {
+                        clientLatLng = result.detail.latLng;
+                        $.computeDistanceBegin();
+                    }
+                });
+
+                <?php if(empty($orderData['mapPointStr'])): ?>
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(translatePoint, function (error) {
+                        citylocation.searchLocalCity();
+                    }, {enableHighAccuracy: true});
+                } else {
+                    citylocation.searchLocalCity();
+                }
+                <?php endif; ?>
+            }
+   
+            $.computeDistanceBegin = function () {
+                if (clientLatLng == null) {
+                    $.gpsposition();
+                    return;
+                }
+
+                if (isSortPosition) {
+                    pageArgs.mapPoint = clientLatLng.getLat() + "," + clientLatLng.getLng();
+                    window.location.href = "<?php echo u('Seller/index'); ?>?" + $.param(pageArgs);
+                    return;
+                }
+
+                $(".compute-distance").each(function () {
+                    var mapPoint = new qq.maps.LatLng($(this).data('map-point-x'), $(this).data('map-point-y'));
+                    $.computeDistanceBetween(this, mapPoint);
+                    $(this).removeClass('compute-distance');
+                })
+            }
+
+            $.computeDistanceBetween = function (obj, mapPoint) {
+                var distance = qq.maps.geometry.spherical.computeDistanceBetween(clientLatLng, mapPoint);
+                if (distance < 1000) {
+                    $(obj).html(Math.round(distance) + 'M');
+                } else {
+                    $(obj).html(Math.round(distance / 1000 * 100) / 100 + 'Km');
+                }
+            }
+
+            $.SwiperInit = function(box, item, url) {
+                $(box).infinitescroll({
+                    itemSelector    : item,
+                    debug           : false,
+                    dataType        : 'html', 
+                    nextUrl         : url
+                }, function(data) {
+                    $.computeDistanceBegin();
+                });
+            }
+            $.computeDistanceBegin();
+
+            $(".typecate li").touchend(function() {
+                $(this).addClass("on").siblings().removeClass("on");
+                var id = $(this).data('id');
+                pageArgs.id = id;
+                window.location.href = "<?php echo u('Seller/index'); ?>?" + $.param(pageArgs);
+            });
+
+            $(".typesort p").touchend(function() {
+                var sort = $(this).data('id');
+                pageArgs.sort = sort;
+
+                if (sort == 3) {
+                    if (clientLatLng == null) {
+                        isSortPosition = true;
+                        $("#showalertposition").removeClass('none');
+                        return false;
+                    }
+                    pageArgs.mapPoint = clientLatLng.getLat() + "," + clientLatLng.getLng();
+                }
+                window.location.href = "<?php echo u('Seller/index'); ?>?" + $.param(pageArgs);
+            });
+            $(".ui-content").css("min-height",$(window).height()-210);
+
+            // 商家分类下拉
+            var n = 1;
+            $(".x-sjsort li .x-sortl").touchend(function(){
+                $(this).siblings(".x-sortmask").toggle();
+                var fwtype = $(this).siblings(".x-sortmask").find(".x-sortlst .x-typelst").height();
+                $(this).siblings(".x-sortmask").find(".x-sortlst .x-fwtypett").css("min-height",fwtype);
+                $(this).parents(".x-sjsort li").siblings().find(".x-sort2").hide();
+                n++;
+            });
+            // $(".x-sortlst .x-typelst li").touchend(function(){
+            //     $(this).addClass("on").siblings().removeClass("on");
+            // });
+            $(".x-sortmask .mask1").touchend(function(){
+                $(this).parents(".x-sortmask").hide();
+            });
+            $(".x-sjsort li .x-sortr").touchend(function(){
+                n++;
+                $(this).siblings(".x-sort2").toggle();
+                $(this).parents(".x-sjsort li").siblings().find(".x-sortmask").hide();
+            });
+            $(".x-sort2 p").touchend(function(){
+                var txt = $(this).parents(".x-sjsort div").siblings("p").find("span");
+                txt.text($(this).text());
+                $(this).parents(".x-sort2").hide();
+                n++;
+                return false;
+            });
+            $(document).touchend(function(e){
+                if(n%2==0){
+                    if($(e.target).is(".x-sjsort li .x-sortr,.x-sjsort .x-sortl")){
+                        return false;
+                    }else{
+                        $(".x-sort2").hide();
+                        n++;
+                    }
+                }
+            })
+
+        });
+    </script>
+    
+    <div class="m-tkbg none showalert" id="showalertposition">
+        <div class="x-tkbg">
+            <div class="x-tkbgi">
+                <div class="m-tkny">
+                    <p class="m-tktt">
+                        <span class="operation_show_title">操作提示</span>
+                    </p>
+                    <div class="m-tkinfor">
+                        <p class="x-tkfont x-tkfontAlart">定位中，请稍候...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php $__env->stopSection(); ?> 
+
+<?php echo $__env->make('wap.community._layouts.base', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

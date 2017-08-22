@@ -1,0 +1,36 @@
+
+<?php $__env->startSection('show_top'); ?>
+    <div data-role="header" data-position="fixed" class="x-header">
+        <h1>我的余额</h1>
+        <a href="<?php echo e(u('UserCenter/index')); ?>" data-iconpos="notext" class="x-back ui-nodisc-icon" data-shadow="false"></a>
+    </div>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
+    <div role="main">
+        <div class="y-balance">
+            <p class="c-green f12">账户余额（元）</p>
+            <p class="tc c-red f18"><?php echo e($balance); ?></p>
+            <a href="<?php echo e(u('UserCenter/recharge')); ?>" class="ui-btn">充值</a>
+        </div>
+        <p class="y-beizhu c-green">余额交易记录</p>
+        <ul class="y-records" id="logs">
+            <?php if($data['paylogs']): ?>
+            <?php echo $__env->make('wap.community.usercenter.balance_item', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+            <?php else: ?>
+            <p style="line-height: 10px;padding: 10px;">没有交易记录</p>
+            <?php endif; ?>
+        </ul>
+    </div>
+<?php echo $__env->make('wap.community._layouts.swiper', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('js'); ?>
+    <script src="<?php echo e(asset('static/infinite-scroll/jquery.infinitescroll.js')); ?>"></script>
+    <script>
+        $(function() {
+            $.SwiperInit('#logs', 'li', "<?php echo e(u('UserCenter/balance',$args)); ?>");
+            $(".y-records").css("min-height",$(window).height()-247);
+        })
+    </script>
+
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('wap.community._layouts.base', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

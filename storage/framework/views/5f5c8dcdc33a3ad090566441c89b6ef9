@@ -1,0 +1,55 @@
+
+<?php $__env->startSection('css'); ?>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
+	<div>
+		<div class="m-zjgltbg">					
+			<div class="p10">
+				<!-- 服务管理 -->
+				<div class="g-fwgl">
+					<p class="f-bhtt f14 clearfix">
+						<span class="ml15 fl">公告管理</span>
+					</p>
+				</div>
+				<!-- 服务表格 -->
+				<div class="m-tab m-smfw-ser">
+					
+	                    <div id="checkList" class="">
+                    <div class="list-btns">
+                      <a href="<?php echo e(u('Article/create')); ?>" target="_self" class="btn mr5 btn-gray">
+                        添加公告
+                    </a>
+                </div> 
+							<div class="m-tab">
+                      <table id="checkListTable" class=" goodstable" relmodule="Article">
+                        <thead><td class="" order="title" code="title"><span>公告标题</span></td>     
+								<!-- <td class="" order="content" code="content"><span>公告内容</span></td>   -->
+								<td class="" order="createTime" code="createTime"><span>发布日期</span></td>     
+								<td style="text-align:center;white-space:nowrap;"><span>操作</span></td>
+                    </thead><tbody>
+                        <?php foreach($list as $list_index => $list_item): ?>
+                        <?php 
+                            $list_item_css = $list_index % 2 == 0 ? " tr-even" : " tr-odd"; 
+                            $list_item_pk  = $list_item["id"];
+                        ?>
+                        <tr class="tr-<?php echo e($list_item_pk); ?><?php echo e($list_item_css); ?>" key="<?php echo e($list_item_pk); ?>" primary="id"><td class="" style="text-align:center;" code="title"><?php echo e($list_item['title']); ?></td>     
+								<!-- <td class="" style="text-align:left;" code="content"><?php echo e($list_item['content']); ?></td>   -->
+								<td class="" style="text-align:center;" code="createTime"><?php echo e(yztime($list_item['createTime'])); ?></td>     
+								<td class=""><a href="<?php echo e(u(CONTROLLER_NAME."/edit",["id" => $list_item["id"]])); ?>" class=" blu"  data-pk="<?php echo e($list_item["id"]); ?>" target="_self">编辑</a>
+									<a href="javascript:;" class=" red"  onclick="$.RemoveItem(this, '<?php echo e(u(CONTROLLER_NAME."/destroy",["id" => $list_item["id"]])); ?>', '你确定要删除该数据吗？')" data-pk="<?php echo e($list_item["id"]); ?>" target="_self">删除</a></td>
+                    </tr>
+                    <?php endforeach; ?>
+                </tbody>
+                    </table>
+                </div>
+                </div>
+	                
+				</div>
+			</div>
+		</div>
+	</div> 
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('js'); ?>
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('seller._layouts.base', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

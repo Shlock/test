@@ -1,0 +1,185 @@
+
+<?php $__env->startSection('css'); ?>
+
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('right_content'); ?>
+    
+        <div id="checkList" class="">
+                    <div class="u-ssct clearfix">
+                    <?php $search_args = Input::all(); ?>
+                    <form id="yzForm" class="" name="yzForm" method="post" action="http://admin.51mycai365.com/Activity/index" target="_self">
+                        <div class="search-row clearfix">
+                      <div id="name-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 活动名称:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="name" id="name" class="u-ipttext" value="<?php echo e($search_args['name']); ?>" />
+		            </div>
+		        </div>
+                    <div id="-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 状态:
+		            </span>
+		            <div class="f-boxr">
+		                  <select id="status" name="status" class="sle  " ><?php $select_options = array (
+  0 => '0',
+  1 => '1',
+  2 => '2',
+); ?><?php $selecteds = is_array($args['status']) ? $args['status'] : [$args['status']]; ?><?php $select_texts = array (
+  0 => '全部',
+  1 => '启用',
+  2 => '禁用',
+); ?><?php  foreach($select_options as $options_key => $options_val):
+                    $selected = in_array($options_val, $selecteds) ? " selected" : ""; ?>
+					<option<?php echo $selected; ?> value="<?php echo $options_val; ?>"><?php echo $select_texts[$options_key]; ?></option>
+					<?php endforeach; ?></select>
+		            </div>
+		        </div>
+                    <div id="-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 活动类型:
+		            </span>
+		            <div class="f-boxr">
+		                  <select id="status" name="status" class="sle  " ><?php $select_options = array (
+  0 => '0',
+  1 => '1',
+  2 => '2',
+  3 => '3',
+); ?><?php $selecteds = is_array($args['type']) ? $args['type'] : [$args['type']]; ?><?php $select_texts = array (
+  0 => '全部',
+  1 => '分享活动',
+  2 => '注册活动',
+  3 => '线下优惠券发放活动',
+); ?><?php  foreach($select_options as $options_key => $options_val):
+                    $selected = in_array($options_val, $selecteds) ? " selected" : ""; ?>
+					<option<?php echo $selected; ?> value="<?php echo $options_val; ?>"><?php echo $select_texts[$options_key]; ?></option>
+					<?php endforeach; ?></select>
+		            </div>
+		        </div>
+                </div>
+				<div class="search-row clearfix">
+                      <div id="beginTime-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 活动开始时间:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="beginTime" id="beginTime" class="u-ipttext" value="<?php echo e($search_args['beginTime']); ?>" />
+		            </div>
+		        </div>
+                    <div id="endTime-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 活动结束时间:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="endTime" id="endTime" class="u-ipttext" value="<?php echo e($search_args['endTime']); ?>" />
+		            </div>
+		        </div>
+					<button type="submit" class="btn mr5">
+                        搜索
+                    </button>
+                </div>
+                    </form>
+                </div>
+            <div class="list-btns">
+                      <a href="<?php echo e(u('Activity/create')); ?>" target="_self" class="btn mr5 btn-green">
+                        添加活动
+                    </a>
+                </div>
+			<div class="m-tab">
+                      <table id="checkListTable" class="" relmodule="SystemGoods">
+                        <thead><td class="" width="100" order="name" code="name"><span>活动名称</span></td>
+                    <td class="" width="80" order="" code=""><span>活动类型</span></td>
+                    <td class="" width="80" order="" code=""><span>创建时间</span></td>
+					<td class="" width="150" order="" code=""><span>活动时间</span></td>
+					<td class="" width="40" order="" code=""><span>活动状态</span></td>
+
+					<td style="text-align:center;white-space:nowrap;" width="60"><span>操作</span></td>
+                    </thead><tbody>
+                        <?php foreach($list as $list_index => $list_item): ?>
+                        <?php 
+                            $list_item_css = $list_index % 2 == 0 ? " tr-even" : " tr-odd"; 
+                            $list_item_pk  = $list_item["id"];
+                        ?>
+                        <tr class="tr-<?php echo e($list_item_pk); ?><?php echo e($list_item_css); ?>" key="<?php echo e($list_item_pk); ?>" primary="id"><td class="" code="name"><?php echo e($list_item['name']); ?></td>
+                    <td class="" code=""><?php if($list_item['type'] == 1): ?>
+                            分享活动
+                        <?php elseif($list_item['type'] == 2): ?>
+                            注册活动
+                        <?php elseif($list_item['type'] == 2): ?>
+                            线下优惠券发放活动
+                        <?php endif; ?></td>
+                    <td class="" code=""><?php echo e(yztime($list_item['createTime'])); ?></td>
+					<td class="" code=""><?php echo e(yztime($list_item['startTime'],'Y-m-d')); ?> 至 <?php echo e(yztime($list_item['endTime'],'Y-m-d')); ?></td>
+					<td class="" code=""><?php if($list_item['status'] == 1): ?>
+							开启
+						<?php else: ?>
+							关闭
+						<?php endif; ?></td>
+
+					<td class=""><a href="<?php echo e(u('Activity/edit',['id'=>$list_item['id']])); ?>" class=" blu" data-pk="1" target="_self">编辑</a>
+                        <?php if($list_item['del'] < 1): ?>
+                                <a href="javascript:;" class=" red"  onclick="$.RemoveItem(this, '<?php echo e(u(CONTROLLER_NAME."/destroy",["id" => $list_item["id"]])); ?>', '你确定要删除该数据吗？')" data-pk="<?php echo e($list_item["id"]); ?>" target="_self">删除</a>
+                        <?php endif; ?></td>
+                    </tr>
+                    <?php endforeach; ?>
+                </tbody>
+                    </table>
+                </div><?php echo $__env->make('admin._layouts.pager', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                </div>
+    
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('js'); ?>
+<script type="text/javascript">
+	$(function(){
+		//设置抢购价格
+		$(document).on('keypress','.shopping_price',function(e){
+			var key = e.which;
+            if (key == 13) {
+                e.preventDefault();
+                var id = $(this).data('id');
+                var price = $(this).val();
+                $.post('<?php echo e(u("ShoppingSpree/setPrice")); ?>',{'id':id,'price':price},function(res){
+					if(res.code == 0){
+						window.location.reload();
+					}else{
+						$.ShowAlert(res.msg);
+					}
+                },"json");
+            }
+		});
+		//通过一级分类查找二级分类
+		$("#catePid").change(function(){
+			var pid = $(this).val();
+			$("#cateId").html("<option value>全部</option>");
+			if(pid < 1){
+				return false;
+			}
+			$.post("<?php echo e(u('Goods/selectSecond')); ?>",{'pid':pid,'status':1},function(res){
+				if(res.length > 0){
+					var html = "<option value>全部</option>";
+					$.each(res, function(k,v){
+						html += "<option value='"+this.id+"'>"+this.name+"</option>";
+					});
+					$("#cateId").html(html);
+				}
+			},'json');
+		});
+		
+		$(document).on('click','.y-qghd a',function(){
+			var type = $(this).data('type');
+			var url = '<?php echo e(u("ShoppingSpree/setStaus")); ?>';
+			$.post(url,{'type':type},function(res){
+				if(res.code == 0){
+					window.location.reload();
+				}else{
+					$.ShowAlert(res.msg);
+				}
+			},"json");
+		});
+	});
+</script>
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('admin._layouts.base', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

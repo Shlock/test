@@ -1,0 +1,79 @@
+
+
+<?php $__env->startSection('css'); ?>
+<?php $__env->startSection('right_content'); ?>
+	
+		<div id="checkList" class="">
+                    <div class="u-ssct clearfix">
+                    <?php $search_args = Input::all(); ?>
+                    <form id="yzForm" class="" name="yzForm" method="post" action="http://admin.51mycai365.com/District/index" target="_self">
+                        <div class="search-row clearfix">
+                      <div id="districtName-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 小区名称:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="districtName" id="districtName" class="u-ipttext" value="<?php echo e($search_args['districtName']); ?>" />
+		            </div>
+		        </div>  
+					<div id="provinceId-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 所在地区:
+		            </span>
+		            <div class="f-boxr">
+		                  <script type="text/javascript" src="http://admin.51mycai365.com/js/city.js"></script><select id="provinceId" name="provinceId" data-val="<?php echo e($search_args['provinceId']); ?>" data-showtip="1" data-city="cityId" class="sle province_city" style="width:auto; display:inline-block;"></select><select id="cityId" name="cityId" data-val="<?php echo e($search_args['cityId']); ?>" data-area="areaId" class="sle" style="width:auto; display:inline-block;"></select><select id="areaId" name="areaId" data-val="<?php echo e($search_args['areaId']); ?>" class="sle" style="width:auto; display:inline-block;"></select><script type="text/javascript">jQuery(function($){$.RegionBind("provinceId");});</script>
+		            </div>
+		        </div>
+					<button type="submit" class="btn mr5">
+                        搜索
+                    </button>
+                </div>
+                    </form>
+                </div>
+			<div class="list-btns">
+                      <a href="<?php echo e(u('District/create')); ?>" target="_self" class="btn mr5 btn-green">
+                        添加小区
+                    </a>
+                </div>
+			<div class="m-tab">
+                      <table id="checkListTable" class="">
+                        <thead><td class="" width="40" order="id" code="id"><span>编号</span></td> 
+					<td class="" order="name" code="name"><span>小区</span></td> 
+					<td class="" order="" code=""><span>省/市</span></td>
+					<td class="" order="" code=""><span>市/区</span></td>
+					<td class="" order="address" code="address"><span>详细地址</span></td>
+					<td class="" order="status" code="status"><span>物业进驻状态</span></td>
+					<td style="text-align:center;white-space:nowrap;" width="60"><span>操作</span></td>
+                    </thead><tbody>
+                        <?php foreach($list as $list_index => $list_item): ?>
+                        <?php 
+                            $list_item_css = $list_index % 2 == 0 ? " tr-even" : " tr-odd"; 
+                            $list_item_pk  = $list_item["id"];
+                        ?>
+                        <tr class="tr-<?php echo e($list_item_pk); ?><?php echo e($list_item_css); ?>" key="<?php echo e($list_item_pk); ?>" primary="id"><td class="" code="id"><?php echo e($list_item['id']); ?></td> 
+					<td class="" code="name"><?php echo e($list_item['name']); ?></td> 
+					<td class="" code=""><?php echo e($list_item['province']['name']); ?></td>
+					<td class="" code=""><?php echo e($list_item['city']['name']); ?></td>
+					<td class="" code="address"><?php echo e($list_item['address']); ?></td>
+					<td class="" code="status"><?php if($list_item['sellerId'] > 0): ?>
+						是
+						<?php else: ?>
+						否
+						<?php endif; ?></td>
+					<td class=""><a href="<?php echo e(u(CONTROLLER_NAME."/edit",["id" => $list_item["id"]])); ?>" class=" blu"  data-pk="<?php echo e($list_item["id"]); ?>" target="_self">编辑</a>
+						<?php if($list_item['sellerId'] < 1): ?>
+						<a href="javascript:;" class=" red"  onclick="$.RemoveItem(this, '<?php echo e(u(CONTROLLER_NAME."/destroy",["id" => $list_item["id"]])); ?>', '你确定要删除该数据吗？')" data-pk="<?php echo e($list_item["id"]); ?>" target="_self">删除</a> 
+						<?php endif; ?></td>
+                    </tr>
+                    <?php endforeach; ?>
+                </tbody>
+                    </table>
+                </div><?php echo $__env->make('admin._layouts.pager', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                </div>
+	
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('js'); ?>
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('admin._layouts.base', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

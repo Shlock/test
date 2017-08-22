@@ -1,0 +1,50 @@
+
+<?php $__env->startSection('css'); ?>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
+	<div>
+		<div class="m-zjgltbg">					
+			<div class="p10">
+				<!-- 服务管理 -->
+				<div class="g-fwgl">
+					<p class="f-bhtt f14 clearfix">
+						<span class="ml15 fl">公告管理</span>
+					</p>
+				</div>
+				<!-- 服务表格 -->
+				<div class="m-tab m-smfw-ser pt20">
+					
+	                    <div class="m-spboxlst " style="">
+					<form id="yz_form" name="yz_form" class="validate-form ajax-form" method="post" action="http://seller.51mycai365.com/Article/save" enctype="application/x-www-form-urlencoded" target="_self">
+						<div id="title-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 标题:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="title" id="title" class="u-ipttext" value="<?php echo e($data['title']); ?>" />
+		            </div>
+		        </div>   
+							<div id="content-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 内容:
+		            </span>
+		            <div class="f-boxr">
+		                  <textarea name="content" id="content" class="u-ttarea"><?php echo e($data['content']); ?></textarea>
+		            </div>
+		        </div>		<div class="u-fitem clearfix">
+                            <span class="f-tt">
+                                &nbsp;
+                            </span>
+                            <div class="f-boxr">
+                                  <button type="submit" class="u-addspbtn">提 交</button>
+                            </div>
+                        </div>		<input type="hidden" value="<?php echo e($data['id']); ?>" name="id" />
+					</form>
+				</div>
+	                
+				</div>
+			</div>
+		</div>
+	</div> 
+<?php $__env->stopSection(); ?> 
+<?php echo $__env->make('seller._layouts.base', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

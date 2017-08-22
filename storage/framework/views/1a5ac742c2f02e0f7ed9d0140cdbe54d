@@ -1,0 +1,91 @@
+<div class="pl20 pr20">
+    <div class="u-antt" style=" background: #fff;">
+        <a href="javascript:;" class="mt15 on m-timebtn">添加</a>
+    </div>
+    <div class="g-tmlstzct">
+        <?php foreach($stime as  $v): ?>
+        <div class="m-timlst m-timlst<?php echo e($v['id']); ?>">
+            <div class="u-timshow por">
+                <div class="updatetime">
+                    <p><?php echo e($v['times']); ?></p>
+                    <p class="gray"><?php echo e($v['weeks']); ?></p>
+                    <p class="grays" style="display:none;"><?php foreach($v['week'] as  $wk): ?> <?php echo e($wk); ?>, <?php endforeach; ?></p>
+                </div>
+                <div class="u-czct">
+                    <span data-id="<?php echo e($v['id']); ?>" class="mr15 f-edit f-edit<?php echo e($v['id']); ?>"><a href="javascript:;" class="fa fa-edit f14"></a>编辑</span>
+                    <span data-id="<?php echo e($v['id']); ?>" data-mid="<?php echo e($v['id']); ?>"  data-css="m-timlst<?php echo e($v['id']); ?>" class="f-delet"><a href="javascript:;" class="fa fa-trash f14 dels" ></a>删除</span>  
+                </div>
+            </div>
+        </div>
+        <?php endforeach; ?>
+    </div>
+    <span class="msg" style="display:none;"></span>
+    <span class="data-id" data-css style="display:none;"></span>
+</div>
+<script>
+    var delurl = "<?php echo e(u('Seller/deldatatime')); ?>";
+    var gettimes = "<?php echo e(u('Seller/gettimes')); ?>";    
+    var showtime = "<?php echo e(u('Seller/showtime')); ?>";    
+    var sellerId = "<?php echo e($data['id']); ?>";
+     $(document).on('click','.f-delet',function() {
+        $('.m-bjtimbox').slideUp();
+        var id = $(this).data('id');
+        var css = $(this).data('css');
+        if(id == ''){
+            alert('为获取到时间编号');
+            return false;
+        }
+        $.post(delurl,{id:id,sellerId:sellerId},function(result){
+            if(result.code == 0){ 
+               $.ShowAlert(result.msg);
+               $("."+css).slideUp('fast'); 
+               $("."+css).remove();
+              $(".m-timebtn").removeClass("none"); 
+              $(".m-timebtn").css("display", 'block');   
+             // alod ();            
+            }else{
+               $.ShowAlert(result.msg);
+            }
+        },'json'); 
+    });
+
+    $(document).on('click','.f-edit',function() { 
+        
+        $(".m-sjdct ul li").each(function(){
+            if($(this).hasClass("on")){
+                $(this).removeClass("on");
+            }
+        });
+        $(".m-bjtimbox .m-zhouct").html("");
+        to_html ();
+        $(".data-id").text("");
+        $(".m-sjglbcbtn").text("更新");
+        var s = $(".grays").text().split(",");
+        for (var i=0; i < s.length; i++) {
+            var label = $(".m-bjtimbox .m-zhouct label[for='to_"+ $(".grays").text().split(",")[i].replace( /^\s*/, '') +"']");
+            label.find('input').checked = false;
+            label.find('input').css('color','red');
+            label.find('input').attr("disabled","true");
+            // console.log(label);     
+        }   
+        $(".m-bjtimbox").animate({overflow:'toggle'});
+        var id = $(this).data('id');
+        $(".data-id").text(id);
+        $.post(showtime,{id:id,sellerId:sellerId},function(result){
+            if(result.code == 0){
+                result = result.data;
+                for (var i=0; i < result.week.length; i++) {
+                    var label = $(".m-bjtimbox .m-zhouct label[for='to_"+ result.week[i] +"']");
+                    label.find('span').addClass('checked');
+                    label.find('input').get(0).checked = true;
+                    label.find('input').get(0).disabled = false;
+                }
+                for (var i=0; i < result.hours.length; i++) {
+                    $(".m-sjdct ul .hours"+ result.hours[i].replace(':','_')).addClass('on');
+                }
+            }else{
+               $.ShowAlert(result.msg);
+            }
+        },'json'); 
+    });
+</script>

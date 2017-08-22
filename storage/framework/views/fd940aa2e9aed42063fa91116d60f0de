@@ -1,0 +1,89 @@
+
+
+<?php $__env->startSection('show_top'); ?>
+    <div data-role="header" data-position="fixed" class="x-header">
+        <h1>我的帖子</h1>
+        <a href="<?php if(!empty($nav_back_url)): ?> <?php echo $nav_back_url; ?> <?php else: ?> javascript:history.back(-1); <?php endif; ?>" data-iconpos="notext" class="x-back ui-nodisc-icon" data-shadow="false"></a>
+    </div>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+    <div role="main" class="ui-content">
+        <ul class="y-wdtz">
+            <li <?php if($args['type'] == 0): ?>class="on"<?php endif; ?>><a href="<?php echo e(u('Forum/mylists',['type'=>0])); ?>">发表的帖子</a></li>
+            <li <?php if($args['type'] == 1): ?>class="on"<?php endif; ?>><a href="<?php echo e(u('Forum/mylists',['type'=>1])); ?>">回复的帖子</a></li>
+            <li <?php if($args['type'] == 2): ?>class="on"<?php endif; ?>><a href="<?php echo e(u('Forum/mylists',['type'=>2])); ?>">点赞的帖子</a></li>
+        </ul>
+        <?php if($list): ?>
+        <ul class="x-lifelst y-lifelst">
+            <?php echo $__env->make('wap.community.forum.mylists_item', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+        </ul>
+        <?php else: ?>
+            <div class="x-serno c-green">
+                <img src="<?php echo e(asset('wap/community/client/images/ico/cry.png')); ?>"  />
+                <span>你还没有帖子哦！</span>
+            </div>
+        <?php endif; ?>
+    </div>
+    <?php echo $__env->make('wap.community._layouts.swiper', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('js'); ?>
+<script src="<?php echo e(asset('static/infinite-scroll/jquery.infinitescroll.js')); ?>"></script> 
+<script type="text/javascript">
+$(function(){
+    var type = "<?php echo e($args['type']); ?>";
+    if (type == 0) {
+        $.SwiperInit('.y-lifelst', '.x-postlist',"<?php echo u('Forum/mylists',$args); ?>");
+    };
+    
+    $(".x-lifelst").css("min-height",$(window).height()-102);
+
+    $('.y-lifelst li > .y-tzli').on('touchstart', function(e) {
+       
+        $('.y-lifelst li > .y-tzli').css('left', '0px') // 关闭所有
+        $(e.currentTarget).addClass('open')
+        x = e.originalEvent.targetTouches[0].pageX // 锚点
+    }).on('touchmove', function(e) {
+     
+        var change = e.originalEvent.targetTouches[0].pageX - x
+        change = Math.min(Math.max(-140, change), 0) //左边-100px,右边0px
+        e.currentTarget.style.left = change + 'px'
+        if (change < -10) disable_scroll() // 当大于10px的滑动时，禁止滚动
+    }).on('touchend', function(e) {
+      
+        var left = parseInt(e.currentTarget.style.left)
+        var new_left;
+        if (left < -35) {
+            new_left = '-140px'
+        } else if (left > 35) {
+            new_left = '140px'
+        } else {
+            new_left = '0px'
+        }
+        // e.currentTarget.style.left = new_left
+        $(e.currentTarget).animate({left: new_left}, 200)
+        enable_scroll();
+    });
+
+    $('li .btn-del').on('touchend', function(e) {
+        var id = $(this).data('id');
+        var del = $(this);
+        if(confirm("确认要删除吗?")) {
+            $.post("<?php echo e(u('Forum/delete')); ?>",{'id':id},function(res){
+                if (res.code == 0) {
+                    e.preventDefault()
+                    del.parents('li').slideUp('fast', function() {
+                        del.remove()
+                    })
+                } else {
+                    $.showError(res.msg);
+                }
+            },"json");
+        } 
+        return false;
+    })
+    
+});
+</script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('wap.community._layouts.base', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

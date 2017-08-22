@@ -1,0 +1,78 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>Baidu Maps</title>
+		<style>
+			html { height: 100% }
+			body { height: 100%; margin: 0; padding: 0; background-color: #FFF }
+		</style>
+		<script charset="utf-8" src="http://api.map.baidu.com/api?v=1.3"></script>
+		<script>
+			var map, marker,geocoder;
+			function initialize() {
+				var ap = new Object();
+				ap.type = "addr";
+				ap.val = '';
+				if(location.search != ''){
+					var apstr = decodeURI(location.search.substring(1));
+					apstr = apstr.split("&");
+					ap.type = apstr[0];
+					if(apstr.length > 1){
+						ap.val = apstr[1];
+					}
+				}
+				map = new BMap.Map('map_canvas');
+				map.addControl(new BMap.NavigationControl());
+				map.enableScrollWheelZoom();
+				geocoder = new BMap.Geocoder();
+				if(ap.type == 'point'){
+					var pointarr = ap.val.split(",");
+					var point = new BMap.Point(pointarr[0],pointarr[1]);
+					marker = new BMap.Marker(point);
+					marker.enableDragging();
+					map.centerAndZoom(point, 16);
+					map.addOverlay(marker);
+				}else{
+					map.addEventListener("tilesloaded",mapLoadedHandler);
+					marker = new BMap.Marker(new BMap.Point(116.404, 39.915));
+					marker.enableDragging();
+					if(ap.val != ''){
+						map.centerAndZoom(ap.val, 11);
+					}else{
+						var mapCity = new BMap.LocalCity();
+						mapCity.get(function(result){
+							parent.document.getElementById("kindeditor_plugin_map_address").value = result.name;
+							map.centerAndZoom(result.name, 11);
+						})
+					}
+				}
+			}
+			
+			function mapLoadedHandler(){
+				marker.setPosition(map.getCenter());
+				map.addOverlay(marker);
+				map.removeEventListener("tilesloaded",mapLoadedHandler);
+			}
+			
+			function search(address) {
+				if (!map) return;
+				geocoder.getPoint(address, function(point){
+				  if(point){
+					  map.centerAndZoom(point, 16);
+					  marker.setPosition(point);
+				  }
+				});
+			}
+			
+			function get(){
+				if(!marker) return '';
+				var point = marker.getPosition();
+				return point.lng+','+point.lat;
+			}
+		</script>
+	</head>
+	<body onload="initialize();">
+		<div id="map_canvas" style="width:100%; height:100%"></div>
+	</body>
+</html>

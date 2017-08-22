@@ -1,0 +1,24 @@
+<?php foreach($list['list'] as $val): ?>
+<li <?php if($val['type'] == 'offset'): ?> class="y-xcq2" <?php else: ?> class="y-xcq1" <?php endif; ?>>
+	<div class="y-xcql">
+		<p class="y-xcqmoney">
+            <?php if($val['type'] == 'money'): ?>
+                ￥<span style="font-size:1.5em;"><?php echo e($val['money']); ?></span>
+            <?php else: ?>
+                <span>抵</span>
+            <?php endif; ?>
+        </p>
+		<p class="y-xcqtime f12">到期时间</p>
+		<p class="y-xcqtime f12"><?php echo e($val['expireTimeStr']); ?></p>
+	</div>
+	<div class="y-xcqr">
+		<div class="y-xcqr11">
+			<div class="y-xcqr1">
+				<p class="y-xcqname" style="font-size:1.5em;"><?php echo e($val['name']); ?></p>
+				<p><?php echo e($val['brief']); ?></p>
+			</div>
+		</div>
+	</div>
+    <?php if($val['status']): ?><div class="y-yhqysx"></div><?php endif; ?>
+</li>
+<?php endforeach; ?>

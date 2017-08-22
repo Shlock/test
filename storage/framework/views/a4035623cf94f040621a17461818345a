@@ -1,0 +1,123 @@
+
+<?php $__env->startSection('css'); ?>
+<style type="text/css">
+	.m-tab table tbody td{padding: 5px 0px;}
+	.pl10 p{padding-left: 10px;}
+</style>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
+<?php
+	$types = array(
+		0 => '个人加盟人员',
+		1 => '配送人员',
+		2 => '服务人员',
+		3 => '配送和服务人员',
+	);
+?>
+	<div>
+		<div class="m-zjgltbg">					
+			<div class="p10">
+				<!-- 人员管理 -->
+				<div class="g-fwgl">
+					<p class="f-bhtt f14 clearfix">
+						<span class="ml15 fl">人员管理</span>
+					</p>
+				</div>
+				<!-- 人员表格 -->
+				<div class="m-tab m-smfw-ser">
+					
+	                    <div id="checkList" class="">
+                    <?php if($seller['type'] == 2): ?>
+							<div class="list-btns">
+                      <a href="<?php echo e(u('DeliveryStaff/create')); ?>" target="_self" class="btn mr5 btn-gray">
+                        添加人员
+                    </a>
+                </div>
+							<?php endif; ?>
+	                    	<div class="u-ssct clearfix">
+                    <?php $search_args = Input::all(); ?>
+                    <form id="yzForm" class="" name="yzForm" method="post" action="http://seller.51mycai365.com/DeliveryStaff/index" target="_self">
+                        <div class="search-row clearfix">
+                      <input type="hidden" id="type" name="type" value="<?php if(isset($search_args['type'])):?><?php echo e($search_args['type']); ?><?php else: ?>$args['type']<?php endif; ?>"/>
+                                    <div id="name-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 姓名:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="name" id="name" class="u-ipttext" value="<?php echo e($search_args['name']); ?>" />
+		            </div>
+		        </div>
+                                    <div id="mobile-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 电话:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="mobile" id="mobile" class="u-ipttext" value="<?php echo e($search_args['mobile']); ?>" />
+		            </div>
+		        </div>
+									<button type="submit" class="btn mr5 btn-gray">
+                        搜索
+                    </button>
+                </div>
+                    </form>
+                </div>	                        
+							<div class="m-tab">
+                      <table id="checkListTable" class=" goodstable">
+                        <thead><td class="" width="60" order="avatar" code="avatar"><span>头像</span></td>
+                                    <td class=" pl10" width="60" order="name" code="name"><span>姓名</span></td>
+                                    <td class="" width="100" order="mobile" code="mobile"><span>电话</span></td>
+                                    <td class="" width="120" order="address" code="address"><span>地址</span></td>
+                                    <td class="" width="150" order="type" code="type"><span>类型</span></td>
+                                    <td class="" width="60" order="status" code="status"><span>状态</span></td>
+                                    <td style="text-align:center;white-space:nowrap;" width="80"><span>操作</span></td>
+                    </thead><tbody>
+                        <?php foreach($list as $list_index => $list_item): ?>
+                        <?php 
+                            $list_item_css = $list_index % 2 == 0 ? " tr-even" : " tr-odd"; 
+                            $list_item_pk  = $list_item["id"];
+                        ?>
+                        <tr class="tr-<?php echo e($list_item_pk); ?><?php echo e($list_item_css); ?>" key="<?php echo e($list_item_pk); ?>" primary="id"><td class="" code="avatar"><?php echo YiZan\Utils\Format::image($list_item['avatar'], "avatar", $list_item, array (
+  'code' => 'avatar',
+  'label' => '头像',
+  'type' => 'image',
+  'width' => '60',
+  'attr' => '',
+  'css' => '',
+  'style' => '',
+)); ?></td>
+                                    <td class=" pl10" style="text-align:left;" code="name"><p><?php echo e($list_item['name']); ?></p></td>
+                                    <td class="" code="mobile"><p><?php echo e($list_item['mobile']); ?></p></td>
+                                    <td class="" code="address"><p><?php echo e($list_item['address']); ?></p></td>
+                                    <td class="" code="type"><p><?php echo e($types[$list_item['type']]); ?></p></td>
+                                    <td class="" code="status"><?php echo YiZan\Utils\Format::status($list_item['status'], "status", $list_item, array (
+  'code' => 'status',
+  'label' => '状态',
+  'type' => 'status',
+  'width' => '60',
+  'attr' => '',
+  'css' => '',
+  'style' => '',
+)); ?></td>
+                                    <td class=""><a href="<?php echo e(u('DeliveryStaff/edit',['id'=>$list_item['id'],'type'=>$list_item['type']])); ?>" class=" blu"  data-pk="<?php echo e($list_item["id"]); ?>" target="_self">编辑</a>
+	<a href="javascript:;" class=" red"  onclick="$.RemoveItem(this, '<?php echo e(u(CONTROLLER_NAME."/destroy",["id" => $list_item["id"]])); ?>', '你确定要删除该数据吗？')" data-pk="<?php echo e($list_item["id"]); ?>" target="_self">删除</a></td>
+                    </tr>
+                    <?php endforeach; ?>
+                </tbody>
+                    </table>
+                </div><?php echo $__env->make('admin._layouts.pager', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                </div>
+	                
+				</div>
+			</div>
+		</div>
+	</div>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('js'); ?>
+<?php $__env->stopSection(); ?>
+
+
+
+
+
+<?php echo $__env->make('seller._layouts.base', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

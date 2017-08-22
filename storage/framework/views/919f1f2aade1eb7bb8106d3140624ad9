@@ -1,0 +1,38 @@
+<?php foreach($list as $k=>$v): ?>
+    <?php if($v['send_type'] != 3): ?>
+        <div class="msg-list">
+            <div class="y-dpmc">
+                <div class="y-dpmclogo"><img src="<?php if($v['logo'] == ''): ?> <?php echo e(asset('wap/community/client/images/ico/sz5.png')); ?> <?php else: ?> <?php echo e($v['logo']); ?> <?php endif; ?>"></div>
+                <div class="y-dpmcmain">
+                    <div class="y-bgjtimg"><img src="<?php echo e(asset('wap/community/client/images/ico/jt-left.png')); ?>"></div>
+                    <h4 class="f14"><?php echo e($v['title']); ?></h4>
+                    <div class="y-dpmccont f14">
+                        <p><?php echo e($v['content']); ?></p>
+                        <?php if($v['send_type'] == 2): ?>
+                            <p><a href="<?php echo e($v['args']); ?>" style="color:blue;"><?php echo e($v['args']); ?></a></p>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            </div>
+            <div class="y-dptitle f12"><span><?php echo e(Time::toDate($v['send_time'],'Y-m-d H:i:s')); ?></span></div>
+        </div>
+    <?php else: ?>
+        <div class="msg-list">
+            <div class="y-dpmc">
+                <div class="y-dpmclogo"><img src="<?php if($v['logo'] == ''): ?> <?php echo e(asset('wap/community/client/images/ico/sz5.png')); ?> <?php else: ?> <?php echo e($v['logo']); ?> <?php endif; ?>"></div>
+                <div class="y-dpmcmain">
+                    <div class="y-bgjtimg"><img src="<?php echo e(asset('wap/community/client/images/ico/jt-left.png')); ?>"></div>
+                    <h4 class="f14"><?php echo e($v['title']); ?></h4>
+                    <p class="c-green f12"><?php echo e($v['content']); ?></p>
+                    <div class="y-jdmain f14">
+                        <p><span>商品数量：<span class="c-red"><?php echo e($v['count']); ?>份</span></span></p>
+                        <p><span>订单总金额：<span class="c-red">￥<?php echo e($v['total_fee']); ?></span></span></p>
+                        <p><span>预约时间：<span class="c-green"><?php echo e(Time::toDate($v['app_time'],'Y-m-d H:i:s')); ?></span></span></p>
+                    </div>
+                    <p class="y-ckxq f14 msgnative" data-args="<?php echo e($v['args']); ?>"><a href="javascript:;">点击查看详情<i class="x-rightico"></i></a></p>
+                </div>
+            </div>
+            <div class="y-dptitle f12"><span><?php echo e(Time::toDate($v['send_time'],'Y-m-d H:i:s')); ?></span></div>
+        </div>
+    <?php endif; ?>
+<?php endforeach; ?>

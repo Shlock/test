@@ -1,0 +1,346 @@
+
+
+<?php
+$type = [
+	['key'=>'1','name'=>'商家分类'],
+   // ['key'=>'2','name'=>'商品'],
+	['key'=>'3','name'=>'商品'],
+    ['key'=>'4','name'=>'商家'],
+    ['key'=>'5','name'=>'URL'],
+    ['key'=>'6','name'=>'服务'],
+    ['key'=>'7','name'=>'文章'],
+];
+$data['type'] = isset($data['type']) ? $data['type'] : 1;
+?>
+
+<?php $__env->startSection('right_content'); ?>
+
+<div class="m-spboxlst " style="">
+					<form id="yz_form" name="yz_form" class="validate-form ajax-form" method="post" action="http://admin.51mycai365.com/UserAppAdv/update" enctype="application/x-www-form-urlencoded" target="_self">
+						<div id="name-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 名称:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="name" id="name" class="u-ipttext" value="<?php echo e($data['name']); ?>" />
+		            </div>
+		        </div>
+    <div id="positionId-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 广告位编号:
+		            </span>
+		            <div class="f-boxr">
+		                  <select id="positionId" name="positionId" class="sle  " ><?php $select_options = $positions; ?><?php $selecteds = is_array($data['position']['id']) ? $data['position']['id'] : [$data['position']['id']]; ?><?php  foreach($select_options as $options_key => $options_val): ?><?php $options_key = $options_val['id']; ?><?php $options_val = $options_val['name']; ?><?php $selected = in_array($options_key, $selecteds) ? " selected" : ""; ?>
+	                	<option<?php echo $selected; ?> value="<?php echo $options_key; ?>"><?php echo $options_val; ?></option>
+						<?php endforeach; ?></select>
+		            </div>
+		        </div>
+    	<div id="bgColor-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 背景颜色:
+		            </span>
+		            <div class="f-boxr">
+		                  <input class="u-ipttext" name="bgColor" value="<?php echo e($data['bgColor']); ?>" type="text" id="cp1" style="cursor:pointer"/> <script src="<?php echo e(asset("js/jquery.colorpicker.js")); ?>"></script>   <script>
+                    jQuery(function($){
+                       $("#cp1").colorpicker({
+                            fillcolor:true,
+                            success:function(o,color){
+                                $(o).css("color",color);
+                            }
+                        });
+                    })
+                </script>
+		            </div>
+		        </div>
+    	<div id="image-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 图片:
+		            </span>
+		            <div class="f-boxr">
+		                  <ul class="m-tpyllst clearfix">
+	            				<li id="image-box" class="">
+	            				<?php if( !empty($data['image']) ): ?>
+	            					<a id="img-preview-image" class="m-tpyllst-img" href="<?php echo e($data['image']); ?>" target="_blank"><img src="<?php echo e($data['image']); ?>" alt=""></a>
+	            				<?php else: ?>
+                                    <a id="img-preview-image" class="m-tpyllst-img" href="javascript:;" target="_self"><img src="" alt="" style="display:none;"></a>
+	            				<?php endif; ?>
+                                <a class="m-tpyllst-btn img-update-btn" href="javascript:;" data-rel="image">
+                                    <i class="fa fa-plus"></i> 上传图片
+                                </a>
+	            				<input type="hidden" data-tip-rel="#image-box" name="image" id="image" value="<?php echo e($data['image']); ?>"/>
+	            				</li>
+							</ul>
+		            </div>
+		        </div>
+    		<div id="type-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 广告类型:
+		            </span>
+		            <div class="f-boxr">
+		                  <select id="type" name="type" class="sle   type" ><?php $select_options = $type; ?><?php $selecteds = is_array($data['type']) ? $data['type'] : [$data['type']]; ?><?php  foreach($select_options as $options_key => $options_val): ?><?php $options_key = $options_val['key']; ?><?php $options_val = $options_val['name']; ?><?php $selected = in_array($options_key, $selecteds) ? " selected" : ""; ?>
+	                	<option<?php echo $selected; ?> value="<?php echo $options_key; ?>"><?php echo $options_val; ?></option>
+						<?php endforeach; ?></select>
+		            </div>
+		        </div>
+    	<fitem type="script">
+    	<script type="text/javascript">
+    		jQuery(function($){
+                $("select[name=type]").change(function() {
+                    $("input[name='arg']").val("");
+                	var type = $("select[name='type'] option:selected").val(); 
+                	if(type == 1){
+                		$('#sellerCate-form-item').show();
+                		$('#sellerGoods-form-item').hide();
+                        $('#serviceGoods-form-item').hide();
+                		$('#systemSellers-form-item').hide();
+                        $('#article-form-item').hide();
+                		$('#url-form-item').hide();
+                	}else if(type == 7){
+                        $('#sellerCate-form-item').hide();
+                        $('#sellerGoods-form-item').hide();
+                        $('#serviceGoods-form-item').hide();
+                        $('#systemSellers-form-item').hide();
+                        $('#article-form-item').show();
+                        $('#url-form-item').hide();
+                    }else if(type == 3){
+                        $('#sellerCate-form-item').hide();
+                        $('#sellerGoods-form-item').show();
+                        $('#serviceGoods-form-item').hide();
+                        $('#systemSellers-form-item').hide();
+                        $('#article-form-item').hide();
+                        $('#url-form-item').hide();
+                        window.open("<?php echo u('Service/index'); ?>");
+    				}else if(type == 4){
+                        $('#sellerCate-form-item').hide();
+                        $('#sellerGoods-form-item').hide();
+                        $('#serviceGoods-form-item').hide();
+                        $('#systemSellers-form-item').show();
+                        $('#article-form-item').hide();
+                        $('#url-form-item').hide();
+                        window.open("<?php echo u('Service/index'); ?>");
+    				}else if(type == 5){
+                        $('#sellerCate-form-item').hide();
+                        $('#sellerGoods-form-item').hide();
+                        $('#serviceGoods-form-item').hide();
+                        $('#systemSellers-form-item').hide();
+                        $('#article-form-item').hide();
+                        $('#url-form-item').show();
+                    }else if(type == 6){
+                        $('#sellerCate-form-item').hide();
+                        $('#sellerGoods-form-item').hide();
+                        $('#serviceGoods-form-item').show();
+                        $('#systemSellers-form-item').hide();
+                        $('#article-form-item').hide();
+                        $('#url-form-item').hide();
+                        window.open("<?php echo u('Service/index'); ?>");
+                    }else {
+                        $('#sellerCate-form-item').hide();
+                        $('#sellerGoods-form-item').hide();
+                        $('#serviceGoods-form-item').hide();
+                        $('#systemSellers-form-item').hide();
+                        $('#article-form-item').hide();
+                        $('#url-form-item').hide();
+    				}
+                });
+                $("select[name=type]").trigger('change');
+                $("#sellerGoods option[value='-1']").attr("disabled","disabled");
+    		});
+    	</script>
+    	</fitem>
+    	<div id="sellerCate-form-item" class="u-fitem clearfix " style="display:none;">
+		            <span class="f-tt">
+		                 选择商家分类:
+		            </span>
+		            <div class="f-boxr">
+		                  <select id="sellerCate" name="sellerCate" style="min-width:200px;width:auto" class="sle ">
+                <?php foreach($sellerCate as $item): ?>
+                    <?php if($item['childs']): ?>
+                    <optgroup label="<?php echo e($item['name']); ?>">
+                    <?php foreach($item['childs'] as $child): ?>
+                    <option value="<?php echo e($child['id']); ?>" <?php if($data['arg'] == $child['id']): ?>selected="selected"<?php endif; ?>><?php echo e($child['name']); ?></option>
+                    <?php endforeach; ?>
+                    </optgroup> 
+                    <?php else: ?>
+                    <option value="<?php echo e($item['id']); ?>" <?php if($data['arg'] == $item['id']): ?>selected="selected"<?php endif; ?>><?php echo e($item['name']); ?></option>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+            </select>
+            <span class="ts ts1"></span>
+		            </div>
+		        </div>
+    	<div id="sellerGoods-form-item" class="u-fitem clearfix " style="display:none;">
+		            <span class="f-tt">
+		                 商品编号参数:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="sellerGoods" id="sellerGoods" class="u-ipttext" value="">
+            <span class="ts ts1">请到商家页面查看商品编号后填写</span>
+		            </div>
+		        </div>
+        <div id="serviceGoods-form-item" class="u-fitem clearfix " style="display:none;">
+		            <span class="f-tt">
+		                 服务编号参数:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="serviceGoods" id="serviceGoods" class="u-ipttext" value="">
+            <span class="ts ts1">请到商家页面查看服务编号后填写</span>
+		            </div>
+		        </div>
+        <div id="systemSellers-form-item" class="u-fitem clearfix " style="display:none;">
+		            <span class="f-tt">
+		                 商家编号参数:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="systemSellers" id="systemSellers" class="u-ipttext" value="">
+            <span class="ts ts1">请到商家页面查看商家编号后填写</span>
+		            </div>
+		        </div>
+        <div id="article-form-item" class="u-fitem clearfix " style="display:none;">
+		            <span class="f-tt">
+		                 选择文章:
+		            </span>
+		            <div class="f-boxr">
+		                  <select id="article" name="article" style="min-width:200px;width:auto" class="sle ">
+                <option value="0" >请选择</option>
+                <?php foreach($article as $item): ?>
+                    <option value="<?php echo e($item['id']); ?>" <?php if($data['arg'] == $item['id']): ?>selected="selected"<?php endif; ?>><?php echo e($item['title']); ?></option>
+                <?php endforeach; ?>
+            </select>
+            <span class="ts ts1"></span>
+		            </div>
+		        </div>
+    	<div id="url-form-item" class="u-fitem clearfix " style="display:none;">
+		            <span class="f-tt">
+		                 输入路径:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="url" id="url" class="u-ipttext" value="<?php echo e($data['url']); ?>" />
+		            </div>
+		        </div>
+        <input type="hidden" id="arg" name="arg" value="<?php if(isset($data['arg'])):?><?php echo e($data['arg']); ?><?php else: ?>$data['arg']<?php endif; ?>"/>
+    	<script type="text/javascript">
+    		jQuery(function($){
+                $("input[name='arg']").val("<?php echo e($data['arg']); ?>");
+                $("#url").val("<?php echo e($data['arg']); ?>");
+                $("#sellerGoods").val("<?php echo e($data['arg']); ?>");
+                $("#serviceGoods").val("<?php echo e($data['arg']); ?>");
+                $("#systemSellers").val("<?php echo e($data['arg']); ?>");
+                $("#article").val("<?php echo e($data['arg']); ?>");
+            	$('#sellerCate').change(function() {
+        			$("input[name='arg']").val($("select[name='sellerCate'] option:selected").val());
+        		});
+                $('#sellerGoods').blur(function() {
+                    $("input[name='arg']").val($("input[name='sellerGoods']").val());
+                });
+                $('#serviceGoods').blur(function() {
+                    $("input[name='arg']").val($("input[name='serviceGoods']").val());
+                });
+                $('#systemSellers').blur(function() {
+                    $("input[name='arg']").val($("input[name='systemSellers']").val());
+                });
+                $('#article').change(function() { 
+                    $("input[name='arg']").val($("select[name='article'] option:selected").val()); 
+                });
+        		$('#url').blur(function() {
+        			$("input[name='arg']").val($("input[name='url']").val());
+        		});
+        		var types = "<?php echo e($data['type']); ?>";
+        		if(types == 1){
+                    $('#sellerCate-form-item').show();
+                    $('#sellerGoods-form-item').hide();
+                    $('#serviceGoods-form-item').hide();
+                    $('#systemSellers-form-item').hide();
+                    $('#article-form-item').hide();
+                    $('#url-form-item').hide();
+                }else if(types == 7){
+                    $('#sellerCate-form-item').hide();
+                    $('#sellerGoods-form-item').hide();
+                    $('#serviceGoods-form-item').hide();
+                    $('#systemSellers-form-item').hide();
+                    $('#article-form-item').show();
+                    $('#url-form-item').hide();
+                    window.open("<?php echo u('Service/index'); ?>");
+                }else if(types == 3){
+                    $('#sellerCate-form-item').hide();
+                    $('#sellerGoods-form-item').show();
+                    $('#serviceGoods-form-item').hide();
+                    $('#systemSellers-form-item').hide();
+                    $('#article-form-item').hide();
+                    $('#url-form-item').hide();
+                    window.open("<?php echo u('Service/index'); ?>");
+    			}else if(types == 4){
+                    $('#sellerCate-form-item').hide();
+                    $('#sellerGoods-form-item').hide();
+                    $('#serviceGoods-form-item').hide();
+                    $('#systemSellers-form-item').show();
+                    $('#article-form-item').hide();
+                    $('#url-form-item').hide();
+                    window.open("<?php echo u('Service/index'); ?>");
+    			}else if(types == 5){
+                    $('#sellerCate-form-item').hide();
+                    $('#sellerGoods-form-item').hide();
+                    $('#serviceGoods-form-item').hide();
+                    $('#systemSellers-form-item').hide();
+                    $('#article-form-item').hide();
+                    $('#url-form-item').show();
+    			}else if(types == 6){
+                    $('#sellerCate-form-item').hide();
+                    $('#sellerGoods-form-item').hide();
+                    $('#serviceGoods-form-item').show();
+                    $('#systemSellers-form-item').hide();
+                    $('#article-form-item').hide();
+                    $('#url-form-item').hide();
+                    window.open("<?php echo u('Service/index'); ?>");
+                }else {
+                    $('#sellerCate-form-item').hide();
+                    $('#sellerGoods-form-item').hide();
+                    $('#serviceGoods-form-item').hide();
+                    $('#systemSellers-form-item').hide();
+                    $('#article-form-item').hide();
+                    $('#url-form-item').hide();
+    			}
+            });
+    	</script>
+	<div id="sort-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 排序:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="sort" id="sort" class="u-ipttext" value="<?php echo e($data['sort']); ?>" />
+		            </div>
+		        </div>
+	<div id="status-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 状态:
+		            </span>
+		            <div class="f-boxr">
+		                  <?php $radio_options = array (
+  0 => '0',
+  1 => '1',
+); ?><?php $default = ''; ?><?php $checked = isset($data['status']) ? $data['status'] : $default; ?><?php $radio_texts = array (
+  0 => '禁用',
+  1 => '启用',
+); ?><?php  foreach($radio_options as $options_key => $options_val): 
+                    $checked_attr = $options_val == $checked ? " checked" : ""; ?>
+                    <label>
+                        <input type="radio" class="uniform " name="status" value="<?php echo $options_val; ?>" <?php echo $checked_attr; ?>/>
+                        <span><?php echo $radio_texts[$options_key]; ?></span>
+                    </label>
+                    <span>&nbsp;&nbsp;</span>
+                    <?php endforeach; ?>
+		            </div>
+		        </div>		<div class="u-fitem clearfix">
+                            <span class="f-tt">
+                                &nbsp;
+                            </span>
+                            <div class="f-boxr">
+                                  <button type="submit" class="u-addspbtn">提 交</button>
+                            </div>
+                        </div>		<input type="hidden" value="<?php echo e($data['id']); ?>" name="id" />
+					</form>
+				</div>
+
+<?php $__env->stopSection(); ?>
+
+
+<?php echo $__env->make('admin._layouts.base', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

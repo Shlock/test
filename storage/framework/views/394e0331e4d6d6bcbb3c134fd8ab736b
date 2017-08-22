@@ -1,0 +1,158 @@
+
+<?php $__env->startSection('css'); ?>
+<style type="text/css">
+	.hscolor{color: #999;height: 28px;vertical-align: middle;}
+	.setcity{margin-left: 110px;}
+	.setcity_check{margin-left: 110px;margin-top: -30px;}
+</style>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('right_content'); ?>
+	
+		<div class="m-spboxlst " style="">
+					<form id="yz_form" name="yz_form" class="validate-form ajax-form" method="post" action="http://admin.51mycai365.com/AdminUser/save" enctype="application/x-www-form-urlencoded" target="_self">
+						<!-- <?php if(isset($data['id'])): ?> -->
+			<div id="name-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 账号:
+		            </span>
+		            <div class="f-boxr">
+		                  <span name="name" id="name" class=""><?php echo e($data['name']); ?></span>
+		            </div>
+		        </div>
+			<!-- <?php else: ?> -->
+			<div id="name-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 账号:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="name" id="name" class="u-ipttext" value="<?php echo e($data['name']); ?>" />
+		            </div>
+		        </div>
+			<!-- <?php endif; ?> -->
+			<div id="-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 密码:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="pwd" class="u-ipttext">
+				<span class="hscolor"><?php echo e($data['ts']); ?></span>
+		            </div>
+		        </div>
+			<div id="-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 分组:
+		            </span>
+		            <div class="f-boxr">
+		                  <select id="rid" name="rid" class="sle  " ><?php $select_options = $role; ?><?php $selecteds = is_array($data['rid']) ? $data['rid'] : [$data['rid']]; ?><?php  foreach($select_options as $options_key => $options_val): ?><?php $options_key = $options_val['id']; ?><?php $options_val = $options_val['name']; ?><?php $selected = in_array($options_key, $selecteds) ? " selected" : ""; ?>
+	                	<option<?php echo $selected; ?> value="<?php echo $options_key; ?>"><?php echo $options_val; ?></option>
+						<?php endforeach; ?></select>
+		            </div>
+		        </div>
+			<div id="-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 管理城市:
+		            </span>
+		            <div class="f-boxr">
+		                  <div class="input-group">
+			    	<table border="0">
+		                 <tbody>
+		                 	<tr class="double-selective">
+			                	<td>已选择</td>
+			                	<td></td>
+			                	<td>待选择</td>
+			                </tr>
+		                 	<tr>
+			                    <td rowspan="2">
+			                        <select id="user_1" name="user_1" class="form-control" multiple="multiple" style="min-width:200px;*width:200px; height:260px;">
+			                        	<!-- <?php foreach( $data['city1'] as $key => $value ): ?> -->
+		                            		<option value="<?php echo e($value['id']); ?>"><?php echo e($value['name']); ?></option>
+		                            	<!-- <?php endforeach; ?> -->
+			                        </select>
+			                    </td>
+			                    <td width="60" align="center" rowspan="2">
+			                        <button type="button" class="btn btn-primary btn-sm" onclick="$.optionMove('user_2', 'user_1', 1);">
+			                            <span class="fa fa-2x fa-angle-double-left"> </span>
+			                        </button>
+			                        <br><br>
+			                        <button type="button" class="btn btn-info btn-sm" onclick="$.optionMove('user_2', 'user_1');">
+			                            <span class="fa fa-2x fa-angle-left"> </span>
+			                        </button>
+			                        <br><br>
+			                        <button type="button" class="btn btn-info btn-sm" onclick="$.optionMove('user_1', 'user_2');">
+			                            <span class="fa fa-2x fa-angle-right"> </span>
+			                        </button>
+			                        <br><br>
+			                        <button type="button" class="btn btn-primary btn-sm" onclick="$.optionMove('user_1', 'user_2', 1);">
+			                            <span class="fa fa-2x fa-angle-double-right"> </span>
+			                        </button>
+			                        <input type="hidden" name="cityIds" id="cityIds">
+			                    </td>
+			                </tr>
+			                <tr>
+			                    <td>
+			                       <select id="user_2" class="form-control" multiple="multiple" style="min-width:200px;*width:200px; height:260px;">
+			                       		<!-- <?php foreach( $data['city2'] as $key => $value ): ?> -->
+		                            		<option value="<?php echo e($value['id']); ?>"><?php echo e($value['name']); ?></option>
+		                            	<!-- <?php endforeach; ?> -->
+	                            	</select>
+			                    </td>
+			                </tr>
+		            	</tbody>
+	            	</table>
+	            	<div class="blank3"></div>
+	            </div>
+		            </div>
+		        </div>
+			<fitem type="script">
+			<script type="text/javascript">
+				jQuery(function($){
+				    $("#yz_form").submit(function(){
+				        var ids = new Array();
+				        $("#user_1 option").each(function(){
+				            ids.push(this.value);
+				        })
+				        $("#weixin_group_ids").val(ids);
+			
+				        ids = new Array();
+				        $("#user_1 option").each(function(){
+				            ids.push(this.value);
+				        })
+				        $("#cityIds").val(ids);
+				    })
+				    $.optionMove = function(from, to, isAll){
+				        var from = $("#" + from);
+				        var to = $("#" + to);
+				        var list;
+				        if(isAll){
+				            list = $('option', from);
+				        }else{
+				            list = $('option:selected', from);
+				        }
+				        list.each(function(){
+				            if($('option[value="' + this.value + '"]', to).length > 0){
+				                $(this).remove();
+				            } else {
+				                $('option', to).attr('selected',false);
+				                to.append(this);
+				            }
+				        });
+				    } 
+				});
+			</script>	
+		</fitem>		<div class="u-fitem clearfix">
+                            <span class="f-tt">
+                                &nbsp;
+                            </span>
+                            <div class="f-boxr">
+                                  <button type="submit" class="u-addspbtn">提 交</button>
+                            </div>
+                        </div>		<input type="hidden" value="<?php echo e($data['id']); ?>" name="id" />
+					</form>
+				</div>
+	
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('js'); ?>
+<?php $__env->stopSection(); ?>
+
+
+<?php echo $__env->make('admin._layouts.base', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

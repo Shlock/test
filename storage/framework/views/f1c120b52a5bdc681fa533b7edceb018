@@ -1,0 +1,141 @@
+
+<?php $__env->startSection('css'); ?>
+<style type="text/css">
+    .m-ydtt .f-tt{line-height: 30px;}
+    .star-rank{
+        width: 85px;
+        height: 40px;
+        background: url("<?php echo e(asset('wap/community/client/images/ico/star.png')); ?>") left center repeat-x;
+        background-size: 17px 12px;
+    }
+    .star-score{
+        height: 40px;
+        background: url("<?php echo e(asset('wap/community/client/images/ico/star1.png')); ?>") left center repeat-x;
+        background-size: 17px 12px;
+    }
+</style>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
+<?php 
+    $reply = [
+        ['id'=> 0,'name'=>'全部'],
+        ['id'=>'good','name'=>'好评'],
+        ['id'=>'neutral','name'=>'中评'],
+        ['id'=>'bad','name'=>'差评'],
+    ];
+ ?>  
+<div class="ma">
+    <div class="m-ydtt" style="margin-top:0px;">
+        <div class="x-bbmain">
+            <div class="x-pjgltt">评价管理</div>
+            
+                <div id="checkList" class="">
+                    <div class="u-ssct clearfix">
+                    <?php $search_args = Input::all(); ?>
+                    <form id="yzForm" class="" name="yzForm" method="post" action="http://seller.51mycai365.com/Comment/index" target="_self">
+                        <div class="search-row clearfix">
+                      <select id="result" name="result" class="sle   fl mr10" ><?php $select_options = $reply; ?><?php $selecteds = is_array($search_args['result']) ? $search_args['result'] : [$search_args['result']]; ?><?php  foreach($select_options as $options_key => $options_val): ?><?php $options_key = $options_val['id']; ?><?php $options_val = $options_val['name']; ?><?php $selected = in_array($options_key, $selecteds) ? " selected" : ""; ?>
+	                	<option<?php echo $selected; ?> value="<?php echo $options_key; ?>"><?php echo $options_val; ?></option>
+						<?php endforeach; ?></select>
+                            <div id="beginTime-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 开始时间:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="beginTime" id="beginTime" class="date u-ipttext" value="<?php echo e(YiZan\Utils\Time::toDate($search_args['beginTime'],'Y-m-d')); ?>" />
+		            </div>
+		        </div>
+                            <div id="endTime-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 结始时间:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="endTime" id="endTime" class="date u-ipttext" value="<?php echo e(YiZan\Utils\Time::toDate($search_args['endTime'],'Y-m-d')); ?>" />
+		            </div>
+		        </div> 
+                            <div id="orderSn-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 订单编号:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="orderSn" id="orderSn" class="u-ipttext" value="<?php echo e($search_args['orderSn']); ?>" />
+		            </div>
+		        </div>
+                            <button type="submit" class="btn mr5 btn-gray">
+                        搜索
+                    </button>
+                </div>
+                    </form>
+                </div>
+                    <div class="m-tab">
+                      <table id="checkListTable" class="">
+                        <div class="plall">
+                        <ul class="x-plglul">
+                        <?php foreach($list as $key => $val): ?>
+                        <li class="clearfix" style="position:relative;">
+                            <div class="x-plglf9" style="width:100%">
+                                <a href="javascript:;" class="x-pjimg" style="cursor:default"><img src="<?php echo e(isset($val['user']['avatar']) ? $val['user']['avatar'] : asset('images/default_headimg.jpg')); ?>"  style="max-width:80px;max-height:80px;" /></a>             
+                                <div class="x-pjr">
+                                    <div class="x-pjname">
+                                        <div class="fl"><span>订单编号：</span><?php echo e($val['order']['sn']); ?></div>
+                                        <span class="fr mr15"><?php echo e(yztime($val['createTime'])); ?></span>
+                                    </div>
+                                    <div><span>用户名称：</span><?php echo e($val['user']['name']); ?></div>
+                                    <div style="line-height: 40px;">
+                                        <span class="fl">评价星级：</span>
+                                        <div class="star-rank fl">
+                                            <div class="star-score" style="width:<?php echo e($val['star'] * 20); ?>%;"></div>
+                                        </div>
+                                    </div>
+                                    <div class="x-yhpl mt20">
+                                        <div class="x-khpj"><span>评价内容：</span><?php echo e($val['content']); ?></div>
+                                        <ul class="x-plglimg">
+                                            <?php foreach($val['images'] as $k => $v): ?>
+                                            <li><a href="<?php echo e($v); ?>" target="_new"><img src="<?php echo e($v); ?>" /></a></li> 
+                                            <?php endforeach; ?>
+                                        </ul>
+                                    </div>
+                                    <div class="x-pjname mt10">
+                                        <div class="fl"><span>回复：</span><?php echo e($val['reply']); ?></div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="x-plglr" style="position:absolute;bottom:50px;right:0px;">
+                                <a class="btn f-tj fr btn f-30btn mt5 mr15" href="<?php echo e(u('Comment/reply',['id'=>$val['id']])); ?>">回复</a>
+                            </div>
+                        </li> 
+                        <?php endforeach; ?>
+                        </ul>
+                        </div>
+                    </table>
+                </div><?php echo $__env->make('admin._layouts.pager', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                </div>
+            
+        </div>
+    </div>
+</div>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('js'); ?>
+<script type="text/javascript">
+    $(function(){
+        $('#yzForm').submit(function(){
+            var beginTime = $("#beginTime").val();
+            var endTime = $("#endTime").val();
+            if(beginTime!='' || endTime!='') {
+                if(beginTime==''){
+                    alert("开始时间不能为空");return false;
+                }
+                else if(endTime==''){
+                    alert("结束时间不能为空");return false;
+                }
+                else if(endTime < beginTime){
+                    alert("结束时间不能大于开始时间");return false;
+                }
+            }
+        });
+    });
+</script>
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('seller._layouts.base', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

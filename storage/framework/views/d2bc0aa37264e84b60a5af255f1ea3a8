@@ -1,0 +1,60 @@
+
+<?php $__env->startSection('show_top'); ?>
+<div data-role="header" data-position="fixed" class="x-header">
+    <h1>我的订单</h1>
+    <a href="<?php if(!empty($nav_back_url)): ?> <?php echo e($nav_back_url); ?> <?php else: ?> javascript:history.back(-1); <?php endif; ?>" data-ajax="false" data-iconpos="notext" class="x-back ui-nodisc-icon" data-shadow="false"></a>
+</div>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('js'); ?> 
+    <script src="<?php echo e(asset('static/infinite-scroll/jquery.infinitescroll.js')); ?>"></script> 
+<?php $__env->stopSection(); ?> 
+<?php $__env->startSection('content'); ?>
+<ul class="y-wddd">
+    <li <?php if($args['status'] == 0 ): ?> class="on" <?php endif; ?>><a href="<?php echo e(u('Order/index',array('status'=>0))); ?>">全部订单</a></li>
+    <li <?php if($args['status'] == 1 ): ?> class="on" <?php endif; ?>><a href="<?php echo e(u('Order/index',array('status'=>1))); ?>">待评价(<?php echo e($list['commentNum']); ?>)</a></li>
+</ul>
+<?php if(!empty($list)): ?>
+    <ul class="y-wdddmain" id="wdddmain">
+        <?php echo $__env->make('wap.community.order.item', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+    </ul>
+ <?php else: ?>
+    <div class="x-serno c-green">
+        <img src="<?php echo e(asset('wap/community/client/images/ico/cry.png')); ?>"  />
+        <span>很抱歉！你还没有订单！</span>
+    </div>
+<?php endif; ?>
+<?php echo $__env->make('wap.community._layouts.bottom', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+<?php echo $__env->make('wap.community._layouts.swiper', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+<script type="text/javascript">
+jQuery(function(){
+    $.SwiperInit('#wdddmain','.list_item',"<?php echo e(u('Order/index',$args)); ?>");
+    
+    $(document).on("touchend",".url",function(){
+    	window.location.href = $(this).data('url');
+    }).on("touchend",".okorder",function(){
+    	var oid = $(this).data('id');
+    	$.showOperation('确认删除订单吗？',"javascript:$.delOrders("+oid+");",'确认删除');
+    }).on("touchend",".confirmorder",function(){
+    	var oid = $(this).data('id');
+    	$.showOperation('确认完成订单吗？',"javascript:$.confirmOrder("+oid+");",'确认完成');
+    }).on("touchend",".cancelorder",function(){
+    	var oid = $(this).data('id');
+        var status = $(this).data('status');
+		var seller = $(this).data('seller');
+		var tel = $(this).data('tel');
+        //alert(status);
+        if(status == "1"){
+            $.showOrderCancelNotice("商家已接单,如需取消订单请电话联系"+ seller +":" + tel,"tel:" + tel,"提示");
+        }else{
+            $.showOperation('确认取消订单吗？',"javascript:$.cancelOrder("+oid+");",'确认取消');
+        }
+
+    })
+});
+
+</script>
+<?php echo $__env->make('wap.community.order.orderjs', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('wap.community._layouts.base', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

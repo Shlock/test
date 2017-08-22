@@ -1,0 +1,94 @@
+
+<?php $__env->startSection('css'); ?>
+
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('right_content'); ?>
+    <!-- 搜索 -->
+    <div id="checkList" class="">
+        <div class="u-ssct clearfix">
+            <form id="yzForm" class="" name="yzForm" method="post" action="<?php echo e(u('BusinessStatistics/dayaccount')); ?>" target="_self"> 
+                <div class="search-row clearfix">
+                    <div class="u-fitem clearfix" > 
+                        <span >商家名：<?php echo e($sum['seller']['name']); ?></span>
+                    </div> 
+                    <div class="u-fitem clearfix" > 
+                        <span >账单日期：<?php echo e($args['day']); ?></span>
+                    </div> 
+                    <div class="u-fitem clearfix" > 
+                        <span >有效订单数：<?php echo e($sum['totalNum']); ?></span>
+                    </div> 
+                    <div class="u-fitem clearfix" > 
+                        <span >已入账总额：<b style="color: red">￥<?php echo e(number_format($sum['totalSellerFee'], 2)); ?></b></span>
+                    </div> 
+                    <br>
+                    <div id="staffname-form-item" class="u-fitem clearfix">
+                        <span class="f-tt">订单号:</span>
+                        <div class="f-boxr">
+                              <input type="text" name="sn" id="sn" class="u-ipttext" value="<?php echo e($args['sn']); ?>" />
+                        </div>
+                    </div>
+                    <div class="u-fitem clearfix">
+                        <span>状态：</span>&nbsp;
+                         <select name="status" style="width:auto" class="sle  ">
+                            <option value="0">全部</option> 
+                            <option value="1" <?php if(1 == $args['status']): ?> selected <?php endif; ?>>已完成</option> 
+                            <option value="2" <?php if(2 == $args['status']): ?> selected <?php endif; ?>>已取消</option> 
+                            <option value="3" <?php if(3 == $args['status']): ?> selected <?php endif; ?>>未完成</option> 
+                        </select>
+                    </div>
+                    <input type="hidden" name="sellerId" value="<?php echo e($args['sellerId']); ?>" />
+                    <button type="submit" class="btn mr5">搜索</button>
+                </div>
+            </form>
+         </div>
+   </div>
+   
+   <!-- 列表 -->
+   
+    <div id="checkList" class="">
+                    <div class="list-btns">
+                      <!--linkbtn label="导出到EXCEL" type="export" url="<?php echo e(u('StaffStatistic/export?'.$excel)); ?>"></linkbtn-->
+                </div>
+            
+       <div class="m-tab">
+                      <table id="checkListTable" class="">
+                        <thead>
+                <tr>
+                  <td rowspan="2" width="180">订单号</td> 
+                  <td colspan="3">收入</td> 
+                  <td>支出</td>
+                  <td rowspan="2">入账金额</td> 
+                  <td rowspan="2">状态</td>
+                </tr>
+                <tr>   
+                  <td>在线支付</td>
+                  <td>现金支付</td>
+                  <td>优惠券</td>
+                  <td>佣金</td>   
+                </tr>
+            </thead>
+            
+            <tbody>  
+                <?php foreach($lists as $list_item): ?> 
+                <tr>
+                  <td><?php if($list_item['orderType'] == 1): ?><a href="<?php echo e(u('Order/detail', ['id'=>$list_item['id']])); ?>"><?php echo e($list_item['sn']); ?><?php else: ?><a href="<?php echo e(u('ServiceOrder/detail', ['id'=>$list_item['id']])); ?>"><?php echo e($list_item['sn']); ?><?php endif; ?></a></td>
+                  <td><?php if(!$list_item['isCashOnDelivery']): ?><?php echo e($list_item['payFee']); ?><?php else: ?> 0 <?php endif; ?></td>
+                  <td><?php if($list_item['isCashOnDelivery']): ?><?php echo e($list_item['payFee']); ?><?php else: ?> 0 <?php endif; ?></td>
+                  <td><?php echo e($list_item['discountFee'] > $list_item['totalFee']  ? $list_item['totalFee'] : $list_item['discountFee']); ?></td>
+                  <td><?php echo e($list_item['drawnFee']); ?></td>
+                  <td><?php if($list_item['isCashOnDelivery']): ?>-<?php echo e($list_item['drawnFee']); ?><?php else: ?><?php echo e($list_item['sellerFee']); ?><?php endif; ?></td>
+                  <td><?php echo e($list_item['orderStatus']); ?></td> 
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+                    </table>
+                </div><?php echo $__env->make('admin._layouts.pager', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                </div>
+    
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('js'); ?>
+<script type="text/javascript"> 
+</script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('admin._layouts.base', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

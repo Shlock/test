@@ -1,0 +1,44 @@
+
+<?php $__env->startSection('css'); ?>
+<style type="text/css">
+	.m-tab table tbody td{
+		padding: 10px 0px;
+		font-size: 12px;
+  		text-align: center;
+	}
+	.m-tab{
+		margin-top: -11px;
+	}
+	#money-form-item,#waitConfirmMoney-form-item,#lockMoney-form-item{
+		  margin-right: 80px;
+	}
+
+    .banks p{text-align: center;}
+    .bank_font{ font-weight: bold; font-size: 18px;}
+    #butn{width:220px; height: 40px; background: red; color: white; border-radius: 10px; font-size:15px;cursor: pointer;}
+    #butn_margin{ margin-top:20px;}
+</style>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
+	<div >
+		<div class="m-zjgltbg">
+			<p class="f-bhtt f14">
+				<span class="ml15">银行管理</span>
+			</p>										
+			<div  class="p10">				
+								
+				<!-- 账户交易记录 -->
+                          <div class="banks" >
+                              <p><img src="<?php echo e(asset('images/tu.png')); ?>"></p>
+                              <p><span class="bank_font">暂无银行卡</span></p>
+                              <p id="butn_margin"><a href="<?php echo e(u('bank/addInfo')); ?>"><input type="button" id="butn" value="添加银行卡"></a></p>
+                          </div>
+				  
+			</div>
+		</div>
+	</div>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('js'); ?>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('seller._layouts.base', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

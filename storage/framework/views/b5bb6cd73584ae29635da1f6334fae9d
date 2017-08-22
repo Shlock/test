@@ -1,0 +1,64 @@
+
+
+<?php $__env->startSection('show_top'); ?>
+    <div data-role="header" data-position="fixed" class="x-header">
+        <h1>生活圈</h1>
+    </div>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+    <div role="main" class="ui-content">
+        <ul class="x-life1">
+            <li>
+                <a href="<?php echo e(u('Forum/mylists')); ?>" class="db left">
+                    <img src="<?php echo e(asset('wap/community/client/images/tz.png')); ?>" />
+                    <p>我的帖子<span>(<?php echo e($postsnum); ?>)</span></p>
+                </a>
+            </li>
+            <li>
+                <a href="<?php echo e(u('Forummsg/index')); ?>" class="db">
+                    <img src="<?php echo e(asset('wap/community/client/images/lt.png')); ?>" />
+                    <p>论坛消息<?php if($messagenum > 0): ?><span>(<?php echo e($messagenum); ?>)</span><?php endif; ?></p>
+                </a>
+            </li>
+        </ul>
+        <?php if($plates): ?>
+        <ul class="x-life2 x-index1 clearfix">
+            <?php foreach($plates as $v): ?>
+            <?php if($v['id'] != 0): ?>
+            <li><a href="<?php if($v['id'] == 1): ?><?php echo e(u('Property/index',['id'=>$v['id']])); ?> <?php else: ?><?php echo e(u('Forum/lists',['plateId'=>$v['id']])); ?><?php endif; ?>"><img src="<?php if(!empty($v['icon'])): ?> <?php echo e(formatImage($v['icon'],36,36)); ?> <?php else: ?> <?php echo e(asset('wap/community/client/images/b12.png')); ?> <?php endif; ?>"><p><?php echo e($v['name']); ?></p></a></li>
+            <?php else: ?>
+            <li><a href="<?php echo e(u('Forum/plates')); ?>"><img src="<?php echo e(asset('wap/community/client/images/b11.png')); ?>"><p>更多</p></a></li>
+            <?php endif; ?>
+            <?php endforeach; ?>
+        </ul>
+        <?php endif; ?>
+        <ul class="x-lifelst">
+            <?php if($lists): ?>
+            <?php foreach($lists as $item): ?>
+            <li>
+                <a href="<?php echo e(u('Forum/detail',['id'=>$item['id']])); ?>"><p class="f16 mb10"><?php echo e($item['title']); ?></p></a>
+                <p class="f12 c-green">
+                    <a href="<?php echo e(u('Forum/lists',['plateId'=>$item['plate']['id']])); ?>" class="lf1"><?php echo e($item['plate']['name']); ?></a>
+                    <a href="#" class="lf2 ml20"><?php echo e($item['rateNum']); ?></a>
+                    <span class="lf3"><?php echo e(yzday($item['createTime'])); ?></span>
+                </p>
+            </li>
+            <?php endforeach; ?>
+            <?php endif; ?>
+        </ul>
+    </div>
+    <?php echo $__env->make('wap.community._layouts.swiper', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+    <?php echo $__env->make('wap.community._layouts.bottom', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('js'); ?>
+    <script src="<?php echo e(asset('static/infinite-scroll/jquery.infinitescroll.js')); ?>"></script> 
+    <script type="text/javascript">
+        $(function() {
+            $.SwiperInit('#lists','.x-post',"<?php echo e(u('Forum/index',$args)); ?>");
+
+
+        });
+    </script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('wap.community._layouts.base', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

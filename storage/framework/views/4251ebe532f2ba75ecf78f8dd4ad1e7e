@@ -1,0 +1,7 @@
+<?php foreach($data['paylogs'] as $v): ?>
+<li>
+    <p class="f14"><?php echo e(Lang::get('wap.pay_type.'.$v['payType'])); ?><span class="fr f12 c-green"><?php echo e($v['createTime']); ?></span></p>
+    <p class="f12 c-green mt5">交易号：<?php echo e($v['sn']); ?></p>
+    <p class="f12 c-green mt5">余额：<?php echo e($v['balance']); ?><?php if($v['payType'] == 1): ?><span class="c-red fr">-<?php echo e($v['money']); ?> <?php else: ?><span class="y-green1 fr">+<?php echo e($v['money']); ?></span><?php endif; ?></p>
+</li>
+<?php endforeach; ?>

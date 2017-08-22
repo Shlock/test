@@ -1,0 +1,130 @@
+
+<?php  
+$type = [ 
+	['key'=>'0','name'=>'全员推送'],
+	['key'=>'1','name'=>'指定推送'],
+];
+?>
+<?php $__env->startSection('right_content'); ?>
+	
+	<div id="checkList" class="">
+                    <div class="u-ssct clearfix">
+                    <?php $search_args = Input::all(); ?>
+                    <form id="yzForm" class="" name="yzForm" method="post" action="http://admin.51mycai365.com/UserAppMessageSend/index" target="_self">
+                        <div class="search-row clearfix">
+                      <div id="-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 推送类型:
+		            </span>
+		            <div class="f-boxr">
+		                  <select id="userType" name="userType" style='min-width:160px;width:auto' class="sle  " ><?php $select_options = $type; ?><?php $selecteds = is_array($search_args['userType']) ? $search_args['userType'] : [$search_args['userType']]; ?><?php  foreach($select_options as $options_key => $options_val): ?><?php $options_key = $options_val['key']; ?><?php $options_val = $options_val['name']; ?><?php $selected = in_array($options_key, $selecteds) ? " selected" : ""; ?>
+	                	<option<?php echo $selected; ?> value="<?php echo $options_key; ?>"><?php echo $options_val; ?></option>
+						<?php endforeach; ?></select>
+		            </div>
+		        </div>
+				<div id="sendTime-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 推送时间:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="sendTime" id="sendTime" class="date u-ipttext" value="<?php echo e(YiZan\Utils\Time::toDate($search_args['sendTime'],'Y-m-d')); ?>" />
+		            </div>
+		        </div>
+				<div id="endsendTime-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 截至时间:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="endsendTime" id="endsendTime" class="date u-ipttext" value="<?php echo e(YiZan\Utils\Time::toDate($search_args['endsendTime'],'Y-m-d')); ?>" />
+		            </div>
+		        </div> 
+				<button type="submit" class="btn mr5">
+                        搜索
+                    </button>
+                </div>
+                    </form>
+                </div>
+		<div class="list-btns">
+                      <a href="create" target="_self" class="btn mr5">
+                        添加
+                    </a>
+                </div>
+		<div class="m-tab">
+                      <table id="checkListTable" class="">
+                        <thead>
+					<td class="" order="" code=""><span>推送类型</span></td> 
+					<td class="" order="" code=""><span>会员类型</span></td> 
+					<td class="" order="" code=""><span>推送参数</span></td> 
+					<td class="" order="" code=""><span>推送时间</span></td> 
+				<td style="text-align:center;white-space:nowrap;"><span>操作</span></td></thead><tbody>
+                        <?php foreach($list as $list_index => $list_item): ?>
+                        <?php 
+                            $list_item_css = $list_index % 2 == 0 ? " tr-even" : " tr-odd"; 
+                            $list_item_pk  = $list_item["id"];
+                        ?>
+					<tr class="<?php echo e($list_item_css); ?>" style="text-align:left;">
+						<td>
+							<p><?php echo e($list_item['type'] == 'buyer' ? '买家' : '卖家'); ?></p>
+						</td>  
+						<td>
+							<p><?php echo e($list_item['userType'] == 0 ? '所有' : '指定'); ?></p>
+						</td>  
+						<td style="text-align:left">
+							<p><?php echo e($list_item['args']); ?></p>  
+						</td> 
+						<td> 
+							<p><?php echo e(yztime( $list_item['sendTime'] )); ?></p>
+						</td> 
+						<td rowspan="4">
+							 
+								<a href="javascript:;" class=" red"  onclick="$.RemoveItem(this, '<?php echo e(u(CONTROLLER_NAME."/destroy",["id" => $list_item["id"]])); ?>', '你确定要删除该数据吗？')" data-pk="<?php echo e($list_item["id"]); ?>" target="_self">删除</a>
+							
+						</td>
+					</tr>
+					<tr class="<?php echo e($list_item_css); ?>" style="text-align:left;">	 
+						<td colspan="4" style="text-align:left;">	
+							<p><b>标　　题：</b><?php echo e($list_item['title']); ?></p>				
+							<p><b>推送内容：</b><?php echo e(yzHtmlSpecialcharsDecode( $list_item['content'] )); ?></p> 
+						</td>  
+					</tr>
+					<tr class="<?php echo e($list_item_css); ?>" style="text-align:left;">	
+						<td colspan="4" style="text-align:left;">					
+							<p style='text-align:left;display:block;word-break: break-all;word-wrap: break-word;'> 
+								<b>推送类型</b>：<?php if($list_item['sendType'] == 1): ?>
+								 普通消息 
+								 <?php elseif($list_item['sendType'] == 2): ?>
+								 html页面
+								 <?php elseif($list_item['sendType'] == 3): ?>
+								 订单消息
+								 <?php endif; ?> 
+							</p> 
+							<p style='text-align:left;display:block;word-break: break-all;word-wrap: break-word;'> 
+								<b>推送参数</b>：<?php echo e($list_item['args']); ?>
+
+							</p> 
+						</td> 
+					</tr>
+					<tr class="<?php echo e($list_item_css); ?>" style="text-align:left;">	
+					<?php if($list_item['userType'] == 1): ?>
+						<td colspan="5" style="text-align:left;">					
+							<p style='text-align:left;display:block;word-break: break-all;word-wrap: break-word;'> 
+								<b>推送手机</b>：<?php echo e($list_item['users']); ?>
+
+							</p> 
+						</td> 
+					<?php endif; ?>
+					</tr>
+					
+				
+                    <?php endforeach; ?>
+                </tbody>
+                    </table>
+                </div><?php echo $__env->make('admin._layouts.pager', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                </div>
+	
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('js'); ?>
+
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('admin._layouts.base', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

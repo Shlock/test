@@ -1,0 +1,112 @@
+
+<?php $__env->startSection('css'); ?>
+<style type="text/css">
+    .m-tab table tbody td{padding: 10px 0px;}
+    #checkListTable p{padding:0px 0px 0px 10px;}
+</style>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
+<div>
+    <div class="m-zjgltbg">
+        <div class="p10">
+            <!-- 订单管理 -->
+            <div class="g-fwgl">
+                <p class="f-bhtt f14 clearfix" style="border-bottom:0;">
+                    <span class="ml15 fl">所在商户：<?php echo e($name); ?></span>
+                </p>
+            </div>
+            
+            <?php 
+                $navs = ['nav0','nav1','nav2','nav3','nav4','nav5','nav6'];
+                $nav = in_array(Input::get('nav'),$navs) ? Input::get('nav') : 'nav0' ; 
+                $$nav = "on";
+            ?>
+            <div id="checkList" class="">
+                    <div class="tabs">
+					<div class="tab-navs u-spnav u-orderlstnav">
+					<ul class="clearfix"> 
+						<li class="tab-nav <?php echo e($nav1); ?>">
+    				<a href="<?php echo e(u('FundCate/lists',['status'=>'1','nav'=>'nav1','sellerId'=>$args['sellerId'],'beginTime'=>$args['beginTime'],'endTime'=>$args['endTime']])); ?>" target="_self">已完成</a>
+    			</li>
+                        <li class="tab-nav <?php echo e($nav2); ?>">
+    				<a href="<?php echo e(u('FundCate/lists',['status'=>'2','nav'=>'nav2','sellerId'=>$args['sellerId'],'beginTime'=>$args['beginTime'],'endTime'=>$args['endTime']])); ?>" target="_self">待发货</a>
+    			</li>
+                        <li class="tab-nav <?php echo e($nav3); ?>">
+    				<a href="<?php echo e(u('FundCate/lists',['status'=>'3','nav'=>'nav3','sellerId'=>$args['sellerId'],'beginTime'=>$args['beginTime'],'endTime'=>$args['endTime']])); ?>" target="_self">待完成</a>
+    			</li>
+                        <li class="tab-nav <?php echo e($nav4); ?>">
+    				<a href="<?php echo e(u('FundCate/lists',['status'=>'4','nav'=>'nav4','sellerId'=>$args['sellerId'],'beginTime'=>$args['beginTime'],'endTime'=>$args['endTime']])); ?>" target="_self">已取消</a>
+    			</li>
+                        <li class="tab-nav <?php echo e($nav5); ?>">
+    				<a href="<?php echo e(u('FundCate/lists',['status'=>'5','nav'=>'nav5','sellerId'=>$args['sellerId'],'beginTime'=>$args['beginTime'],'endTime'=>$args['endTime']])); ?>" target="_self">已退款</a>
+    			</li>
+                        <li class="tab-nav <?php echo e($nav6); ?>">
+    				<a href="<?php echo e(u('FundCate/lists',['status'=>'6','nav'=>'nav6','sellerId'=>$args['sellerId'],'beginTime'=>$args['beginTime'],'endTime'=>$args['endTime']])); ?>" target="_self">已删除</a>
+    			</li>
+					</ul>
+				</div>
+				</div>
+                <div class="u-ssct clearfix">
+                    <?php $search_args = Input::all(); ?>
+                    <form id="yzForm" class="" name="yzForm" method="post" action="<?php echo e($searchUrl); ?>" target="_self">
+                        <div class="search-row clearfix">
+                      <div id="beginTime-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 开始时间:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="beginTime" id="beginTime" class="date u-ipttext" value="<?php echo e(YiZan\Utils\Time::toDate($search_args['beginTime'],'Y-m-d')); ?>" />
+		            </div>
+		        </div>
+                        <div id="endTime-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 结束时间:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="endTime" id="endTime" class="date u-ipttext" value="<?php echo e(YiZan\Utils\Time::toDate($search_args['endTime'],'Y-m-d')); ?>" />
+		            </div>
+		        </div>
+                        <button type="submit" class="btn mr5 btn-gray">
+                        搜索
+                    </button>
+                </div>
+                    </form>
+                </div>
+                <div class="m-tab">
+                      <table id="checkListTable" class="">
+                        <thead><td class="" order="sn" code="sn"><span>订单SN码</span></td>
+                        <td class="" order="money" code="money"><span>订单金额</span></td>
+                        <td class="" order="create_time" code="create_time"><span>订单时间</span></td>
+                        <td style="text-align:center;white-space:nowrap;" width="80"><span>操作</span></td>
+                    </thead><tbody>
+                        <?php foreach($list as $list_index => $list_item): ?>
+                        <?php 
+                            $list_item_css = $list_index % 2 == 0 ? " tr-even" : " tr-odd"; 
+                            $list_item_pk  = $list_item["id"];
+                        ?>
+                        <tr class="tr-<?php echo e($list_item_pk); ?><?php echo e($list_item_css); ?>" key="<?php echo e($list_item_pk); ?>" primary="id"><td class="" code="sn"><?php echo e($list_item['sn']); ?></td>
+                        <td class="" code="money"><?php echo e($list_item['money']); ?></td>
+                        <td class="" code="create_time"><?php echo YiZan\Utils\Format::time($list_item['create_time'], "create_time", $list_item, array (
+  'code' => 'create_time',
+  'label' => '订单时间',
+  'type' => 'time',
+  'attr' => '',
+  'css' => '',
+  'style' => '',
+)); ?></td>
+                        <td class=""><a href="<?php echo e(u('FundCate/detail',['orderId'=>$list_item['id']])); ?>" class=" blu"  data-pk="<?php echo e($list_item["id"]); ?>" target="_self">订单详情</a></td>
+                    </tr>
+                    <?php endforeach; ?>
+                </tbody>
+                    </table>
+                </div><?php echo $__env->make('admin._layouts.pager', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                </div>
+            
+        </div>
+    </div>
+</div>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('js'); ?>
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('seller._layouts.base', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

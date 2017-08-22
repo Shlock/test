@@ -1,0 +1,156 @@
+
+<?php $__env->startSection('css'); ?>
+<style type="text/css"> 
+    #month{margin-top: 15px;}
+    .btn-gray{margin-left: 10px; margin-bottom: 10px;}
+</style>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?> 
+<div class="ma">
+    <div class="m-ydtt" style="margin-top:0px;">
+        <div class="x-bbmain">
+            <div class="x-pjgltt">对帐单</div>
+            
+                <div id="checkList" class="">
+                    <div class="u-ssct clearfix">
+                    <?php $search_args = Input::all(); ?>
+                    <form id="yzForm" class="" name="yzForm" method="post" action="http://seller.51mycai365.com/BusinessStatistics/index" target="_self">
+                        <div class="search-row clearfix">
+                      <div id="-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 统计时间:
+		            </span>
+		            <div class="f-boxr">
+		                  <select id="year" name="year" class="sle   year_choose" ><?php $select_options = $orderyear; ?><?php $selecteds = is_array($args['year']) ? $args['year'] : [$args['year']]; ?><?php  foreach($select_options as $options_key => $options_val): ?><?php $options_key = $options_val['yearName']; ?><?php $options_val = $options_val['yearName']; ?><?php $selected = in_array($options_key, $selecteds) ? " selected" : ""; ?>
+	                	<option<?php echo $selected; ?> value="<?php echo $options_key; ?>"><?php echo $options_val; ?></option>
+						<?php endforeach; ?></select>
+		            </div>
+		        </div> 
+                            <select id="month" name="month" class="sle   month_choose" ><?php $select_options = array (
+  0 => '1',
+  1 => '2',
+  2 => '3',
+  3 => '4',
+  4 => '5',
+  5 => '6',
+  6 => '7',
+  7 => '8',
+  8 => '9',
+  9 => '10',
+  10 => '11',
+  11 => '12',
+); ?><?php $selecteds = is_array($args['month']) ? $args['month'] : [$args['month']]; ?><?php $select_texts = array (
+  0 => '1月',
+  1 => '2月',
+  2 => '3月',
+  3 => '4月',
+  4 => '5月',
+  5 => '6月',
+  6 => '7月',
+  7 => '8月',
+  8 => '9月',
+  9 => '10月',
+  10 => '11月',
+  11 => '12月',
+); ?><?php  foreach($select_options as $options_key => $options_val):
+                    $selected = in_array($options_val, $selecteds) ? " selected" : ""; ?>
+					<option<?php echo $selected; ?> value="<?php echo $options_val; ?>"><?php echo $select_texts[$options_key]; ?></option>
+					<?php endforeach; ?></select>  
+                            <button type="submit" class="btn mr5 btn-gray">
+                        搜索
+                    </button>
+                </div>
+                    </form>
+                </div>
+                   <div class="m-tab">
+                      <table id="checkListTable" class="">
+                        <thead>
+                            <tr>
+                              <td rowspan="2">日期</td>
+                              <td rowspan="2">营业额</td>
+                              <td rowspan="2">有效订单数</td>
+                              <td colspan="3">收入</td> 
+                              <td>支出</td>
+                              <td rowspan="2">入账金额</td> 
+                              <td rowspan="2">客单价</td> 
+                              <td rowspan="2">查看</td>
+                            </tr>
+                            <tr>   
+                              <td>在线支付</td>
+                              <td>现金支付</td>
+                              <td>优惠券</td>
+                              <td>佣金</td>   
+                            </tr>
+                        </thead>
+                        
+                        <tbody> 
+                            <tr>
+                              <td>汇总</td>
+                              <td><?php echo e(number_format($sum['totalPayfee'], 2)); ?></td>
+                              <td><?php echo e($sum['totalNum']); ?></td>
+                              <td><?php echo e(number_format($sum['totalOnline'], 2)); ?></td>
+                              <td><?php echo e(number_format($sum['totalCash'], 2)); ?></td>
+                              <td><?php echo e(number_format($sum['totalDiscountFee'], 2)); ?></td>
+                              <td><?php echo e(number_format($sum['totalDrawnfee'], 2)); ?></td>
+                              <td><?php echo e(number_format($sum['totalSellerFee'], 2)); ?></td> 
+                              <td><?php echo e(number_format($sum['totalPayfee']/$sum['totalNum'], 2)); ?></td>
+                              <td></td>
+                            </tr>   
+                            <?php foreach($lists as $l): ?>
+                            <tr>
+                              <td><?php echo e($l['daytime']); ?></td>
+                              <td><?php echo e(number_format($l['totalPayfee'], 2)); ?></td>
+                              <td><?php echo e($l['totalNum']); ?></td>
+                              <td><?php echo e(number_format($l['totalOnline'], 2)); ?></td>
+                              <td><?php echo e(number_format($l['totalCash'], 2)); ?></td>
+                              <td><?php echo e(number_format($l['totalDiscountFee'], 2)); ?></td>
+                              <td><?php echo e(number_format($l['totalDrawnfee'], 2)); ?></td>
+                              <td><?php echo e(number_format($l['totalSellerFee'], 2)); ?></td> 
+                              <td><?php echo e(number_format($l['totalPayfee']/$l['totalNum'], 2)); ?></td>  
+                              <td style="cursor: pointer;"><a href="<?php echo e(u('BusinessStatistics/dayAccount', ['sellerId'=>$args['sellerId'], 'day'=>$l['daytime']])); ?>" class=" blu agree" >明细</a></td>
+                            </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+                </div>
+            
+        </div>
+    </div>
+</div>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('js'); ?>
+<script type="text/javascript">
+var mh = <?php echo e($args['month']); ?>;
+$(function(){
+    $(".year_choose").change(function(){ 
+        var year = $(this).val();
+        var date = new Date();
+        var cumonth = date.getMonth();
+        var cuyear = date.getFullYear();
+        var html = '<option value="-99">请选择</option>';
+        if(year == cuyear){ 
+            for (var i = 1; i <= cumonth+1; i++) {
+                if(i == mh){ 
+                    html += '<option value="'+i+'" selected>'+i+'</option>';
+                } else {
+                    html += '<option value="'+i+'">'+i+'</option>';
+                }
+            }
+        } else if(year < cuyear && year > 0){
+            for (var i = 1; i <= 12; i++) {
+                if(i == mh){ 
+                    html += '<option value="'+i+'" selected>'+i+'</option>';
+                } else {
+                    html += '<option value="'+i+'">'+i+'</option>';
+                }
+            }
+        } 
+        $(".month_choose").html(html); 
+    }).trigger("change");
+})
+</script>
+<?php $__env->stopSection(); ?>
+
+   
+<?php echo $__env->make('seller._layouts.base', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

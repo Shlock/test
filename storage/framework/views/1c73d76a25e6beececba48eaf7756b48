@@ -1,0 +1,258 @@
+
+<?php $__env->startSection('css'); ?>
+<style type="text/css">
+	.status{border-top: 1px solid #eee;text-align: center;}
+	.config{width: 400px;padding: 10px 0px  5px  20px}
+	.config input{padding: 5px;border: 1px solid #eee;width: 90%}
+</style>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('right_content'); ?>
+ 
+<div id="checkList" class="">
+                    <div class="m-tab">
+                      <table id="checkListTable" class="">
+                        <thead><td class="" width="280" order="code" code="code"><span>支付代码</span></td> 
+			<td class="" width="200" order="name" code="name"><span>支付名称</span></td>
+			<td class="" width="200" order="status" code="status"><span>状态</span></td>   
+			<td style="text-align:center;white-space:nowrap;"><span>操作</span></td>
+                    </thead><tbody>
+                        <?php foreach($list as $list_index => $list_item): ?>
+                        <?php 
+                            $list_item_css = $list_index % 2 == 0 ? " tr-even" : " tr-odd"; 
+                            $list_item_pk  = $list_item["id"];
+                        ?>
+                        <tr class="tr-<?php echo e($list_item_pk); ?><?php echo e($list_item_css); ?>" key="<?php echo e($list_item_pk); ?>" primary="id"><td class="" code="code"><?php echo e($list_item['code']); ?></td> 
+			<td class="" code="name"><?php echo e($list_item['name']); ?>
+
+				<textarea style="display:none"><?php echo e(json_encode($list_item['config'])); ?></textarea></td>
+			<td class="" code="status"><?php echo YiZan\Utils\Format::status($list_item['status'], "status", $list_item, array (
+  'code' => 'status',
+  'label' => '状态',
+  'width' => '200',
+  'type' => 'status',
+  'attr' => '',
+  'css' => '',
+  'style' => '',
+)); ?></td>   
+			<td class=""><?php if( $list_item['code'] != 'cashOnDelivery'): ?>
+					<a href="javascript:;" class=" payments blu"  onclick="$.UpdatePayment(this, '<?php echo e($list_item['code']); ?>')" data-pk="<?php echo e($list_item["id"]); ?>" target="_self">更新</a>
+				<?php endif; ?></td>
+                    </tr>
+                    <?php endforeach; ?>
+                </tbody>
+                    </table>
+                </div>
+                </div>  
+<script type="text/tpl" id="alipayTpl"> 
+<div class="m-spboxlst " style="">
+					<form id="alipay_form" name="alipay_form" class="validate-form " method="post" action="http://admin.51mycai365.com/Payment/update" enctype="application/x-www-form-urlencoded" target="_self">
+						<div id="sellerId-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 卖家支付宝账号:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="sellerId" id="sellerId" class="u-ipttext" value="<?php if(isset($data['sellerId'])):?><?php echo e($data['sellerId']); ?><?php else: ?>{{=it.sellerId}}<?php endif; ?>" />
+		            </div>
+		        </div>
+	<div id="partnerId-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 合作者身份ID:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="partnerId" id="partnerId" class="u-ipttext" value="<?php if(isset($data['partnerId'])):?><?php echo e($data['partnerId']); ?><?php else: ?>{{=it.partnerId}}<?php endif; ?>" />
+		            </div>
+		        </div>
+	<div id="partnerKey-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 安全校验码(Key):
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="partnerKey" id="partnerKey" class="u-ipttext" value="<?php if(isset($data['partnerKey'])):?><?php echo e($data['partnerKey']); ?><?php else: ?>{{=it.partnerKey}}<?php endif; ?>" />
+		            </div>
+		        </div>
+	<div id="partnerPubKey-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 RSA加密公钥:
+		            </span>
+		            <div class="f-boxr">
+		                  <textarea name="partnerPubKey" id="partnerPubKey" class="u-ttarea"><?php if(isset($data['partnerPubKey'])):?><?php echo e($data['partnerPubKey']); ?><?php else: ?>{{=it.partnerPubKey}}<?php endif; ?></textarea>
+		            </div>
+		        </div>
+	<div id="partnerPrivKey-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 RSA加密私钥:
+		            </span>
+		            <div class="f-boxr">
+		                  <textarea name="partnerPrivKey" id="partnerPrivKey" class="u-ttarea"><?php if(isset($data['partnerPrivKey'])):?><?php echo e($data['partnerPrivKey']); ?><?php else: ?>{{=it.partnerPrivKey}}<?php endif; ?></textarea>
+		            </div>
+		        </div>		<input type="hidden" value="<?php echo e($data['id']); ?>" name="id" />
+					</form>
+				</div>
+</script>
+<script type="text/tpl" id="weixinTpl"> 
+<div class="m-spboxlst " style="">
+					<form id="weixin_form" name="weixin_form" class="validate-form " method="post" action="http://admin.51mycai365.com/Payment/update" enctype="application/x-www-form-urlencoded" target="_self">
+						<div id="partnerId-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt" style="width:68px">
+		                 商户号:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="partnerId" id="partnerId" class="u-ipttext" value="<?php if(isset($data['partnerId'])):?><?php echo e($data['partnerId']); ?><?php else: ?>{{=it.partnerId}}<?php endif; ?>" />
+		            </div>
+		        </div>
+	<div id="appId-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt" style="width:68px">
+		                 应用ID:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="appId" id="appId" class="u-ipttext" value="<?php if(isset($data['appId'])):?><?php echo e($data['appId']); ?><?php else: ?>{{=it.appId}}<?php endif; ?>" />
+		            </div>
+		        </div>
+	<div id="appSecret-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt" style="width:68px">
+		                 应用密钥:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="appSecret" id="appSecret" class="u-ipttext" value="<?php if(isset($data['appSecret'])):?><?php echo e($data['appSecret']); ?><?php else: ?>{{=it.appSecret}}<?php endif; ?>" />
+		            </div>
+		        </div>
+	<div id="partnerKey-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt" style="width:68px">
+		                 API密钥:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="partnerKey" id="partnerKey" class="u-ipttext" value="<?php if(isset($data['partnerKey'])):?><?php echo e($data['partnerKey']); ?><?php else: ?>{{=it.partnerKey}}<?php endif; ?>" />
+		            </div>
+		        </div>		<input type="hidden" value="<?php echo e($data['id']); ?>" name="id" />
+					</form>
+				</div>
+</script>
+
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('js'); ?>
+<script type="text/javascript"> 
+$.UpdatePayment = function(obj, code) {
+	var config = JSON.parse($(obj).parents('tr').find('textarea').val());
+	var width = 350;
+	var html = '';
+	var form = '';
+	if (code == 'alipay' || code == 'alipayWap') {
+		form = "alipay_form";
+		html = $("#alipayTpl").html();
+		width = 580;
+	} else if (code == 'weixin' || code == 'weixinJs') {
+		form = "weixin_form";
+		html = $("#weixinTpl").html();
+	}
+	$("#" + form).remove();
+
+	var dialog = $.zydialogs.open($.Template(html, config), {
+        boxid:'PAYMENT_WEEBOX',
+        width:width,
+        title:'相关参数配置',
+        showClose:true,
+        showButton:true,
+        showOk:true,
+        showCancel:true,
+        okBtnName: '更新',
+		cancelBtnName: '取消',
+        contentType:'content',
+        onOk: function(){
+        	var payment = new Object();
+	        payment.code = code;
+	        payment.config = new Object();
+	        $.each($("#" + form).serializeArray(), function(i, item){
+				payment.config[item.name] = item.value;
+			});
+	        
+       		dialog.setLoading();
+        	$.post("<?php echo e(u('Payment/update')); ?>", payment,function(result){ 
+            	dialog.setLoading(false);  
+            	if(result.status == true){
+                	$.ShowAlert(result.msg);
+               	 	window.location.reload();
+            	}else{
+                	$.ShowAlert(result.msg);
+                	$.zydialogs.close("PAYMENT_WEEBOX");
+            	}
+            },'json'); 
+        },
+        onCancel:function(){
+            $.zydialogs.close("PAYMENT_WEEBOX");
+        }
+	});
+}
+/*function payments(code) {   
+		var config = new Object();
+		var html = "";
+		var k = "";
+		var statu = "";
+		$('td[code="code"]').each(function(i,e){   
+	  		if($(this).text() == code){  
+	  			config = $(this).parents('tr').find('td[code="config"]').find('p');
+	  			config.each(function(k,v){ 
+	  				html+= '<div class="u-fitem clearfix realName-form-item">';
+			        html+= '<span class="f-tt">';
+			        html+= "参数名称:"+$(this).find('span:eq(0)').text();
+			        html+= '</span>';
+			        html+= '<div class="f-boxr">';
+			        html+= '<input class="config'+k+'" type="text" name="'+$(this).find('span:eq(0)').text()+'" id="realName" class="u-ipttext" value="'+$(this).find('span:eq(1)').text()+'">';
+			        html+= '</div>';
+			        html+= '</div>'; 
+	  			});
+	  			statu = $(this).parents('tr').find('td[code="status"] i').attr("status"); 
+	  		}		 
+        });
+		var dialog = $.zydialogs.open($("#payment").html(), {
+	        boxid:'SET_GROUP_WEEBOX',
+	        width:300,
+	        title:'相关参数配置',
+	        showClose:true,
+	        showButton:true,
+	        showOk:true,
+	        showCancel:true,
+	        okBtnName: '更新',
+			cancelBtnName: '不更新',
+	        contentType:'content',
+	        onOk: function(){
+	        	var configs = new Object();
+	            var query =  {};   
+	          	$(".config input").each(function() { 
+	          		query[$(this).attr("name")] = $(this).val(); 
+			    });  
+		        configs.code = code;
+		        configs.config = query;
+		        // configs.status = "";
+		        // $('input[name="statuss"]').each(function(){
+		          	// configs.status = $("input[name='statuss']:checked").val(); 
+		        // });   
+           		dialog.setLoading();
+            	$.post("<?php echo e(u('Payment/update')); ?>",configs,function(result){ 
+                	dialog.setLoading(false);  
+                	if(result.status == true){
+                    	$.ShowAlert(result.msg);
+                   	 	window.location.reload();
+                	}else{
+                    	$.ShowAlert(result.msg);
+                    $.zydialogs.close("SET_GROUP_WEEBOX");
+                }
+	            },'json'); 
+	        },
+	        onCancel:function(){
+	            $.zydialogs.close("SET_GROUP_WEEBOX");
+	        }
+    	});
+		statu -= 1;
+		$('input[name="statuss"]').each(function(){
+           	if($(this).val() == statu ){
+           		$(this).attr("checked",true);  
+           	}
+        });
+	    $(".config").append(html);
+	}  */
+</script>
+<?php $__env->stopSection(); ?> 
+
+
+<?php echo $__env->make('admin._layouts.base', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

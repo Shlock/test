@@ -1,0 +1,26 @@
+<div class="m-fyct clearfix">					
+	<div class="m-fycon pt15 mr20 fr">
+        <?php if($pager['page'] > 1): ?> 
+        <a href="<?php echo e($pager['page_prev']); ?>" page="<?php echo e($pager['prev_page']); ?>" class="prec"><i class="fa fa-angle-double-left"></i></a>
+        <?php endif; ?>
+        <?php foreach($pager['page_nums'] as $page_num): ?> 
+            <?php if($pager['page'] == $page_num['name']): ?> 
+            <a href="javascript:;" class="num on" page="<?php echo e($page_num['name']); ?>"><?php echo e($page_num['name']); ?></a>
+            <?php elseif($page_num['name'] == '...'): ?>
+            <a href="javascript:;" class="num">...</a>
+            <?php else: ?>
+            <a href="<?php echo e($page_num['url']); ?>" page="<?php echo e($page_num['name']); ?>" class="num"><?php echo e($page_num['name']); ?></a>
+            <?php endif; ?>
+        <?php endforeach; ?>
+        <?php if($pager['page'] < $pager['page_count']): ?> 
+        <a href="<?php echo e($pager['page_next']); ?>" page="<?php echo e($pager['prev_page']); ?>" class="next"><i class="fa fa-angle-double-right"></i></a>
+        <?php endif; ?>
+    </div>
+    <p class="fr mr20 hcolor" style="line-height:60px;">
+        <?php if($pager['total_count'] > 0): ?> 
+        <?php echo e($pager['total_count']); ?> 条记录，共 <?php echo e($pager['page_count']); ?> 页
+        <?php else: ?>
+    	暂无相关数据
+        <?php endif; ?>
+    </p>
+</div>

@@ -1,0 +1,1 @@
+@yizan_include('admin.common.sellerperformance.index')

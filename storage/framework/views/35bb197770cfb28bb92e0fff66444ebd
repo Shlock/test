@@ -1,0 +1,355 @@
+
+<?php $__env->startSection('css'); ?>
+<style type="text/css">
+	#searchSeller{margin-left: 5px;}
+	#mobile{width: 100px;}
+	.ts{color: #999;margin-left: 5px;vertical-align:middle;}
+</style>
+<?php $__env->stopSection(); ?>
+<?php
+$type = [
+    ['id'=>1,'name'=>'固定有效期'],
+    ['id'=>2,'name'=>'至发放之日起算']
+];
+$useType = [
+        ['id'=>1,'name'=>'无限制'],
+        ['id'=>2,'name'=>'指定分类'],
+        ['id'=>3,'name'=>'指定商家']
+];
+$seller = [
+    ['id'=>0,'name'=>'请输入手机号或名称']
+];
+if (!empty($data['seller'])) {
+    $seller[1] = ['id'=> $data['seller']['id'],'name'=>$data['seller']['name']];
+}
+ ?>
+<?php $__env->startSection('right_content'); ?>
+	
+		<div class="m-spboxlst " style="">
+					<form id="yz_form" name="yz_form" class="validate-form ajax-form" method="post" action="http://admin.51mycai365.com/Promotion/save" enctype="application/x-www-form-urlencoded" target="_self">
+						<div id="name-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 优惠券名称:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="name" id="name" class="u-ipttext" value="<?php echo e($data['name']); ?>" /><span class="ts" style="color:red;">*</span>
+		            </div>
+		        </div>
+					<div id="money-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 优惠券面额:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="money" id="money" class="u-ipttext" style="width:100px;" value="<?php if(isset($data['money'])):?><?php echo e($data['money']); ?><?php else: ?><?php echo e($data['money']); ?><?php endif; ?>" /><span class="ts">元</span>
+                        <span class="ts" style="color:red;">*</span>
+		            </div>
+		        </div>
+                    <div id="-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 有效期:
+		            </span>
+		            <div class="f-boxr">
+		                  <?php
+                            $data['type'] = max((int)$data['type'],1);
+                            if ($data['type'] == 1) {
+                                $acss = 'none';
+                            } else {
+                                $bcss = 'none';
+                            }
+                        ?>
+                        <?php $radio_options = $type; ?><?php $default = ''; ?><?php $checked = isset($data['type']) ? $data['type'] : $default; ?><?php  foreach($radio_options as $options_key => $options_val): ?><?php $options_key = $options_val['id']; ?><?php $options_val = $options_val['name']; ?><?php $checked_attr = $options_key == $checked ? " checked" : ""; ?>
+                        <label>
+                            <input type="radio" class="uniform  type" name="type" value="<?php echo $options_key; ?>" <?php echo $checked_attr; ?>/>
+                            <span><?php echo $options_val; ?></span>
+                        </label>
+                        <span>&nbsp;&nbsp;</span>
+                        <?php endforeach; ?>
+                        <span class="ts" style="color:red;">*</span>
+		            </div>
+		        </div>
+					<div id="expireTime-form-item" class="u-fitem clearfix  <?php echo e($bcss); ?>">
+		            <span class="f-tt">
+		                 起止时间:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="beginTime" id="beginTime" class="datetime u-ipttext" style="width: 150px;" value="<?php echo e(yztime($data['beginTime'],'Y-m-d H:i')); ?>"> -
+                        <input type="text" name="endTime" id="endTime" class="datetime u-ipttext" style="width: 150px;" value="<?php echo e(yztime($data['endTime'],'Y-m-d H:i')); ?>">
+		            </div>
+		        </div>
+
+                    <div id="expireDay-form-item" class="u-fitem clearfix  <?php echo e($acss); ?>">
+		            <span class="f-tt">
+		                 有效天数:
+		            </span>
+		            <div class="f-boxr">
+		                  <div>
+                            发放之日起<input type="text" name="expireDay" class="u-ipttext ml5 mr5" style="width:100px;" value="<?php echo e($data['expireDay']); ?>">日有效
+                        </div>
+		            </div>
+		        </div>
+                    <div id="unableDate-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 不可用日期:
+		            </span>
+		            <div class="f-boxr">
+		                  <?php if(count($data['unableDate']) > 0): ?>
+                        <?php foreach($data['unableDate'] as $key=>$val): ?>
+                            <?php if($key == 0): ?>
+                                <div class="f-boxr" id="unableDate">
+                                    <input type="text" name="unableDate[]"  class="date u-ipttext" value="<?php echo e(yztime($val['dateTime'],'Y-m-d')); ?>">
+                                    <span class="ts add-unable-date"><a href="javascript:;">添加</a></span>
+                                </div>
+                            <?php else: ?>
+                                <div class="f-boxr" style="clear:left;">
+                                    <input type="text" name="unableDate[]"  class="date u-ipttext" value="<?php echo e(yztime($val['dateTime'],'Y-m-d')); ?>">
+                                    <span class="ts del-unable-date"><a href="javascript:;">删除</a></span>
+                                </div>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
+                        <?php else: ?>
+                            <div class="f-boxr" id="unableDate">
+                                <input type="text" name="unableDate[]"  class="date u-ipttext">
+                                <span class="ts add-unable-date"><a href="javascript:;">添加</a></span>
+                            </div>
+                        <?php endif; ?>
+		            </div>
+		        </div>
+                    <div id="-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 类型:
+		            </span>
+		            <div class="f-boxr">
+		                  <?php
+                            $data['useType'] = max((int)$data['useType'],1);
+                            $acss = '';
+                            $bcss = '';
+                            if ($data['useType'] == 1) {
+                                $acss = 'none';
+                                $bcss = 'none';
+                            } elseif ($data['useType'] == 2) {
+                                $acss = 'none';
+                            } else {
+                                $bcss = 'none';
+                            }
+                        ?>
+                        <?php $radio_options = $useType; ?><?php $default = ''; ?><?php $checked = isset($data['useType']) ? $data['useType'] : $default; ?><?php  foreach($radio_options as $options_key => $options_val): ?><?php $options_key = $options_val['id']; ?><?php $options_val = $options_val['name']; ?><?php $checked_attr = $options_key == $checked ? " checked" : ""; ?>
+                        <label>
+                            <input type="radio" class="uniform " name="useType" value="<?php echo $options_key; ?>" <?php echo $checked_attr; ?>/>
+                            <span><?php echo $options_val; ?></span>
+                        </label>
+                        <span>&nbsp;&nbsp;</span>
+                        <?php endforeach; ?>
+                        <span class="ts" style="color:red;">*</span>
+		            </div>
+		        </div>
+                    <div id="seller-form-item" class="u-fitem clearfix  <?php echo e($acss); ?>">
+		            <span class="f-tt">
+		                 商家:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="seller" id="seller" class="u-ipttext" style="margin-right:5px;width:120px;" maxlength='11' value="<?php echo e($data['seller']); ?>" /><select id="sellerId" name="sellerId" class="sle  " ><?php $select_options = $seller; ?><?php $selecteds = is_array($data['seller']['id']) ? $data['seller']['id'] : [$data['seller']['id']]; ?><?php  foreach($select_options as $options_key => $options_val): ?><?php $options_key = $options_val['id']; ?><?php $options_val = $options_val['name']; ?><?php $selected = in_array($options_key, $selecteds) ? " selected" : ""; ?>
+	                	<option<?php echo $selected; ?> value="<?php echo $options_key; ?>"><?php echo $options_val; ?></option>
+						<?php endforeach; ?></select>
+                        <button id="searchSeller" type="button" class="btn mr5">
+                        搜索
+                    </button>
+                        <span class="ts ts2"></span>
+		            </div>
+		        </div>
+                <div id="sellerCate-form-item" class="u-fitem clearfix  send-cate-type send-cate-group <?php echo e($bcss); ?>">
+		            <span class="f-tt">
+		                 选择分类:
+		            </span>
+		            <div class="f-boxr">
+		                  <div class="input-group">
+                        <table border="0">
+                            <tbody>
+                            <tr>
+                                <td rowspan="2">
+                                    <select id="cate_1" name="sellerCateIds" class="form-control" multiple="multiple" style="min-width:200px; *width:200px; height:260px;">
+                                        <?php if(count($data['sellerCates']) > 0): ?>
+                                            <?php foreach($data['sellerCates'] as $item): ?>
+                                                <option value="<?php echo e($item['cates']['id']); ?>" ><?php echo e($item['cates']['name']); ?></option>
+                                            <?php endforeach; ?>
+                                        <?php endif; ?>
+                                    </select>
+                                </td>
+                                <td width="60" align="center" rowspan="2">
+                                    <button type="button" class="btn btn-gray" onclick="$.optionMove('cate_2', 'cate_1', 1);">
+                                        <span class="fa fa-2x fa-angle-double-left"> </span>
+                                    </button>
+                                    <br><br>
+                                    <button type="button" class="btn btn-gray" onclick="$.optionMove('cate_2', 'cate_1');">
+                                        <span class="fa fa-2x fa-angle-left"> </span>
+                                    </button>
+                                    <br><br>
+                                    <button type="button" class="btn btn-gray" onclick="$.optionMove('cate_1', 'cate_2');">
+                                        <span class="fa fa-2x fa-angle-right"> </span>
+                                    </button>
+                                    <br><br>
+                                    <button type="button" class="btn btn-gray" onclick="$.optionMove('cate_1', 'cate_2', 1);">
+                                        <span class="fa fa-2x fa-angle-double-right"> </span>
+                                    </button>
+                                    <input type="hidden" name="sellerCateIds" id="cateIds">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <select id="cate_2" class="form-control" multiple="multiple" style="min-width:200px; *width:200px; height:260px;">
+                                        <?php foreach($cateIds as $key => $val): ?>
+                                            <?php if($val['isHasChild']): ?>
+                                                <optgroup label="<?php echo e($val['name']); ?>">
+                                                    <?php foreach($cateIds[$key]['childs'] as $cs): ?>
+                                                        <option value="<?php echo e($cs['id']); ?>"><?php echo e($cs['name']); ?></option>
+                                                    <?php endforeach; ?>
+                                                </optgroup>
+                                            <?php else: ?>
+                                                <option value="<?php echo e($val['id']); ?>"><?php echo e($val['name']); ?></option>
+                                            <?php endif; ?>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <div class="blank3"></div>
+                    </div>
+		            </div>
+		        </div>
+                <fitem type="script">
+                    <script type="text/javascript">
+                        jQuery(function($){
+                            $("#yz_form").submit(function(){
+                                var ids = new Array();
+                                $("#cate_1 option").each(function(){
+                                    ids.push(this.value);
+                                })
+                                $("#cateIds").val(ids);
+                            })
+                            $.optionMove = function(from, to, isAll){
+                                var from = $("#" + from);
+                                var to = $("#" + to);
+                                var list;
+                                if(isAll){
+                                    list = $('option', from);
+                                }else{
+                                    list = $('option:selected', from);
+                                }
+                                list.each(function(){
+                                    if($('option[value="' + this.value + '"]', to).length > 0){
+                                        $(this).remove();
+                                    } else {
+                                        $('option', to).attr('selected',false);
+                                        to.append(this);
+                                    }
+                                });
+                            }
+
+                        });
+                    </script>
+                </fitem>
+
+                <div id="limitMoney-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 消费满:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="limitMoney" id="limitMoney" class="u-ipttext" style="width:100px;" value="<?php if(isset($data['limitMoney'])):?><?php echo e($data['limitMoney']); ?><?php else: ?><?php echo e((double)$data['limitMoney']); ?><?php endif; ?>" /><span class="ts">元使用</span>
+		            </div>
+		        </div>
+                <div id="brief-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 描述:
+		            </span>
+		            <div class="f-boxr">
+		                  <textarea name="brief" id="brief" class="u-ttarea"><?php echo e($data['brief']); ?></textarea>
+		            </div>
+		        </div>		<div class="u-fitem clearfix">
+                            <span class="f-tt">
+                                &nbsp;
+                            </span>
+                            <div class="f-boxr">
+                                  <button type="submit" class="u-addspbtn">提 交</button>
+                            </div>
+                        </div>		<input type="hidden" value="<?php echo e($data['id']); ?>" name="id" />
+					</form>
+				</div>
+	
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('js'); ?>
+    <script type="text/tpl" id="append-unable-date">
+        <div class="f-boxr" style="clear: left">
+            <input type="text" name="unableDate[]" class="date u-ipttext">
+            <span class="ts del-unable-date"><a href="javascript:;">删除</a></span>
+        </div>
+    </script>
+<script type="text/javascript">
+	$(function(){
+
+
+		$('#searchSeller').click(function(){
+			$(".ts2").text('');
+			var keywords = $('#seller').val();
+			$.post("<?php echo e(u('Promotion/searchSeller')); ?>",{"mobileName":keywords},function(res){
+				//res = eval(res.data);
+				if(res.data.length > 0){
+					var html = "";
+					$.each(res.data,function(n,value) {
+						html += "<option value='"+value.id+"'>"+value.name+"</option>";
+					});
+					$("#sellerId").html(html);
+				}else{
+					$("#sellerId").html("<option value='0'>请输入手机号或名称</option>");
+					$(".ts2").text('未查询到相关服务人员');
+				}
+
+
+			},"json");
+		});
+
+        //有效期选择
+		$("input:radio[name='type']").change(function(){
+			if( $(this).val() == 1 ) {
+				$("#expireTime-form-item").removeClass("none");
+                $("#expireDay-form-item").addClass("none");
+			}else{
+                $("#expireTime-form-item").addClass("none");
+                $("#expireDay-form-item").removeClass("none");
+			}
+		});
+
+
+
+        //不可用日期
+        $(".add-unable-date").on("click",function(){
+            var html = $("#append-unable-date").html();
+            $("#unableDate").parent().append(html);
+            $(".date").datepicker();
+        })
+
+        $(document).on("click",".del-unable-date",function(){
+            $(this).parent().remove();
+        })
+
+
+        //使用类型
+        $("input[name='useType']").change(function(){
+            var val = $(this).val();
+            if(val == 1){
+                $("#seller-form-item").addClass("none");
+                $("#sellerCate-form-item").addClass("none");
+            }else if(val == 2){
+                $("#seller-form-item").addClass("none");
+                $("#sellerCate-form-item").removeClass("none");
+            }else{
+                $("#seller-form-item").removeClass("none");
+                $("#sellerCate-form-item").addClass("none");
+            }
+        })
+
+	});
+</script>
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('admin._layouts.base', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

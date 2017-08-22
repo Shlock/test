@@ -1,0 +1,1 @@
+您编号为 <?php echo e($sn); ?> 的订单，已由卖家<?php echo e($seller['name']); ?>电话<?php echo e($seller['mobile']); ?>受理

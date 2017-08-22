@@ -1,0 +1,2 @@
+<?php echo e($name); ?>：<?php echo e($mobile); ?>已经下单 <?php echo e($sn); ?>，请及时跟进，配送时间：<?php echo e(yztime($appTime)); ?>，配送地址：<?php echo e($address); ?>
+

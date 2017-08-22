@@ -1,0 +1,129 @@
+
+<?php $__env->startSection('css'); ?>
+<style type="text/css">
+	.m-spboxlst .f-tt{width: 165px;}
+	.ts{color: #999;margin-left: 5px;}
+</style>
+
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('right_content'); ?>
+	
+	<div class="m-spboxlst " style="">
+					<form id="yz_form" name="yz_form" class="validate-form ajax-form" method="post" action="http://admin.51mycai365.com/Config/save" enctype="application/x-www-form-urlencoded" target="_self">
+						<?php foreach($list as $key => $value): ?>
+			<?php
+				$code = $value['code']; 
+				$data[$code] = $value['val'];
+				$showType = $value['showType']; 
+				$val = trim($value['val']); 
+				$name = $value['name'];
+			?>
+			<?php if( $value['showType'] == 'image' ): ?>
+				<!-- <?php if( $code === 'admin_logo' ): ?> -->
+					<div id="admin_logo-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 <?php echo e($name); ?>:
+		            </span>
+		            <div class="f-boxr">
+		                  <ul class="m-tpyllst clearfix">
+	            				<li id="admin_logo-box" class="">
+	            				<?php if( !empty($data['admin_logo']) ): ?>
+	            					<a id="img-preview-admin_logo" class="m-tpyllst-img" href="<?php if(isset($data['admin_logo'])):?><?php echo e($data['admin_logo']); ?><?php else: ?><?php echo e($val); ?><?php endif; ?>" target="_blank"><img src="<?php if(isset($data['admin_logo'])):?><?php echo e($data['admin_logo']); ?><?php else: ?><?php echo e($val); ?><?php endif; ?>" alt=""></a>
+	            				<?php else: ?>
+                                    <a id="img-preview-admin_logo" class="m-tpyllst-img" href="javascript:;" target="_self"><img src="" alt="" style="display:none;"></a>
+	            				<?php endif; ?>
+                                <a class="m-tpyllst-btn img-update-btn" href="javascript:;" data-rel="admin_logo">
+                                    <i class="fa fa-plus"></i> 上传图片
+                                </a>
+	            				<input type="hidden" data-tip-rel="#admin_logo-box" name="admin_logo" id="admin_logo" value="<?php if(isset($data['admin_logo'])):?><?php echo e($data['admin_logo']); ?><?php else: ?><?php echo e($val); ?><?php endif; ?>"/>
+	            				</li>
+							</ul>
+		            </div>
+		        </div>
+				<!-- <?php else: ?> -->
+					<div id="<?php echo $code; ?>-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 <?php echo e($name); ?>:
+		            </span>
+		            <div class="f-boxr">
+		                  <ul class="m-tpyllst clearfix">
+	            				<li id="<?php echo $code; ?>-box" class="">
+	            				<?php if( !empty($data['<?php echo $code; ?>']) ): ?>
+	            					<a id="img-preview-<?php echo $code; ?>" class="m-tpyllst-img" href="<?php if(isset($data['<?php echo $code; ?>'])):?><?php echo e($data['<?php echo $code; ?>']); ?><?php else: ?><?php echo e($val); ?><?php endif; ?>" target="_blank"><img src="<?php if(isset($data['<?php echo $code; ?>'])):?><?php echo e($data['<?php echo $code; ?>']); ?><?php else: ?><?php echo e($val); ?><?php endif; ?>" alt=""></a>
+	            				<?php else: ?>
+                                    <a id="img-preview-<?php echo $code; ?>" class="m-tpyllst-img" href="javascript:;" target="_self"><img src="" alt="" style="display:none;"></a>
+	            				<?php endif; ?>
+                                <a class="m-tpyllst-btn img-update-btn" href="javascript:;" data-rel="<?php echo $code; ?>">
+                                    <i class="fa fa-plus"></i> 上传图片
+                                </a>
+	            				<input type="hidden" data-tip-rel="#<?php echo $code; ?>-box" name="<?php echo $code; ?>" id="<?php echo $code; ?>" value="<?php if(isset($data['<?php echo $code; ?>'])):?><?php echo e($data['<?php echo $code; ?>']); ?><?php else: ?><?php echo e($val); ?><?php endif; ?>"/>
+	            				</li>
+							</ul>
+		            </div>
+		        </div>
+				<!-- <?php endif; ?> -->
+			<?php elseif( $value['showType'] == 'textarea' ): ?>
+			<div id="<?php echo $code; ?>-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 <?php echo e($name); ?>:
+		            </span>
+		            <div class="f-boxr">
+		                  <textarea name="<?php echo $code; ?>" id="<?php echo $code; ?>" class="u-ttarea"><?php if(isset($data['<?php echo $code; ?>'])):?><?php echo e($data['<?php echo $code; ?>']); ?><?php else: ?><?php echo e($val); ?><?php endif; ?></textarea>
+		            </div>
+		        </div>
+			<?php elseif( $showType == 'editor' ): ?> 
+			<div id="<?php echo $code; ?>-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 <?php echo e($name); ?>:
+		            </span>
+		            <div class="f-boxr">
+		                  <div id="<?php echo $code; ?>-tip"><textarea data-tip-rel="#<?php echo $code; ?>-tip" id="<?php echo $code; ?>_editor" class=" " name="<?php echo $code; ?>"><?php echo e($val); ?></textarea></div>
+            <script>
+            var <?php echo $code; ?>_editor = KindEditor.create("#<?php echo $code; ?>_editor",{
+                width:'540px',minWidth:'540px',height:'280px',resizeType:1,allowFileManager:false,items: [
+'source', 'undo', 'redo', 'plainpaste', 'plainpaste', 'wordpaste', 'clearhtml', 'quickformat', 'selectall', 'fullscreen', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline', 'hr',
+'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'table', 'insertorderedlist',
+'insertunorderedlist', '|', 'emoticons', 'image', 'link', 'unlink']
+            });
+            </script>
+		            </div>
+		        </div>
+            <?php elseif( $showType == 'select' && $code == 'wap_tpl'): ?>
+            <div id="-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 <?php echo e($name); ?>:
+		            </span>
+		            <div class="f-boxr">
+		                  <select id="wap_tpl" name="wap_tpl" style='min-width:234px;width:auto' class="sle  " ><?php $select_options = $wapTpls; ?><?php $selecteds = is_array($val) ? $val : [$val]; ?><?php  foreach($select_options as $options_key => $options_val): ?><?php $options_key = $options_val['val']; ?><?php $options_val = $options_val['text']; ?><?php $selected = in_array($options_key, $selecteds) ? " selected" : ""; ?>
+	                	<option<?php echo $selected; ?> value="<?php echo $options_key; ?>"><?php echo $options_val; ?></option>
+						<?php endforeach; ?></select>
+		            </div>
+		        </div>
+			<?php else: ?> 
+			<div id="<?php echo $code; ?>-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 <?php echo e($name); ?>:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="<?php echo $code; ?>" id="<?php echo $code; ?>" class="u-ipttext" value="<?php if(isset($data['<?php echo $code; ?>'])):?><?php echo e($data['<?php echo $code; ?>']); ?><?php else: ?><?php echo e($val); ?><?php endif; ?>" /><span class="ts"><?php echo e($value['tooltip']); ?></span>
+		            </div>
+		        </div>
+			<?php endif; ?>
+		<?php endforeach; ?>		<div class="u-fitem clearfix">
+                            <span class="f-tt">
+                                &nbsp;
+                            </span>
+                            <div class="f-boxr">
+                                  <button type="submit" class="u-addspbtn">提 交</button>
+                            </div>
+                        </div>		<input type="hidden" value="<?php echo e($data['id']); ?>" name="id" />
+					</form>
+				</div>
+	
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('js'); ?>
+
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('admin._layouts.base', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

@@ -1,0 +1,29 @@
+
+<?php $__env->startSection('show_top'); ?>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
+    <div role="main" class="" style="background:#fff;">
+        <ul class="y-xtxx y-xtxxnew">
+            <?php if(!empty($list)): ?>
+                <?php echo $__env->make('api.wap.message.index_item', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+            <?php else: ?>
+                <div class="x-serno c-green">
+                    <img src="<?php echo e(asset('wap/community/client/images/ico/cry.png')); ?>"  />
+                    <span>暂时没有消息</span>
+                </div>
+            <?php endif; ?>
+        </ul>
+
+    </div>
+<?php echo $__env->make('wap.community._layouts.swiper', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('js'); ?>
+    <script src="<?php echo e(asset('static/infinite-scroll/jquery.infinitescroll.js')); ?>"></script>
+    <script>
+        $(function() {
+            $.SwiperInit('.y-xtxxnew', 'li', "{<?php echo u('buyer/v1/msg.message',$args); ?>}");
+        })
+    </script>
+
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('wap.community._layouts.base', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

@@ -1,0 +1,183 @@
+
+<?php $__env->startSection('css'); ?>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('right_content'); ?>
+	
+	<?php 
+		$navs = ['nav1','nav2','nav3','nav4','nav5', 'nav6'];
+		$nav = in_array(Input::get('nav'),$navs) ? Input::get('nav') : 'nav1' ; 
+		$$nav = "on";
+	?>
+		<div id="checkList" class="">
+                    <div class="tabs">
+					<div class="tab-navs u-spnav u-orderlstnav">
+					<ul class="clearfix"> 
+						<li class="tab-nav <?php echo e($nav1); ?>">
+    				<a href="<?php echo e(u('Order/index',['nav'=>'nav1'])); ?>" target="_self">全部订单</a>
+    			</li>
+                    <li class="tab-nav <?php echo e($nav2); ?>">
+    				<a href="<?php echo e(u('Order/index',['status'=>'1','nav'=>'nav2'])); ?>" target="_self">待发货订单</a>
+    			</li>
+                    <li class="tab-nav <?php echo e($nav3); ?>">
+    				<a href="<?php echo e(u('Order/index',['status'=>'2','nav'=>'nav3'])); ?>" target="_self">待完成订单</a>
+    			</li>
+                    <li class="tab-nav <?php echo e($nav5); ?>">
+    				<a href="<?php echo e(u('Order/index',['status'=>'4','nav'=>'nav5'])); ?>" target="_self">已取消订单</a>
+    			</li>
+                    <li class="tab-nav <?php echo e($nav4); ?>">
+    				<a href="<?php echo e(u('Order/index',['status'=>'3','nav'=>'nav4'])); ?>" target="_self">已完成订单</a>
+    			</li>
+					</ul>
+				</div>
+				</div>
+			<div class="u-ssct clearfix">
+                    <?php $search_args = Input::all(); ?>
+                    <form id="yzForm" class="" name="yzForm" method="post" action="<?php echo e($searchUrl); ?>" target="_self">
+                        <div class="search-row clearfix">
+                      <div id="sn-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 订单流水:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="sn" id="sn" class="u-ipttext" value="<?php echo e($search_args['sn']); ?>" />
+		            </div>
+		        </div>
+					<div id="mobile-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 联系电话:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="mobile" id="mobile" class="u-ipttext" value="<?php echo e($search_args['mobile']); ?>" />
+		            </div>
+		        </div>
+                    <div id="sellerName-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 商家名称:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="sellerName" id="sellerName" class="u-ipttext" value="<?php echo e($search_args['sellerName']); ?>" />
+		            </div>
+		        </div>
+                </div>
+
+				<div class="search-row clearfix">
+                      <div id="beginTime-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 开始时间:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="beginTime" id="beginTime" class="date u-ipttext" value="<?php echo e(YiZan\Utils\Time::toDate($search_args['beginTime'],'Y-m-d')); ?>" />
+		            </div>
+		        </div>
+					<div id="endTime-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 结束时间:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="endTime" id="endTime" class="date u-ipttext" value="<?php echo e(YiZan\Utils\Time::toDate($search_args['endTime'],'Y-m-d')); ?>" />
+		            </div>
+		        </div>
+					<div id="-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 支付状态:
+		            </span>
+		            <div class="f-boxr">
+		                  <select id="payStatus" name="payStatus" class="sle  " ><?php $select_options = array (
+  0 => '-1',
+  1 => '0',
+  2 => '1',
+); ?><?php $selecteds = is_array($search_args['payStatus']) ? $search_args['payStatus'] : [$search_args['payStatus']]; ?><?php $select_texts = array (
+  0 => '全部',
+  1 => '未支付',
+  2 => '已支付',
+); ?><?php  foreach($select_options as $options_key => $options_val):
+                    $selected = in_array($options_val, $selecteds) ? " selected" : ""; ?>
+					<option<?php echo $selected; ?> value="<?php echo $options_val; ?>"><?php echo $select_texts[$options_key]; ?></option>
+					<?php endforeach; ?></select>
+		            </div>
+		        </div>
+					<button type="submit" class="btn mr5">
+                        搜索
+                    </button>
+                </div>
+                    </form>
+                </div>
+
+            <!--<div class="list-btns">
+                      <a href="<?php echo e(u('Order/createlist')); ?>" target="_self" class="btn mr5">
+                        添加
+                    </a>
+				<a href="<?php echo e(u('Order/export?'.$excel)); ?>" target="_self" class="btn mr5">
+                        导出到EXCEL
+                    </a>
+                </div>-->
+			<div class="m-tab">
+                      <table id="checkListTable" class="">
+                        <thead><td class="" style="vertical-align:top;" width="190" order="sn" code="sn"><span>订单信息</span></td>
+					<td class="" width="120" order="user" code="user"><span>收货信息</span></td>
+					<td class="" width="110" order="" code=""><span>商家信息</span></td>
+					<td class="" width="110" order="" code=""><span>员工信息</span></td>
+					<td class="" width="60" order="fee" code="fee"><span>金额</span></td>
+					<td style="text-align:center;white-space:nowrap;" width="30"><span>操作</span></td>
+                    </thead><tbody>
+                        <?php foreach($list as $list_index => $list_item): ?>
+                        <?php 
+                            $list_item_css = $list_index % 2 == 0 ? " tr-even" : " tr-odd"; 
+                            $list_item_pk  = $list_item["id"];
+                        ?>
+                        <tr class="tr-<?php echo e($list_item_pk); ?><?php echo e($list_item_css); ?>" key="<?php echo e($list_item_pk); ?>" primary="id"><td class="" style="text-align:left;vertical-align:top;" code="sn"><p>订单号：<?php echo e($list_item['sn']); ?></p>
+                        <p>订单状态：<?php echo e($list_item['orderStatusStr']); ?></p>
+						<p>下单时间：<?php echo e(yztime($list_item['createTime'])); ?></p></td>
+					<td class="" style="text-align:left;" code="user"><p>联系人：<?php echo e($list_item['name']); ?></p>
+						<p>电话：<?php echo e($list_item['mobile']); ?></p>
+						<p>地址：<?php echo e($list_item['province']); ?><?php echo e($list_item['city']); ?><?php echo e($list_item['area']); ?><?php echo e($list_item['address']); ?></p></td>
+					<td class="" style="text-align:left;" code=""><p>名称：<?php echo e($list_item['seller']['name']); ?></p>
+						<p>手机：<?php echo e($list_item['seller']['mobile']); ?></p></td>
+					<td class="" style="text-align:left;" code=""><?php if($list_item['staff']): ?>
+						<p>名称：<?php echo e($list_item['staff']['name']); ?></p>
+						<p>手机：<?php echo e($list_item['staff']['mobile']); ?></p>
+                        <?php else: ?>
+                        <p>暂未分配人员</p>
+                        <?php endif; ?></td>
+					<td class="" style="text-align:left;" code="fee"><p>总额：<?php echo e($list_item['totalFee']); ?></p>
+						<p>支付：<?php echo e($list_item['payFee']); ?></p>
+                        <p>商品：<?php echo e($list_item['goodsFee']); ?></p>
+                        <p>配送：<?php echo e($list_item['freight']); ?></p></td>
+					<td class=""><p>
+							<a href="<?php echo e(u('Order/detail', ['id'=>$list_item['id']])); ?>" class=" blu"  data-pk="<?php echo e($list_item["id"]); ?>" target="_self">查看</a>
+						</p>
+						<!--<?php if( $list_item['isCanDelete'] === true): ?>
+						<p><a href="javascript:;" class=""  onclick="$.RemoveItem(this, '<?php echo e(u(CONTROLLER_NAME."/destroy",["id" => $list_item["id"]])); ?>', '你确定要删除该数据吗？')" data-pk="<?php echo e($list_item["id"]); ?>" target="_self">删除</a></p>
+						<?php endif; ?>--></td>
+                    </tr>
+                    <?php endforeach; ?>
+                </tbody>
+                    </table>
+                </div><?php echo $__env->make('admin._layouts.pager', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                </div>
+	
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('js'); ?>
+<script type="text/javascript">
+	$(function(){
+		$('#yzForm').submit(function(){
+			var beginTime = $("#beginTime").val();
+			var endTime = $("#endTime").val();
+			if(beginTime!='' || endTime!='') {
+				if(beginTime==''){
+					alert("开始时间不能为空");return false;
+				}
+				else if(endTime==''){
+					alert("结束时间不能为空");return false;
+				}
+				else if(endTime < beginTime){
+					alert("结束时间不能大于开始时间");return false;
+				}
+			}
+		});
+	});
+</script>
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('admin._layouts.base', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

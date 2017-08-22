@@ -1,0 +1,13 @@
+
+<?php if(!empty($list)): ?>
+<?php foreach($list as $k=>$v): ?>
+    <?php $args['sellerId'] = $v['seller_id']; ?>
+    <li onclick="window.location.href = '<?php echo e(u("buyer/v1/msg.msgshow",$args)); ?>'">
+        <div class="y-ltxximg"><img src="<?php if($v['logo'] == ''): ?> <?php echo e(asset('wap/community/client/images/ico/sz5.png')); ?> <?php else: ?> <?php echo e($v['logo']); ?> <?php endif; ?>"><?php if($v['sum'] > 0): ?><span class="y-xhd"><?php echo e($v['sum']); ?></span><?php endif; ?></div>
+        <div class="y-ctsist y-ltxxmain">
+            <div class="f12 y-fhtx"><strong class="y-wdxstitle"><?php echo e($v['name']); ?></strong><span class="y-time c-green"><?php echo e(Time::toDate($v['send_time'],'M-d')); ?></span></div>
+            <p class="f14"><?php echo e($v['title']); ?></p>
+        </div>
+    </li>
+<?php endforeach; ?>
+    <?php endif; ?>

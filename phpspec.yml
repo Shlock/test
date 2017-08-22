@@ -1,0 +1,5 @@
+suites:
+    main:
+        namespace: YiZan
+        psr4_prefix: YiZan
+        src_path: app

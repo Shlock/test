@@ -1,0 +1,36 @@
+
+<?php $__env->startSection('show_top'); ?>
+    <div data-role="header" data-position="fixed" class="x-header">
+        <h1>修改昵称</h1>
+        <a href="<?php if(!empty($nav_back_url)): ?> <?php echo e($nav_back_url); ?> <?php else: ?> javascript:history.back(-1); <?php endif; ?>" data-iconpos="notext" class="x-back ui-nodisc-icon" data-shadow="false"></a>
+    </div>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
+
+
+        <div data-role="content" style="padding-top:0;">
+            <form class="d-box">
+                <div class="d-input">
+                    <input type="text" name="nick" id="nick" class="tel" value="<?php echo e($user['name']); ?>" style="background: url(<?php echo e(asset('wap/community/client/images/ico/ddxq-img.png')); ?>) 10px no-repeat;background-size:12px 16px;">
+                </div>
+                <div class="y-buttoncol">
+                    <a href="javascript:;" data-role="button" id="submit">确定</a>
+                </div>
+            </form>
+        </div>
+                <!-- content end -->
+        <script type="text/javascript">
+            $("#submit").on("touchend",function(){
+                var nick = $("#nick").val();
+                $.post("<?php echo e(u('UserCenter/updateinfo')); ?>",{name:nick},function(res){
+                        if(res.code == 0){
+                            $.showSuccess(res.msg,"<?php echo e(u('UserCenter/info')); ?>");
+                        }else{
+                            $.showError(res.msg);
+                        }
+                },"json");
+            })
+        </script>
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('wap.community._layouts.base', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

@@ -1,0 +1,1 @@
+您编号为 {{ $sn }} 的订单，已由卖家{{ $seller['name'] }}电话{{ $seller['mobile'] }}受理

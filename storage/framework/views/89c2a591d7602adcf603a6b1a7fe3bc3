@@ -1,0 +1,62 @@
+
+
+<?php $__env->startSection('right_content'); ?>
+	
+	<div id="checkList" class="">
+                    <div class="list-btns">
+                      <a href="create" target="_self" class="btn mr5">
+                        添加
+                    </a>
+                </div>
+		<div class="m-tab">
+                      <table id="checkListTable" class="" relmodule="Adv">
+                        <thead><td class="" order="position" code="position"><span>广告位</span></td> 
+					<td class="" order="name" code="name"><span>名称</span></td>  
+					<td class="" width="60" order="image" code="image"><span>图片</span></td> 
+					<td class="" width="50" order="sort" code="sort"><span>排序</span></td>
+					<td class="" width="50" order="status" code="status"><span>状态</span></td>  
+					<td class="" order="createTime" code="createTime"><span>时间</span></td>
+				<td style="text-align:center;white-space:nowrap;" width="70"><span>操作</span></td>
+                    </thead><tbody>
+                        <?php foreach($list as $list_index => $list_item): ?>
+                        <?php 
+                            $list_item_css = $list_index % 2 == 0 ? " tr-even" : " tr-odd"; 
+                            $list_item_pk  = $list_item["id"];
+                        ?>
+                        <tr class="tr-<?php echo e($list_item_pk); ?><?php echo e($list_item_css); ?>" key="<?php echo e($list_item_pk); ?>" primary="id"><td class="" code="position"><?php echo e($list_item['position']['name']); ?></td> 
+					<td class="" code="name"><?php echo e($list_item['name']); ?></td>  
+					<td class="" code="image"><?php
+							$color = empty($list_item['color']) ? '#ccc' : $list_item['color'];
+						?>
+						<a href="<?php echo e($list_item['image']); ?>" target="_blank" style="display:block; width:60px; height:60px;border:solid 1px <?php echo e($color); ?>; background:#ccc;">
+							<img src="<?php echo e(formatImage($list_item['image'],60,60,1)); ?>"/>
+						</a></td> 
+					<td class="" code="sort"><?php echo e($list_item['sort']); ?></td>
+					<td class="" code="status"><?php echo YiZan\Utils\Format::status($list_item['status'], "status", $list_item, array (
+  'code' => 'status',
+  'width' => '50',
+  'label' => '状态',
+  'type' => 'status',
+  'attr' => '',
+  'css' => '',
+  'style' => '',
+)); ?></td>  
+					<td class="" code="createTime"><?php echo YiZan\Utils\Format::time($list_item['createTime'], "createTime", $list_item, array (
+  'code' => 'createTime',
+  'label' => '时间',
+  'type' => 'time',
+  'attr' => '',
+  'css' => '',
+  'style' => '',
+)); ?></td>
+				<td class=""><a href="<?php echo e(u(CONTROLLER_NAME."/edit",["id" => $list_item["id"]])); ?>" class=" blu"  data-pk="<?php echo e($list_item["id"]); ?>" target="_self">编辑</a>
+					<a href="javascript:;" class=" red"  onclick="$.RemoveItem(this, '<?php echo e(u(CONTROLLER_NAME."/destroy",["id" => $list_item["id"]])); ?>', '你确定要删除该数据吗？')" data-pk="<?php echo e($list_item["id"]); ?>" target="_self">删除</a></td>
+                    </tr>
+                    <?php endforeach; ?>
+                </tbody>
+                    </table>
+                </div><?php echo $__env->make('admin._layouts.pager', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                </div>
+	
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('admin._layouts.base', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

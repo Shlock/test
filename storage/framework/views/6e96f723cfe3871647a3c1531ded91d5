@@ -1,0 +1,113 @@
+
+<?php $__env->startSection('css'); ?>
+<style type="text/css">  
+    .btn-gray{margin-left: 10px; margin-bottom: 10px;}
+</style>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?> 
+<div class="ma">
+    <div class="m-ydtt" style="margin-top:0px;">
+        <div class="x-bbmain">
+            <div class="x-pjgltt">单日明细</div>
+            
+                <div id="checkList" class="">
+                    <div class="u-ssct clearfix">
+                    <?php $search_args = Input::all(); ?>
+                    <form id="yzForm" class="" name="yzForm" method="post" action="http://seller.51mycai365.com/BusinessStatistics/dayAccount" target="_self">
+                        <div class="search-row clearfix"> 
+                            <div class="u-fitem clearfix" > 
+                                <span >账单日期：<?php echo e($args['day']); ?></span>
+                            </div> 
+                            <div class="u-fitem clearfix" > 
+                                <span >有效订单数：<?php echo e($sum['totalNum']); ?></span>
+                            </div> 
+                            <div class="u-fitem clearfix" > 
+                                <span >已入账总额：<b style="color: red">￥<?php echo e(number_format($sum['totalSellerFee'], 2)); ?></b></span>
+                            </div>  
+                        </div>
+                        <div class="search-row clearfix">
+                      <div id="sn-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 订单号:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="sn" id="sn" class="u-ipttext" value="<?php echo e($search_args['sn']); ?>" />
+		            </div>
+		        </div>
+                            <div id="-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 状态:
+		            </span>
+		            <div class="f-boxr">
+		                  <select id="status" name="status" class="sle  " ><?php $select_options = array (
+  0 => '0',
+  1 => '1',
+  2 => '2',
+  3 => '3',
+); ?><?php $selecteds = is_array($args['status']) ? $args['status'] : [$args['status']]; ?><?php $select_texts = array (
+  0 => '全部',
+  1 => '已完成',
+  2 => '已取消',
+  3 => '未完成',
+); ?><?php  foreach($select_options as $options_key => $options_val):
+                    $selected = in_array($options_val, $selecteds) ? " selected" : ""; ?>
+					<option<?php echo $selected; ?> value="<?php echo $options_val; ?>"><?php echo $select_texts[$options_key]; ?></option>
+					<?php endforeach; ?></select>
+		            </div>
+		        </div>
+                            <input type="hidden" name="day" value="<?php echo e($args['day']); ?>" />
+                            <button type="submit" class="btn mr5 btn-gray">
+                        搜索
+                    </button>
+                </div>
+                    </form>
+                </div>
+                    <div class="m-tab">
+                      <table id="checkListTable" class="">
+                        <thead>
+                            <tr>
+                              <td rowspan="2" width="180">订单号</td> 
+                              <td colspan="3">收入</td> 
+                              <td>支出</td>
+                              <td rowspan="2">入账金额</td> 
+                              <td rowspan="2">状态</td>
+                            </tr>
+                            <tr>   
+                              <td>在线支付</td>
+                              <td>现金支付</td>
+                              <td>优惠券</td>
+                              <td>佣金</td>   
+                            </tr>
+                        </thead>
+                        
+                        <tbody>  
+                            <?php foreach($lists as $list_item): ?> 
+                            <tr>
+                              <td><?php echo e($list_item['sn']); ?></td>
+                              <td><?php if(!$list_item['isCashOnDelivery']): ?><?php echo e($list_item['payFee']); ?><?php else: ?> 0 <?php endif; ?></td>
+                              <td><?php if($list_item['isCashOnDelivery']): ?><?php echo e($list_item['payFee']); ?><?php else: ?> 0 <?php endif; ?></td>
+                              <td><?php echo e($list_item['discountFee'] > $list_item['totalFee']  ? $list_item['totalFee'] : $list_item['discountFee']); ?></td>
+                              <td><?php echo e($list_item['drawnFee']); ?></td>
+                              <td><?php if($list_item['isCashOnDelivery']): ?>-<?php echo e($list_item['drawnFee']); ?><?php else: ?><?php echo e($list_item['sellerFee']); ?><?php endif; ?></td>
+                              <td><?php echo e($list_item['orderStatus']); ?></td> 
+                            </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div><?php echo $__env->make('admin._layouts.pager', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                </div>
+            
+        </div>
+    </div>
+</div>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('js'); ?>
+<script type="text/javascript">
+    $(function(){ 
+    });
+</script>
+<?php $__env->stopSection(); ?>
+
+   
+
+<?php echo $__env->make('seller._layouts.base', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

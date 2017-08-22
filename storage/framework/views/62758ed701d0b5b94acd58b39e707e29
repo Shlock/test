@@ -1,0 +1,77 @@
+
+
+<?php $__env->startSection('show_top'); ?>
+    <div data-role="header" data-position="fixed" class="x-header">
+        <h1><?php echo e($plate['name']); ?></h1>
+        <a href="<?php echo e(u('Forum/index')); ?>" data-iconpos="notext" class="x-back ui-nodisc-icon" data-shadow="false"></a>
+        <a class="x-sjr ui-btn-right" href="<?php echo e(u('Forum/search')); ?>"><i class="x-serico"></i></a>
+    </div>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+    <div role="main" class="ui-content" class="lists">
+        <?php if(count($list['top']) > 0): ?>
+        <ul class="x-toplst">
+            <?php foreach($list['top'] as $item): ?>
+            <li>
+                <i class="x-topico"></i>
+                <p><a href="<?php echo e(u('Forum/detail',['id'=>$item['id']])); ?>"><?php echo e($item['title']); ?></a></p>
+            </li>
+            <?php endforeach; ?>
+        </ul>
+        <?php endif; ?>
+        <?php if(count($list['nottop']) > 0): ?>
+        <?php foreach($list['nottop'] as $item): ?>
+        <div class="x-post">
+            <div class="post1 clearfix" onclick="window.location.href='<?php echo e(u('Forum/detail',['id'=>$item['id']])); ?>'">
+                <?php if($item['images'][0]): ?>
+                <a href="<?php echo e($item['images'][0]); ?>"><img src="<?php echo e(formatImage($item['images'][0], 100, 100)); ?>" /></a>
+                <?php endif; ?>
+                <p><a href="<?php echo e(u('Forum/detail',['id'=>$item['id']])); ?>"><?php echo e($item['title']); ?></a></p>
+            </div>
+            <p class="f12 c-green">
+                <img src="<?php if(!empty($item['user']['avatar'])): ?> <?php echo e(formatImage($item['user']['avatar'],46,46)); ?> <?php else: ?> <?php echo e(asset('wap/community/client/images/shqimg1.png')); ?> <?php endif; ?>" class="post-pic" />
+                <span class="c-black"><?php echo e($item['user']['name']); ?></span>
+                <span class="zan <?php if($item['praise']): ?> on <?php endif; ?>" data-id="<?php echo e($item['id']); ?>" data-num="<?php echo e($item['goodNum']); ?>"><?php echo e($item['goodNum']); ?></span>
+                <span class="cmd"><?php echo e($item[rateNum]); ?></span>
+                <span class="time fr"><?php echo e(formatTime($item['createTime'])); ?>前</span>
+            </p>
+        </div>
+        <?php endforeach; ?>
+        <?php endif; ?>
+        <a href="<?php echo e(u('Forum/addbbs',['plateId'=>$plate['id']])); ?>" data-ajax="false" class="x-posted">发帖</a>
+    </div>
+    <?php echo $__env->make('wap.community._layouts.swiper', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('js'); ?>
+    <script src="<?php echo e(asset('static/infinite-scroll/jquery.infinitescroll.js')); ?>"></script> 
+    <script type="text/javascript">
+        $(function() {
+            $.SwiperInit('.lists','.x-post',"<?php echo e(u('Forum/lists',$args)); ?>");
+
+            $(".x-post .zan").touchend(function(){
+                var num = parseInt($(this).data('num'));
+                var id = $(this).data('id');
+                var zan = $(this);
+                $.post("<?php echo e(u('Forum/updateLike')); ?>",{'id':id},function(res){
+                    if (res.code == 0) {
+                        //alert(zan.hasClass("on"))
+                        if(zan.hasClass("on")){//取消点赞
+                            zan.removeClass("on");
+                            zan.text(num);
+                            zan.attr('data-num', num);
+                        }else{//点赞
+                            zan.addClass("on");
+                            zan.text(num+1);
+                            zan.attr('data-num', num+1);
+                        }
+                    } else {
+                        $.showError(res.msg);
+                    }
+                },"json");
+            });
+
+        });
+    </script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('wap.community._layouts.base', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

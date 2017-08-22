@@ -1,0 +1,127 @@
+
+<?php $__env->startSection('css'); ?>
+<style>
+	.search-row .f-tt{line-height:20px;}
+	.m-tab table tbody td{padding: 5px 5px;}
+	.deepGrey{background-color: #999 !important;color: #fff !important;}
+	.search-row .u-ipttext {width: 110px;padding-right: 5px;}
+    .x-bbmain .m-ddl li {float: left;height: 23px;line-height: 23px;border: 1px solid #ccc;background: #fff;margin-right: 10px;border-radius: 3px;margin-top: 5px;}
+    .x-bbmain .m-ddl li.on {background: #e4e4e4;}
+    .x-bbmain .m-ddl li a { color: #555; display: block; padding: 0 15px;}
+    .x-bbmain .rev div{float:left; width:33%; margin:auto; text-align:center; border-right:1px solid #d5d5d5;}
+</style>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
+<?php 
+	$type = [
+		'0' => '今天',
+		'7' => '近七天',
+		'30' => '近30天',
+	];
+ ?>
+    
+        <div id="checkList" class="">
+                    <div class="m-ydtt" style="margin-top:0px;">
+    		<div class="x-bbtt ma">营业统计</div>
+            <div class="x-bbmain ma">
+				<div class="u-ssct clearfix">
+                    <?php $search_args = Input::all(); ?>
+                    <form id="yzForm" class="" name="yzForm" method="post" action="http://seller.51mycai365.com/GoodsReport/index" target="_self">
+                        <div class="search-row clearfix">
+                      <a href="<?php echo e(u('GoodsReport/index',['type'=>0])); ?>" target="_self" class="btn mr5 btn-gray mr5 <?php if($args['type']=='0'): ?> deepGrey <?php endif; ?>">
+                        今天
+                    </a>
+						<a href="<?php echo e(u('GoodsReport/index',['type'=>7])); ?>" target="_self" class="btn mr5 btn-gray mr5 <?php if($args['type']=='7'): ?> deepGrey <?php endif; ?>">
+                        近七天
+                    </a>
+						<a href="<?php echo e(u('GoodsReport/index',['type'=>'30'])); ?>" target="_self" class="btn mr5 btn-gray mr5 <?php if($args['type']=='30'): ?> deepGrey <?php endif; ?>">
+                        近30天
+                    </a>
+						<div id="beginDate-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 开始时间:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="beginDate" id="beginDate" class="date u-ipttext" value="<?php echo e(YiZan\Utils\Time::toDate($search_args['beginDate'],'Y-m-d')); ?>" />
+		            </div>
+		        </div>
+						<div id="endDate-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 结束时间:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="endDate" id="endDate" class="date u-ipttext" value="<?php echo e(YiZan\Utils\Time::toDate($search_args['endDate'],'Y-m-d')); ?>" />
+		            </div>
+		        </div>
+						<button type="submit" class="btn mr5 btn-gray">
+                        查询
+                    </button>
+                </div>
+                    </form>
+                </div>
+				
+
+				<dl class="m-ddl">
+    				<dt>详细数据</dt>
+        			<dd class="clearfix">
+        				<div class="m-tab">
+                      <table id="checkListTable" class="">
+                        <thead>
+                        		<tr>
+                        		  <td>商品</td>
+                        		  <td>单价</td>
+                                    <?php if($args['numOrder'] == 0 || $args['numOrder'] ==2): ?>
+                                        <td><a href="<?php echo e(u('GoodsReport/index',['type'=>$args['type'],'numOrder'=>1])); ?>">销量<i class="fa fa-long-arrow-down"></i> <i class="fa fa-long-arrow-up"></i></a></td>
+                                    <?php else: ?>
+                                        <td><a href="<?php echo e(u('GoodsReport/index',['type'=>$args['type'],'numOrder'=>2])); ?>">销量<i class="fa fa-long-arrow-down"></i> <i class="fa fa-long-arrow-up"></i></a></td>
+                                    <?php endif; ?>
+
+                                    <?php if($args['priceOrder'] == 0 || $args['priceOrder'] ==2): ?>
+                                        <td><a href="<?php echo e(u('GoodsReport/index',['type'=>$args['type'],'priceOrder'=>1])); ?>">销售额<i class="fa fa-long-arrow-down"></i> <i class="fa fa-long-arrow-up"></i></a></td>
+                                    <?php else: ?>
+                                        <td><a href="<?php echo e(u('GoodsReport/index',['type'=>$args['type'],'priceOrder'=>2])); ?>">销售额<i class="fa fa-long-arrow-down"></i> <i class="fa fa-long-arrow-up"></i></a></td>
+                                    <?php endif; ?>
+                        		</tr>
+                    		</thead>
+                    		<tbody>
+                            <?php foreach($data['list'] as $key=>$val): ?>
+                                <tr>
+                                    <td><?php echo e($val['goodsName']); ?></td>
+                                    <td><?php echo e($val['price']); ?></td>
+                                    <td><?php echo e($val['num']); ?></td>
+                                    <td><?php echo e($val['totleprice']); ?></td>
+                                </tr>
+                            <?php endforeach; ?>
+                    		</tbody>
+                    </table>
+                </div><?php echo $__env->make('admin._layouts.pager', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+        			</dd>
+				</dl>
+            </div>
+    	</div>
+                </div>
+    
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('js'); ?>
+<script>
+	$(function () {
+		$('#yzForm').submit(function(){
+            var beginTime = $("#beginDate").val();
+            var endTime = $("#endDate").val();
+            if(beginTime!='' || endTime!='') {
+                if(beginTime==''){
+                    alert("开始时间不能为空");return false;
+                }
+                else if(endTime==''){
+                    alert("结束时间不能为空");return false;
+                }
+                else if(endTime < beginTime){
+                    alert("结束时间不能大于开始时间");return false;
+                }
+            }
+        });
+});
+</script>
+<?php $__env->stopSection(); ?> 
+<?php echo $__env->make('seller._layouts.base', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

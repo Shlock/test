@@ -1,0 +1,426 @@
+
+<?php $__env->startSection('css'); ?>
+<link rel="stylesheet" type="text/css" href="<?php echo e(asset('css/jquery.tagsinput.css')); ?>">
+<style type="text/css">
+	#cateSave{display: none;}
+	.page_2,.page_3{display: none;}
+	.m-spboxlst li{margin-bottom: 0px;}
+	#tags_goods-form-item .f-boxr {width:550px;}
+</style> 
+<?php $__env->stopSection(); ?> 
+<?php $__env->startSection('content'); ?>
+	<div>
+		<div class="m-zjgltbg">					
+			<div class="p10">
+				<!-- 添加服务 -->
+				<div class="g-fwgl">
+					<p class="f-bhtt f14 clearfix">
+						<span class="ml15 fl">添加服务</span>
+					</p>
+				</div>
+				<!-- 服务表格 -->
+				<div class="m-tab m-smfw-ser pt20">
+					
+	                    <div class="m-spboxlst " style="">
+					<form id="yz_form" name="yz_form" class="validate-form ajax-form" method="post" action="http://seller.51mycai365.com/SellerService/save" enctype="application/x-www-form-urlencoded" target="_self">
+						<dl class="m-ddl">
+								<dt>服务信息设置</dt>
+								<dd class="clearfix" style="padding:15px;"> 
+							<div id="name-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 服务标题:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="name" id="name" class="u-ipttext" value="<?php echo e($data['name']); ?>" />
+		            </div>
+		        </div> 
+							<div id="-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 服务分类:
+		            </span>
+		            <div class="f-boxr">
+		                  <select id="cateId" name="cateId" class="sle  " ><?php $select_options = $cate; ?><?php $selecteds = is_array($data['cate']['id']) ? $data['cate']['id'] : [$data['cate']['id']]; ?><?php  foreach($select_options as $options_key => $options_val): ?><?php $options_key = $options_val['id']; ?><?php $options_val = $options_val['name']; ?><?php $selected = in_array($options_key, $selecteds) ? " selected" : ""; ?>
+	                	<option<?php echo $selected; ?> value="<?php echo $options_key; ?>"><?php echo $options_val; ?></option>
+						<?php endforeach; ?></select>
+		            </div>
+		        </div>
+							<div id="price-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 价格:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="price" id="price" class="u-ipttext" value="<?php echo e($data['price']); ?>" />
+		            </div>
+		        </div> 
+							<div id="duration-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 服务时长:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="duration" id="duration" class="u-ipttext" value="<?php echo e($data['duration']); ?>" />
+		            </div>
+		        </div> 
+							<div id="-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 单位:
+		            </span>
+		            <div class="f-boxr">
+		                  <?php $unit = (int)$data['unit'] ?>
+								<?php $radio_options = array (
+  0 => '0',
+  1 => '1',
+); ?><?php $default = ''; ?><?php $checked = isset($unit) ? $unit : $default; ?><?php $radio_texts = array (
+  0 => '分钟',
+  1 => '小时',
+); ?><?php  foreach($radio_options as $options_key => $options_val): 
+                    $checked_attr = $options_val == $checked ? " checked" : ""; ?>
+                    <label>
+                        <input type="radio" class="uniform " name="unit" value="<?php echo $options_val; ?>" <?php echo $checked_attr; ?>/>
+                        <span><?php echo $radio_texts[$options_key]; ?></span>
+                    </label>
+                    <span>&nbsp;&nbsp;</span>
+                    <?php endforeach; ?>
+		            </div>
+		        </div>
+							<div id="-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 服务图片:
+		            </span>
+		            <div class="f-boxr">
+		                  <?php $images = $data['images']; ?>
+                <ul id="image-list-1" class="m-tpyllst image-list clearfix" data-input-name="images[]">
+                    <?php foreach($images as $image): ?>
+                    <li class="image-box">
+                        <a class="m-tpyllst-img image-item" href="<?php echo e($image); ?>" target="_blank"><img src="<?php echo e($image); ?>" alt=""></a>
+                        <a class="m-tpyllst-btn image-update-btn" href="javascript:;">
+                            <i class="fa fa-plus"></i> 上传图片
+                        </a>
+                        <a href="javascript:;" class="image-delete fa fa-times"></a>
+                        <input type="hidden" name="images[]" value="<?php echo e($image); ?>"/>
+                    </li>
+                    <?php endforeach; ?>
+                    <li class="image-add-box">
+                        <a class="m-tpyllst-btn image-add-btn" href="javascript:;">
+                            <i class="fa fa-plus"></i> 上传图片
+                        </a>
+                    </li>
+                    
+                </ul>
+		            </div>
+		        </div>
+                                    <div id="brief-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 服务描述:
+		            </span>
+		            <div class="f-boxr">
+		                  <div id="brief-tip"><textarea data-tip-rel="#brief-tip" id="brief_editor" class=" " name="brief"><?php echo e($data['brief']); ?></textarea></div>
+            <script>
+            var brief_editor = KindEditor.create("#brief_editor",{
+                width:'540px',minWidth:'540px',height:'280px',resizeType:1,allowFileManager:false,items: [
+'source', 'undo', 'redo', 'plainpaste', 'plainpaste', 'wordpaste', 'clearhtml', 'quickformat', 'selectall', 'fullscreen', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline', 'hr',
+'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'table', 'insertorderedlist',
+'insertunorderedlist', '|', 'emoticons', 'image', 'link', 'unlink']
+            });
+            </script>
+		            </div>
+		        </div>
+							<div id="-form-item" class="u-fitem clearfix  send-user-type send-user-group hidden">
+		            <span class="f-tt">
+		                 选择员工:
+		            </span>
+		            <div class="f-boxr">
+		                  <div class="input-group">
+							    	<table border="0" style="width:70%;margin-left:104px;">
+						                 <tbody>
+						                 	<tr>
+							                    <td rowspan="2">
+							                        <select id="user_1" name="staffIds" class="form-control" multiple="multiple" style="min-width:200px; *width:200px; height:260px;">
+							                        <?php foreach($data['staffIds'] as $item): ?>
+													<option value="<?php echo e($item['id']); ?>" ><?php echo e($item['name']); ?></option>
+							                        <?php endforeach; ?>
+							                        </select>
+							                    </td>
+							                    <td width="60" align="center" rowspan="2">
+							                        <button type="button" class="btn btn-gray" onclick="$.optionMove('user_2', 'user_1', 1);">
+							                            <span class="fa fa-2x fa-angle-double-left"> </span>
+							                        </button>
+							                        <br><br>
+							                        <button type="button" class="btn btn-gray" onclick="$.optionMove('user_2', 'user_1');">
+							                            <span class="fa fa-2x fa-angle-left"> </span>
+							                        </button>
+							                        <br><br>
+							                        <button type="button" class="btn btn-gray" onclick="$.optionMove('user_1', 'user_2');">
+							                            <span class="fa fa-2x fa-angle-right"> </span>
+							                        </button>
+							                        <br><br>
+							                        <button type="button" class="btn btn-gray" onclick="$.optionMove('user_1', 'user_2', 1);">
+							                            <span class="fa fa-2x fa-angle-double-right"> </span>
+							                        </button>
+							                        <input type="hidden" name="staffIds" id="users">
+							                    </td>
+							                    <td width="230" style="padding:0; height:35px;">
+							                        <input type="text" class="u-ipttext" placeholder="搜索员工" id="fansName" style="width:140px;hieght:30px;">
+							                        <a href="javascript:;" id="fansNameBtn" class="btn btn-gray btn-success input-image-select">
+							                        <i class="fa fa-search"></i></a>
+							                    </td>
+							                </tr>
+							                <tr>
+							                    <td>
+							                       <select id="user_2" class="form-control" multiple="multiple" style="min-width:200px; *width:200px; height:220px;"> 
+					                            	</select>
+							                    </td>
+							                </tr>
+						            	</tbody>
+					            	</table>
+					            	<div class="blank3"></div>
+					            </div>
+		            </div>
+		        </div> 
+							<fitem type="script">
+							<script type="text/javascript">
+								jQuery(function($){ 
+
+								    $("#yz_form").submit(function(){
+								        var ids = new Array(); 
+								        $("#user_1 option").each(function(){
+								            ids.push(this.value);
+								        })
+								        $("#users").val(ids);
+								    })
+								    $.optionMove = function(from, to, isAll){
+								        var from = $("#" + from);
+								        var to = $("#" + to);
+								        var list;
+								        if(isAll){
+								            list = $('option', from);
+								        }else{
+								            list = $('option:selected', from);
+								        }
+								        list.each(function(){
+								            if($('option[value="' + this.value + '"]', to).length > 0){
+								                $(this).remove();
+								            } else {
+								                $('option', to).attr('selected',false);
+								                to.append(this);
+								            }
+								        });
+								    }
+							
+									$('input[name="userType"]').change(function(){ 
+										var type = $("input[name='userType']:checked").val(); 
+										if(type==0){
+											$('.send-user-group').addClass("hidden");
+										}else{
+											$('.send-user-group').removeClass("hidden");
+										}
+									});
+
+						             $('#fansNameBtn').click(function(){
+										var u_id = new Array(); 
+						                $.post("<?php echo e(u('Seller/search')); ?>",{"name":$("#fansName").val()},function(result){  
+						                    if(!result || result.length < 1){ 
+						                        $('#user_2').html("<option value='0' disabled='true'>未搜索到员工</option>");
+						                    } else {
+						                        var html = '';
+												$("#user_1 option").each(function(){
+													u_id.push(this.value);
+												})
+						                        $.each(result, function(index,e){
+													console.log(u_id.indexOf(result[index].id));
+						                        	if (u_id.indexOf(result[index].id) == -1){
+														html += " <option class='uid" + e.id + "' value=" + e.id + ">" + e.name + "</option>";													
+													}
+						                        });
+						                        $('#user_2').html(html);
+						                    }
+						                },'json');
+						            }); 
+						            $('#fansNameBtn').click();
+
+						            $("input[name=sendType]").change(function() {
+						            	/* Act on the event */
+						            	var type = $("input[name='sendType']:checked").val(); 
+										if(type==1){
+											$('#args-form-item').addClass("hidden");
+										}else{
+											$('#args-form-item').removeClass("hidden");
+										}
+						            });
+						            $('#args-form-item').addClass("hidden");
+								});
+							</script>	
+							</fitem> 
+							<!-- <div id="-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 人员佣金方式:
+		            </span>
+		            <div class="f-boxr">
+		                  <?php $deductType = (int)$data['deductType'] ?>
+								<?php $radio_options = array (
+  0 => '1',
+  1 => '2',
+); ?><?php $default = ''; ?><?php $checked = isset($deductType) ? $deductType : $default; ?><?php $radio_texts = array (
+  0 => '固定佣金',
+  1 => '百分比',
+); ?><?php  foreach($radio_options as $options_key => $options_val): 
+                    $checked_attr = $options_val == $checked ? " checked" : ""; ?>
+                    <label>
+                        <input type="radio" class="uniform " name="deductType" value="<?php echo $options_val; ?>" <?php echo $checked_attr; ?>/>
+                        <span><?php echo $radio_texts[$options_key]; ?></span>
+                    </label>
+                    <span>&nbsp;&nbsp;</span>
+                    <?php endforeach; ?>
+		            </div>
+		        </div>
+							<div id="deductVal-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 人员佣金值:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="deductVal" id="deductVal" class="u-ipttext" value="<?php echo e($data['deductVal']); ?>" />
+		            </div>
+		        </div>  -->
+							<div id="-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 服务状态:
+		            </span>
+		            <div class="f-boxr">
+		                  <?php $status = (int)$data['status'] ?>
+								<?php $radio_options = array (
+  0 => '0',
+  1 => '1',
+); ?><?php $default = ''; ?><?php $checked = isset($status) ? $status : $default; ?><?php $radio_texts = array (
+  0 => '下架',
+  1 => '上架',
+); ?><?php  foreach($radio_options as $options_key => $options_val): 
+                    $checked_attr = $options_val == $checked ? " checked" : ""; ?>
+                    <label>
+                        <input type="radio" class="uniform " name="status" value="<?php echo $options_val; ?>" <?php echo $checked_attr; ?>/>
+                        <span><?php echo $radio_texts[$options_key]; ?></span>
+                    </label>
+                    <span>&nbsp;&nbsp;</span>
+                    <?php endforeach; ?>
+		            </div>
+		        </div>
+							<div id="sort-form-item" class="u-fitem clearfix ">
+		            <span class="f-tt">
+		                 排序:
+		            </span>
+		            <div class="f-boxr">
+		                  <input type="text" name="sort" id="sort" class="u-ipttext" value="<?php echo e($data['sort']); ?>" />
+		            </div>
+		        </div> 
+								</dd> 
+							</dl>
+							<?php if($data['id'] > 0): ?>
+							<dl class="m-ddl">
+								<dt>营业信息设置</dt>
+								<dd class="clearfix" style="padding:15px;"> 
+									<?php echo $__env->make('seller.common.service.showtime', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?> 
+						            <?php echo $__env->make('seller.common.service.sztime', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?> 
+								</dd> 
+							</dl>
+							<?php endif; ?>		<div class="u-fitem clearfix">
+                            <span class="f-tt">
+                                &nbsp;
+                            </span>
+                            <div class="f-boxr">
+                                  <button type="submit" class="u-addspbtn">提 交</button>
+                            </div>
+                        </div>		<input type="hidden" value="<?php echo e($data['id']); ?>" name="id" />
+					</form>
+				</div>
+	                
+				</div>
+			</div>
+		</div>
+	</div>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('js'); ?>
+<?php echo $__env->make('seller._layouts.alert', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+<script src="<?php echo e(asset('js/jquery.tagsinput.min.js')); ?>"></script>  
+<script type="text/javascript">
+$(function() {
+	// 添加时间
+    $(".m-sjglbcbtn").click(function(){
+        $('.msg').text("");
+        var week = new Array();
+        var hour = new Array();
+        var hr = new Array();
+        $(".m-zhouct label input:checked").each(function(){
+            week.push($(this).val());   
+            $('.msg').append( $(this).parents("label").text() );
+        });
+        $(".m-sjdct ul li").each(function(){
+            if($(this).hasClass("on")){
+                hour.push($(this).find('span').data("hours"));
+                hr.push($(this).text());    
+            }
+        });
+        if(week==''){
+            $.ShowAlert('你还没有选择星期几');
+            return false;
+        }
+        if(hour==''){
+            $.ShowAlert('你还没有选择预约时间');
+            return false;
+        }
+        var goodsId = $("input[name=id]").val();
+        obj = new Object();
+        obj.weeks = week;
+        obj.hours = hour;
+        obj.goodsId = goodsId;
+        var msg = $('.msg').text();
+        if($(this).text() == "更新"){
+                obj.id = $(".data-id").text();
+                $.post(szurl,obj,function(result){  
+                    if(result.status == true){
+                        $(".u-timshow .u-czct span").each(function(){
+                            if($(this).data('mid') == obj.id){
+                                htmls = '<div class="u-timshow por"><div class="updatetime"><p>'+hr+'</p><p class="gray">'+msg+'</p><p class="grays" style="display:none;">'+week+', </p></div><div class="u-czct"><span data-id="'+obj.id+'" class="mr15 f-edit f-edit'+obj.id+'"><a href="javascript:;" class="fa fa-edit f14"></a>编辑</span><span data-id="'+obj.id+'" data-mid="'+obj.id+'" data-css="m-timlst'+obj.id+'" class="f-delet"><a href="javascript:;" class="fa fa-trash f14 dels" ></a>删除</span></div></div>';
+                                $(this).parents(".m-timlst").html(htmls);
+                            }
+                            $('.m-bjtimbox').slideUp();
+                        });
+                    $(".m-timebtn").removeClass("none");
+                    alod ();
+                    }else{
+                        $.ShowAlert(result.msg);
+                    }
+                },'json'); 
+            }else{
+                $.post(adddatatime,obj,function(result){  
+                    if(result.status == true){
+                        $(".m-sjdct ul li").each(function(){
+                            $(this).removeClass("on");
+                        });
+                        $(".m-zhouct label input:checked").each(function(){
+                            $(this).removeAttr("checked");
+                            $(this).attr("disabled","true");
+                        });
+                        $.ShowAlert(result.msg);
+                        $.post(gettimes,{id:obj.goodsId},function(res){
+                            var htmls = "";
+                            if(res.code == 0){                  
+                                $.each(res.data,function(i,v){
+                                    htmls = '<div class="m-timlst m-timlst'+v.id+'"><div class="u-timshow por"><div class="updatetime"><p>'+v.times+'</p><p class="gray">'+v.weeks+'</p><p class="grays" style="display:none;">'+week+', </p></div><div class="u-czct"><span data-id="'+v.id+'" class="mr15 f-edit f-edit'+v.id+'"><a href="javascript:;" class="fa fa-edit f14"></a>编辑</span><span data-id="'+v.id+'" data-mid="'+v.id+'" data-css="m-timlst'+v.id+'" class="f-delet"><a href="javascript:;" class="fa fa-trash f14 dels" ></a>删除</span></div></div></div>';
+                                });
+                            }
+                            $('.g-tmlstzct').append(htmls);
+                            alod ();
+                        });
+                        $('.m-bjtimbox').slideUp();
+                        $(".m-timebtn").removeClass("none");
+                    }else{
+                        $.ShowAlert(result.msg);
+                    }
+                },'json'); 
+            }
+    });
+})
+	
+</script>
+
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('seller._layouts.base', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

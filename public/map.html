@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<!--[if IE 6]><html lang="zh-CN" class="ie ie6 ie9- ie8- ie7-"><![endif]-->
+<!--[if IE 7]><html lang="zh-CN" class="ie ie7 ie9- ie8-"><![endif]-->
+<!--[if IE 8]><html lang="zh-CN" class="ie ie8 ie9-"><![endif]-->
+<!--[if gt IE 8]><html lang="zh-CN" class="ie ie8+"><![endif]-->
+<!--[if !IE]><!-->
+<html lang="zh-CN">
+<!--<![endif]-->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalabel=no">
+<title>QQ地图</title>
+</head>
+<body>
+<div id="qqMapContainer" style="width:100%;"></div>
+<script charset="utf-8" src="js/jquery.1.8.2.js"></script>
+<script charset="utf-8" src="http://map.qq.com/api/js?v=2.exp&key=2N2BZ-KKZA4-ZG4UB-XAOJU-HX2ZE-HYB4O&libraries=geometry"></script>
+<script type="text/javascript">
+var qqGeocoder,qqMap,qqMarker,qqPolygon = null,qqLatLngs = null,mapPoint = '';
+jQuery(function($){
+    $(window).load(function(){
+        $("#qqMapContainer").height($(window).height());
+        var mapCenter = new qq.maps.LatLng(39.916527,116.397128);            
+        qqMap = new qq.maps.Map(document.getElementById('qqMapContainer'),{
+            center: mapCenter,
+            zoom: 14
+        });
+        qqMarker = new qq.maps.Marker({
+            map:qqMap,
+            draggable:true,
+            position: mapCenter
+        });
+        $.createPolygon = function(latLng){
+            if(!qqPolygon){
+                var tmpLng = qq.maps.geometry.spherical.computeOffset(latLng, 500, 0);
+                //西北角
+                var wnLatLng = qq.maps.geometry.spherical.computeOffset(tmpLng, 500, -90);
+                //东北角
+                var enLatLng = qq.maps.geometry.spherical.computeOffset(tmpLng, 500, 90);
+                //东南角
+                var esLatLng = qq.maps.geometry.spherical.computeOffset(enLatLng, 1000, 180);
+                //西南角
+                var nwLatLng = qq.maps.geometry.spherical.computeOffset(wnLatLng, 1000, 180);
+                qqLatLngs = [wnLatLng,enLatLng,esLatLng,nwLatLng];
+
+                qqPolygon = new qq.maps.Polygon({
+                    map:qqMap,
+                    editable:true,
+                    visible:true,
+                    path:qqLatLngs
+                });
+            } else {
+                var heading = qq.maps.geometry.spherical.computeHeading(mapCenter, latLng);
+                var distance = qq.maps.geometry.spherical.computeDistanceBetween(mapCenter, latLng);
+                qqLatLngs = new Array();
+                qqPolygon.getPath().forEach(function(element, index){
+                    qqLatLngs.push(qq.maps.geometry.spherical.computeOffset(element, distance, heading));
+                });
+                qqPolygon.setPath(qqLatLngs);
+            }
+            mapCenter = latLng;
+        }
+
+        qq.maps.event.addListener(qqMarker, 'dragend', function(event) {
+            mapPoint = event.latLng.getLat() + ',' + event.latLng.getLng();
+            $.createPolygon(event.latLng);
+        });
+        qq.maps.event.addListener(qqMap, 'click', function(event) {
+            qqMarker.setPosition(event.latLng);
+            $.createPolygon(event.latLng);
+            mapPoint = event.latLng.getLat() + ',' + event.latLng.getLng();
+        });
+
+        var cityLocation = new qq.maps.CityService({
+            complete : function(result){
+                qqMap.setCenter(result.detail.latLng);
+                qqMarker.setPosition(result.detail.latLng);
+                $.createPolygon(result.detail.latLng);
+                mapPoint = result.detail.latLng.getLat() + ',' + result.detail.latLng.getLng();
+            },
+        });
+        cityLocation.searchLocalCity();
+    })
+})
+
+window.getMapInfos = function(type){
+    var latLngs = new Array();
+    qqPolygon.getPath().forEach(function(element, index){
+        latLngs.push(element.getLat() + ',' + element.getLng());
+    });
+    if (type == "ios") {
+        return mapPoint + '#' + latLngs.join("|");
+    } else {
+        window.yzmap.setMapInfo(mapPoint, latLngs.join("|"));
+    }
+}
+</script>
+</html>
